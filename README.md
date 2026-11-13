@@ -25,6 +25,32 @@ infrastructure suite does not blanket-skip unfinished work. Follow
 [LEARNING_PATH.md](LEARNING_PATH.md) with your coaching chat, one concept at a
 time. Initial interview competence is unmeasured.
 
+## Interview console and deployment path
+
+Start the browser interface in your Codespace:
+
+```bash
+uv sync --locked --extra lab
+uv run uvicorn app:app --host 0.0.0.0 --port 8000
+```
+
+Open the private forwarded port and `/console`. The white/teal console exposes
+goals, proposed tools, exact-plan approval, evidence citations, simulated receipts,
+saved-run recovery and execution traces. Student tasks remain unfinished on main:
+the API reports the actual missing function instead of substituting a result.
+Sixteen original AIE/JD practice prompts support ungraded explanations, hints,
+assistance declarations and a portable download. They are preparation material;
+Capgemini's exact L1 agenda remains unconfirmed.
+
+The Vercel entrypoint, slim production package, durable Postgres adapters,
+authentication, request budgets and release verification are implemented.
+Production release follows the completed simulation; no Vercel deployment or
+managed database is created by this setup. The web console uses synthetic data,
+an offline planner, extractive answers and explicitly nonsemantic hash retrieval.
+The genuine FastEmbed/Qdrant exercise remains available in the local lab.
+See [JD coverage](docs/JD_COVERAGE.md), [delivery instructions](docs/VERCEL_DELIVERY.md)
+and [deployment verification](docs/DEPLOYMENT_VERIFICATION.md).
+
 ## Modes and commands
 
 | Mode | Retrieval | Generation | Network |
@@ -84,7 +110,7 @@ See [BUILD_REPORT.md](BUILD_REPORT.md) for executed results and exact revisions,
 and [COACH_HANDOVER.md](COACH_HANDOVER.md) for the pasteable project map.
 
 - `unfinished_student_task`: complete the named milestone; setup is working.
-- Package errors: rerun `uv sync --locked`; do not edit the lock during lessons.
+- Package errors: rerun `uv sync --locked --extra lab`; do not edit the lock during lessons.
 - Model download error: offline learning remains available; semantic verification
   requires actual weights, never substitute fixed vectors and call it semantic.
 - Pending simulation receipt: reconcile on resume; do not create another run to

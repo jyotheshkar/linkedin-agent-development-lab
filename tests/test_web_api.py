@@ -98,6 +98,33 @@ def test_authentication_happens_before_storage_or_work(client, monkeypatch):
 
 
 @pytest.mark.infrastructure
+def test_non_ascii_credentials_are_rejected_without_server_error(monkeypatch):
+    from fastapi import HTTPException
+    monkeypatch.setenv("LAB_API_TOKEN", "owner-test-token")
+    with pytest.raises(HTTPException) as caught:
+        web_api.authorize("Bearer \u00e9")
+    assert caught.value.status_code == 401
+
+
+@pytest.mark.infrastructure
+def test_legacy_fit_budget_failure_is_sanitized(client, monkeypatch):
+    def unavailable(*_args, **_kwargs):
+        raise RuntimeError("postgresql://secret-password@private-host")
+    monkeypatch.setattr(web_api, "consume", unavailable)
+    response = client.post("/fit", json={"job": {"title": "AI", "company": "Example",
+        "requisition_id": "test-1", "skills": ["Python"]}})
+    assert response.status_code == 503
+    assert "secret-password" not in response.text
+
+
+@pytest.mark.infrastructure
+def test_practice_context_requires_configured_auth(client, monkeypatch):
+    monkeypatch.setenv("LAB_API_TOKEN", "owner-test-token")
+    assert client.get("/api/practice").status_code == 401
+    assert client.get("/api/practice", headers={"Authorization": "Bearer owner-test-token"}).status_code == 200
+
+
+@pytest.mark.infrastructure
 @pytest.mark.parametrize("missing,expected", [
     ("LAB_STATE_BACKEND", "durable Postgres"),
     ("LAB_API_TOKEN", "API token"),
