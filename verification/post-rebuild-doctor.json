@@ -1,0 +1,17 @@
+{
+  "python": "3.12.11",
+  "packages": {
+    "pydantic": "2.14.3",
+    "pytest": "9.2.0",
+    "langgraph": "1.2.21",
+    "fastembed": "0.9.1",
+    "qdrant-client": "1.20.0",
+    "fastapi": "0.162.6",
+    "openai": "2.54.0"
+  },
+  "default_data": "synthetic",
+  "external_effects": "simulation only",
+  "live_credentials_configured": false,
+  "student_tasks": "12 on main; inspect ASSIGNMENT.md",
+  "competence": "unmeasured"
+}
