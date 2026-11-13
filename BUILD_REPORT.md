@@ -1,5 +1,11 @@
 # Build and verification report — 13 November 2026
 
+**Deployment-path update:** the subsequent browser console, PostgreSQL adapters,
+slim Vercel package and AIE/JD practice are verified separately in
+[DEPLOYMENT_VERIFICATION.md](docs/DEPLOYMENT_VERIFICATION.md). That update
+passed 254 reference tests and preserves all 12 student TODOs. The initial
+results below remain historical evidence for the original lab build.
+
 Dedicated repository: https://github.com/jyotheshkar/linkedin-atlas-l1-lab
 Authenticated owner `jyotheshkar` (96298283); native metadata confirms private
 visibility. No existing production repository or installed plugin was changed.
