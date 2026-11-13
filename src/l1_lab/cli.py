@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import sys
 from .service import RAGService, FIXTURE, ROOT, workflow
+from .resources import DATA_DIR
 
 
 def emit(value): print(json.dumps(value,indent=2,ensure_ascii=False,allow_nan=False))
@@ -23,7 +24,7 @@ def main(argv=None):
         if name=="demo": cmd.add_argument("--query",default="Python evaluation")
     run=commands.add_parser("run")
     run.add_argument("--goal",default="prepare application")
-    run.add_argument("--job",type=Path,default=ROOT/"data/job.json")
+    run.add_argument("--job",type=Path,default=DATA_DIR/"job.json")
     run.add_argument("--snapshot",type=Path,default=FIXTURE)
     run.add_argument("--mode",choices=["offline","semantic"],default="offline")
     run.add_argument("--planner",choices=["offline","live"],default="offline")
@@ -54,7 +55,7 @@ def main(argv=None):
                 if args.command=="demo": emit(rag.answer(args.query))
                 else:
                     from .evaluation import evaluate
-                    cases=json.loads((ROOT/"data/eval_cases.json").read_text(encoding="utf-8"))
+                    cases=json.loads((DATA_DIR/"eval_cases.json").read_text(encoding="utf-8"))
                     report=evaluate(rag.index,rag.generator,cases)
                     report["retrieval_mode"]=mode;report["generation_mode"]=rag.generator.mode
                     emit(report)

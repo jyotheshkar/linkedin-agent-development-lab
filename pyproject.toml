@@ -9,9 +9,11 @@ description = "Private interview learning lab with synthetic workflow effects"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "pydantic>=2.10,<3", "langgraph>=1,<2", "fastapi>=0.115,<1",
-  "uvicorn>=0.34,<1", "fastembed>=0.7,<1", "qdrant-client>=1.15,<2",
-  "openai>=2,<3"
+  "uvicorn>=0.34,<1", "openai>=2,<3", "psycopg[binary]>=3.2,<4"
 ]
+
+[project.optional-dependencies]
+lab = ["fastembed>=0.7,<1", "qdrant-client>=1.15,<2"]
 
 [dependency-groups]
 dev = ["pytest>=8.3,<10", "httpx>=0.28,<1", "jsonschema>=4.23,<5"]
@@ -22,6 +24,10 @@ l1-lab = "l1_lab.cli:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/l1_lab"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"data" = "l1_lab/_data"
+"migrations" = "l1_lab/_migrations"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--strict-markers"
@@ -29,5 +35,7 @@ markers = [
   "infrastructure: setup and provided adapters",
   "m1: Python contracts", "m2: agent control", "m3: ingestion",
   "m4: retrieval", "m5: grounded answers", "m6: integration and evaluation",
-  "semantic: opt-in real local embeddings", "live: opt-in external model"
+  "semantic: opt-in real local embeddings", "live: opt-in external model",
+  "postgres: requires TEST_DATABASE_URL; actual durable storage integration",
+  "web: deployment console integration"
 ]

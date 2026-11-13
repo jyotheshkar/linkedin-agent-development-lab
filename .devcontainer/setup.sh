@@ -14,5 +14,5 @@ if ! command -v git-lfs >/dev/null 2>&1; then
   sudo apt-get install -y --no-install-recommends git-lfs
 fi
 python -m pip install --disable-pip-version-check 'uv==0.13.8'
-uv sync --locked
+uv sync --locked --extra lab
 uv run l1-lab doctor
