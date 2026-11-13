@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "count": 12,
+  "tasks": [
+    {
+      "file": "src/l1_lab/contracts.py",
+      "function": "parse_job",
+      "milestone": "M1"
+    },
+    {
+      "file": "src/l1_lab/contracts.py",
+      "function": "normalize_identity",
+      "milestone": "M1"
+    },
+    {
+      "file": "src/l1_lab/agent.py",
+      "function": "validate_tool_call",
+      "milestone": "M2"
+    },
+    {
+      "file": "src/l1_lab/agent.py",
+      "function": "retry_allowed",
+      "milestone": "M2"
+    },
+    {
+      "file": "src/l1_lab/agent.py",
+      "function": "completion_gates",
+      "milestone": "M6"
+    },
+    {
+      "file": "src/l1_lab/knowledge.py",
+      "function": "select_records",
+      "milestone": "M3"
+    },
+    {
+      "file": "src/l1_lab/knowledge.py",
+      "function": "chunk_records",
+      "milestone": "M3"
+    },
+    {
+      "file": "src/l1_lab/retrieval.py",
+      "function": "rank_hits",
+      "milestone": "M4"
+    },
+    {
+      "file": "src/l1_lab/grounding.py",
+      "function": "build_context",
+      "milestone": "M5"
+    },
+    {
+      "file": "src/l1_lab/grounding.py",
+      "function": "validate_answer",
+      "milestone": "M5"
+    },
+    {
+      "file": "src/l1_lab/evaluation.py",
+      "function": "compare_runs",
+      "milestone": "M6"
+    },
+    {
+      "file": "src/l1_lab/progress.py",
+      "function": "compute_metrics",
+      "milestone": "M6"
+    }
+  ]
+}

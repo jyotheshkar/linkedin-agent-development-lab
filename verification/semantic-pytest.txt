@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.16, pytest-9.2.0, pluggy-1.7.0
+rootdir: /workspaces/linkedin-atlas-l1-lab
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0, langsmith-0.14.17
+collected 195 items / 194 deselected / 1 selected
+
+tests/test_semantic.py .                                                 [100%]
+
+- generated xml file: /workspaces/linkedin-atlas-l1-lab/verification/semantic.xml -
+====================== 1 passed, 194 deselected in 3.40s =======================

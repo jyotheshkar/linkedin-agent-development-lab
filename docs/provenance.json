@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "built_on": "2026-11-13",
+  "source_components": [
+    {
+      "name": "batch_guard.py",
+      "source_ref": "skill://plugins_6ade0d27f3908191953a95ff5eb39391/linkedin/scripts/batch_guard.py",
+      "source_content_sha256": "1610ca21083dad96e08b3cc173631d195eabe24c80f5de68fd521d0946cbe9d1",
+      "source_bytes": 3979,
+      "git_commit": null,
+      "use": "inspected; conceptual adaptation only, no production provider implementation copied"
+    },
+    {
+      "name": "five_gate_guard.py",
+      "source_ref": "skill://plugins_6ade0d27f3908191953a95ff5eb39391/linkedin/scripts/five_gate_guard.py",
+      "source_content_sha256": "dc7b83f8baa2bca922be9de206eeddbc6fd0d0f7226ecefded1414ceb68dba01",
+      "source_bytes": 2467,
+      "git_commit": null,
+      "use": "inspected; conceptual adaptation only, no production provider implementation copied"
+    },
+    {
+      "name": "atlas_sync_plan.py",
+      "source_ref": "skill://plugins_6ade0d27f3908191953a95ff5eb39391/linkedin/scripts/atlas_sync_plan.py",
+      "source_content_sha256": "fdec9bc63fd16ba7d049656031f608e829851e62a9a84ce0de44d7f9d01f4d31",
+      "source_bytes": 33416,
+      "git_commit": null,
+      "use": "inspected; conceptual adaptation only, no production provider implementation copied"
+    }
+  ],
+  "new_components": [
+    "Atlas snapshot chunking and embedding/vector retrieval learning extension",
+    "LangGraph simulation and independent fake provider",
+    "AIE-derived objective progress calculation",
+    "CLI REST and deterministic labelled evaluation"
+  ],
+  "approval_snapshot": {
+    "revision": 3482,
+    "approved_scan_counts": {
+      "Candidate_Facts": 34,
+      "Project_Registry": 4
+    },
+    "exported_records": 5,
+    "private_corpus_in_git": false
+  },
+  "framework_sources": [
+    "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
+    "https://qdrant.tech/documentation/fastembed/fastembed-quickstart/",
+    "https://qdrant.tech/documentation/fastembed/fastembed-semantic-search/",
+    "https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers",
+    "https://developers.openai.com/api/docs/guides/structured-outputs"
+  ],
+  "evidence_boundary": "Installed helper contents inspected; no installed plugin Git revision asserted. RAG is newly built here. Original archived AIE practice sources preserved untouched in their plugin, not modified/copied as solved student work."
+}
