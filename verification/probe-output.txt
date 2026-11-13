@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "source_commit": "4e5a673aca1e756d60f1418d5423b63f7bc464f1",
+  "python": "3.12.16",
+  "platform": "Linux",
+  "packages": {
+    "langgraph": "1.2.21",
+    "fastembed": "0.9.1",
+    "qdrant-client": "1.20.0",
+    "pydantic": "2.14.3",
+    "fastapi": "0.162.6",
+    "pytest": "9.2.0",
+    "openai": "2.54.0"
+  },
+  "evaluation": {
+    "case_count": 14,
+    "metrics": {
+      "retrieval_recall_at_k": {
+        "value": 1.0,
+        "numerator": 11,
+        "denominator": 11
+      },
+      "citation_validity": {
+        "value": 1.0,
+        "numerator": 10,
+        "denominator": 10
+      },
+      "answer_support": {
+        "value": 1.0,
+        "numerator": 10,
+        "denominator": 10
+      },
+      "abstention_accuracy": {
+        "value": 1.0,
+        "numerator": 4,
+        "denominator": 4
+      },
+      "answerable_coverage": {
+        "value": 0.8,
+        "numerator": 8,
+        "denominator": 10
+      },
+      "expected_status_accuracy": {
+        "value": 1.0,
+        "numerator": 2,
+        "denominator": 2
+      }
+    },
+    "support_method": "developer-labelled expected evidence, exact extractive text and prohibited strings; not semantic entailment"
+  },
+  "integrated_demo": {
+    "source_kind": "synthetic",
+    "retrieval": {
+      "mode": "offline",
+      "model_id": "test-double:sha256-word-count-v1",
+      "dimension": 256,
+      "normalization": "l2",
+      "vector_store": "qdrant-local",
+      "generation": "not configured by retrieval"
+    },
+    "generation": "offline-extractive",
+    "answer_status": "supported",
+    "context_chunk_count": 1
+  },
+  "execution": {
+    "initial_status": "awaiting_review",
+    "final_status": "completed",
+    "completion": {
+      "plan": true,
+      "full_unit": true
+    },
+    "simulated_effect_count": 5
+  },
+  "initial_progress": {
+    "graded_attempt_count": 0,
+    "ungraded_attempt_count": 0,
+    "assisted_attempt_count": 0,
+    "assisted_first_attempt_count": 0,
+    "knowledge_accuracy": {
+      "value": null,
+      "numerator": 0,
+      "denominator": 0
+    },
+    "independent_knowledge_accuracy": {
+      "value": null,
+      "numerator": 0,
+      "denominator": 0
+    },
+    "first_attempt_accuracy": {
+      "value": null,
+      "numerator": 0,
+      "denominator": 0
+    },
+    "independent_first_attempt_accuracy": {
+      "value": null,
+      "numerator": 0,
+      "denominator": 0
+    },
+    "cumulative_attempt_accuracy": {
+      "value": null,
+      "numerator": 0,
+      "denominator": 0
+    },
+    "coverage": {
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 6
+    },
+    "mastery": {
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 6
+    },
+    "mastered_topics": [],
+    "covered_topics": [],
+    "topic_accuracy": {},
+    "llm_knowledge_accuracy": {
+      "value": null,
+      "numerator": 0,
+      "denominator": 0
+    },
+    "mastery_evidence": {
+      "python_contracts": [],
+      "agent_control": [],
+      "knowledge_ingestion": [],
+      "retrieval": [],
+      "grounded_responses": [],
+      "integration_evaluation": []
+    },
+    "readiness": "unmeasured"
+  },
+  "live_planning": "not executed; optional credentials were not provisioned",
+  "live_generation": "not executed; optional credentials were not provisioned"
+}

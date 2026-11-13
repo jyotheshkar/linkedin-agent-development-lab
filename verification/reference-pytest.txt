@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.16, pytest-9.2.0, pluggy-1.7.0
+rootdir: /workspaces/linkedin-atlas-l1-lab
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0, langsmith-0.14.17
+collected 195 items / 1 deselected / 194 selected
+
+tests/test_agent.py ........................                             [ 12%]
+tests/test_contracts.py ....................                             [ 22%]
+tests/test_evaluation.py ....................                            [ 32%]
+tests/test_grounding.py ..............................                   [ 48%]
+tests/test_infrastructure.py ....                                        [ 50%]
+tests/test_knowledge.py ..................                               [ 59%]
+tests/test_openai_adapter.py ...                                         [ 61%]
+tests/test_planner.py .....                                              [ 63%]
+tests/test_progress.py .............................                     [ 78%]
+tests/test_retrieval.py .................                                [ 87%]
+tests/test_service.py ...                                                [ 89%]
+tests/test_workflow.py .....................                             [100%]
+
+- generated xml file: /workspaces/linkedin-atlas-l1-lab/verification/reference.xml -
+====================== 194 passed, 1 deselected in 5.41s =======================
