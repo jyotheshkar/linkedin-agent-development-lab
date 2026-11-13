@@ -33,7 +33,8 @@
     $("toast").textContent = message; $("toast").classList.remove("hidden");
     window.clearTimeout(toast.timer); toast.timer = window.setTimeout(() => $("toast").classList.add("hidden"), 4000);
   }
-  function alert(message, kind = "error") {
+  function alert(message, kind = "error", source = "workflow") {
+    state.alertSource = source;
     $("global-alert").textContent = message;
     $("global-alert").className = `banner ${kind}`;
   }
@@ -74,8 +75,8 @@
     hideAlert(); setBusy(true);
     try { await action(); }
     catch (error) {
-      alert(error.message, error.status === 409 ? "warning" : "error");
       if (error.status === 401) { showView("settings"); $("token").focus(); }
+      alert(error.message, error.status === 409 ? "warning" : "error");
     }
     finally { setBusy(false); }
   }
@@ -85,6 +86,7 @@
     try { localStorage.setItem("atlas-fieldwork:last-run-id", id); } catch (_) { /* Storage is optional. */ }
   }
   function showView(name) {
+    if (state.alertSource === "workflow") hideAlert();
     document.querySelectorAll(".view").forEach((view) => { view.classList.toggle("hidden", view.id !== `view-${name}`); });
     document.querySelectorAll("[data-view]").forEach((item) => {
       const active = item.dataset.view === name; item.classList.toggle("active", active);
@@ -110,16 +112,16 @@
     if (config.mode === "student" && config.unfinished_tasks?.length) {
       const names = config.unfinished_tasks.map((item) => typeof item === "string" ? item : `${item.milestone || "Task"} \u00b7 ${item.file || ""} :: ${item.function || item.symbol || item.id || "Unfinished task"}`);
       append($("config-details"), codeDetails(`${names.length} deliberate student tasks`, names));
-      alert(`Student workspace: ${names.length} task functions are deliberately unfinished. Start with ${names[0]}. The workflow will report its actual missing task until you implement the required functions.`, "info");
+      alert(`Student workspace: ${names.length} task functions are deliberately unfinished. Start with ${names[0]}. The workflow will report its actual missing task until you implement the required functions.`, "info", "configuration");
     }
     if (config.blockers?.length) {
       append($("config-details"), codeDetails("Configuration blockers", config.blockers, true));
-      alert("The console is connected, but server configuration is incomplete. Open Connection to inspect the reported blockers. No workflow has been executed.", "warning");
+      alert("The console is connected, but server configuration is incomplete. Open Connection to inspect the reported blockers. No workflow has been executed.", "warning", "configuration");
     }
   }
   async function loadConfig() {
     try { renderConfig(await request("/api/config")); }
-    catch (error) { $("mode-badge").textContent = "Connection needed"; $("connection-status").textContent = "Lab connection unavailable"; alert(error.message); }
+    catch (error) { $("mode-badge").textContent = "Connection needed"; $("connection-status").textContent = "Lab connection unavailable"; alert(error.message, "error", "configuration"); }
   }
   function receive(payload) {
     const run = payload.run ?? payload;

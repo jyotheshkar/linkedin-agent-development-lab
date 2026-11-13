@@ -51,7 +51,7 @@ real employer or email provider.
 | --- | --- |
 | `LAB_STATE_BACKEND=postgres` | Select durable cloud state; local filesystem state is not a cloud substitute |
 | `DATABASE_URL` | Secret managed-Postgres connection string with required provider TLS settings |
-| `DATABASE_LOCK_URL` | Optional only when `DATABASE_URL` is already direct/session-capable; otherwise supply a direct/session-pooled lock connection |
+| `DATABASE_LOCK_URL` | Required cloud configuration: use a direct/session-pooled connection; it may equal a verified direct/session-capable `DATABASE_URL` |
 | `LAB_API_TOKEN` | Secret bearer token of at least 32 characters; required for cloud API access |
 | `LAB_RELEASE_READY=true` | Explicit release intent after checks; this flag is not evidence that checks passed |
 | `TEST_DATABASE_URL` | Disposable isolated Postgres database for integration/release verification, not the production data store |
@@ -71,12 +71,13 @@ and configure the variables above. Do not reuse operational Atlas tables.
 ## Complete and verify the learner commit
 
 Run these commands from the repository root in a prepared Codespace. The
-committed dependency lock is authoritative; `requirements.txt`, when used for
-the deployment bundle, must be the frozen export generated from that lock.
+committed dependency lock is authoritative. Vercel installs the default runtime
+from `pyproject.toml` and `uv.lock`; no separate requirements file is needed.
+The `lab` extra supplies Qdrant/FastEmbed for the full local test suite.
 Do not resolve a new dependency set during release.
 
 ```bash
-uv sync --locked
+uv sync --locked --extra lab
 uv run pytest -m 'not semantic and not live and not postgres'
 uv run python scripts/check_release.py
 ```
@@ -123,8 +124,8 @@ vercel env add LAB_STATE_BACKEND --environment production --type config
 vercel env add LAB_RELEASE_READY --environment production --type config
 ```
 
-Enter the configured values at the prompts. Omit the `DATABASE_LOCK_URL` command
-only after verifying that `DATABASE_URL` meets the session-lock requirement.
+Enter the configured values at the prompts. `DATABASE_LOCK_URL` can use the
+same connection details only when they meet the session-lock requirement.
 Set the non-secret configuration values to `postgres` and `true` respectively.
 If the project already has a variable, use its update flow and redeploy after
 configuration changes. Do not paste secret values into the command line.
