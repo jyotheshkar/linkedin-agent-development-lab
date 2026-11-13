@@ -1,5 +1,14 @@
 # Coaching handover
 
+The browser console and Vercel delivery path were added after the initial lab
+build. Start it with `uv run uvicorn app:app --host 0.0.0.0 --port 8000`, then
+open the private forwarded port at `/console`. Use `uv sync --locked --extra lab`
+for the complete learning environment. All 12 student functions remain intact.
+See `docs/DEPLOYMENT_VERIFICATION.md` for the 254-test reference result,
+`docs/JD_COVERAGE.md` for role mapping, and `docs/VERCEL_DELIVERY.md` for the
+release exercise after simulation. The console's 16 prompts are ungraded
+practice; final mocks must use fresh variants. No Vercel deployment exists yet.
+
 This repository is an implementation environment for Jyothesh Karnam's Capgemini AI Engineer L1 preparation. On 13 November 2026 he reported clearing the assessment and progressing to L1; the interview date and agenda remain unknown. The learning target is Sunday evening, 15 November. The exercises are role-aligned preparation, not known employer questions.
 
 ## Start here
