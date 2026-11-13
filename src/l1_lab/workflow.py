@@ -27,7 +27,7 @@ def _plan_hash(plan: list[dict]) -> str:
 
 class Workflow:
     def __init__(self, root: Path, planner=None, max_calls: int = 8, max_retries: int = 1,
-                 provider: FakeProvider | None = None, evidence_fn=None, draft_fn=None):
+                 provider: FakeProvider | None = None, evidence_fn=None, draft_fn=None, journal=None):
         if type(max_calls) is not int or not 1 <= max_calls <= 32:
             raise ValueError("max_calls must be an integer from 1 to 32")
         if type(max_retries) is not int or not 0 <= max_retries <= 3:
@@ -35,7 +35,7 @@ class Workflow:
         self.root = Path(root)
         self.planner = planner or OfflinePlanner()
         self.max_calls, self.max_retries = max_calls, max_retries
-        self.journal = Journal(self.root / "runs")
+        self.journal = journal if journal is not None else Journal(self.root / "runs")
         self.provider = provider or FakeProvider(self.root / "provider.sqlite3")
         retrieve = evidence_fn or (lambda args, key: {"source_ids": ["synthetic-eval-001"], "kind": "synthetic", "query": args["query"]})
         self.registry = {

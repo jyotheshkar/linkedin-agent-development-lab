@@ -6,18 +6,18 @@ from .knowledge import load_snapshot, select_records, chunk_records
 from .retrieval import VectorIndex
 from .grounding import build_context, validate_answer, OfflineGenerator
 
-ROOT = Path(__file__).resolve().parents[2]
-FIXTURE = ROOT / "data" / "synthetic_snapshot.json"
+from .resources import ROOT, DATA_DIR
+FIXTURE = DATA_DIR / "synthetic_snapshot.json"
 
 
 class RAGService:
-    def __init__(self, snapshot=None, mode="offline", generation="offline"):
+    def __init__(self, snapshot=None, mode="offline", generation="offline", index_factory=None):
         snapshot = Path(snapshot or FIXTURE)
         self.snapshot = load_snapshot(snapshot)
         if generation == "live" and self.snapshot["kind"] != "synthetic":
             raise ValueError("Live demonstrations require the synthetic fixture")
         records = select_records(self.snapshot)
-        self.index = VectorIndex(chunk_records(records),mode=mode)
+        self.index = (index_factory or VectorIndex)(chunk_records(records),mode=mode)
         self.generator = OfflineGenerator()
         if generation == "live":
             from .openai_adapter import OpenAIAnswerGenerator
@@ -41,7 +41,7 @@ class RAGService:
     def close(self): self.index.close()
 
 
-def workflow(root,goal,job=None,planner_mode="offline",rag=None):
+def workflow(root,goal,job=None,planner_mode="offline",rag=None,journal=None,provider=None,capture_evidence=False):
     from .contracts import normalize_identity
     from .planner import OfflinePlanner
     from .workflow import Workflow
@@ -55,10 +55,14 @@ def workflow(root,goal,job=None,planner_mode="offline",rag=None):
     def retrieve(args,key):
         result=rag.answer(args["query"])
         cache.update(result)
-        return {"source_ids":result["context_chunk_ids"],"answer":result["answer"],"kind":result["source_kind"]}
+        output = {"source_ids":result["context_chunk_ids"],"answer":result["answer"],"kind":result["source_kind"]}
+        if capture_evidence:
+            output["evidence"] = result
+        return output
     def draft(args,key):
         if not cache:
             raise ValueError("draft requires retrieved evidence in this integrated demo")
         return {"draft":cache["answer"],"source_ids":cache["context_chunk_ids"],"review_required":True}
     return Workflow(Path(root),planner=planner,max_calls=job.max_calls if job else 8,
-                    evidence_fn=retrieve if rag else None,draft_fn=draft if rag else None)
+                    evidence_fn=retrieve if rag else None,draft_fn=draft if rag else None,
+                    journal=journal,provider=provider)

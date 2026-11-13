@@ -1,0 +1,13 @@
+.git
+.venv
+.lab
+private
+.env*
+verification
+tests
+__pycache__
+*.sqlite3*
+*.db
+*.log
+artifacts
+.cache
