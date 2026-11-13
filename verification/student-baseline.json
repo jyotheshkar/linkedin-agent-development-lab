@@ -1,6 +1,6 @@
 {
   "source_commit": "fcf6a90a0e9edf8dba82e0b9e70348159bfdffec",
-  "command": "uv run pytest -m not-semantic-and-not-live",
+  "command": "uv run pytest -m 'not semantic and not live' --junitxml=.lab/student-baseline.xml",
   "selected_tests": 194,
   "passed": 25,
   "failed": 169,

@@ -49,5 +49,32 @@
     "https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers",
     "https://developers.openai.com/api/docs/guides/structured-outputs"
   ],
-  "evidence_boundary": "Installed helper contents inspected; no installed plugin Git revision asserted. RAG is newly built here. Original archived AIE practice sources preserved untouched in their plugin, not modified/copied as solved student work."
+  "evidence_boundary": "Installed helper contents inspected; no installed plugin Git revision asserted. RAG is newly built here. Original archived AIE practice sources preserved untouched in their plugin, not modified/copied as solved student work.",
+  "archived_practice_sources": [
+    {
+      "name": "agent_orchestrator.py",
+      "source_ref": "../assets/agent_orchestrator.py",
+      "archived_sha256": "c94fcbdb6d9e3ce590f88a4e219cb99c76a83957872c2a0898a9f4b3b014d7ad",
+      "archived_bytes": 10985,
+      "use": "inspected unchanged archived practice; not a new student result"
+    },
+    {
+      "name": "rag_evaluator.py",
+      "source_ref": "../assets/rag_evaluator.py",
+      "archived_sha256": "35aa74396bed86aad49bbde3b01d3aa7cc2ad5febe0b9fb0360346db1168c6c5",
+      "archived_bytes": 10988,
+      "use": "inspected unchanged archived practice; not a new student result"
+    },
+    {
+      "name": "Solution.java",
+      "source_ref": "../assets/Solution.java",
+      "use": "inspected unchanged archived practice; not a new student result"
+    }
+  ],
+  "private_snapshot": {
+    "file_name": "Atlas_L1_Knowledge_Snapshot_20261113.json",
+    "library_file_id": "libfile_fde3_f-be8302f6f3e88191b958b85d4aa065f7_a7ec6a78e75481919cac09e5b511ed3e",
+    "records": 5,
+    "revision": 3482
+  }
 }
