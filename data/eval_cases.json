@@ -1,0 +1,133 @@
+[
+  {
+    "case_id": "eval-01",
+    "query": "Python pytest unit tests JSON contracts",
+    "expected_record_ids": [
+      "fact:python"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-02",
+    "query": "LLM evaluation failure analysis hallucination checks",
+    "expected_record_ids": [
+      "fact:evaluation"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-03",
+    "query": "SQL operational tables duplicate rows data quality",
+    "expected_record_ids": [
+      "fact:sql"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-04",
+    "query": "RAG retrieval prototype embeddings local vector store",
+    "expected_record_ids": [
+      "project:retrieval"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-05",
+    "query": "Agent planner executor state tool selection human approval",
+    "expected_record_ids": [
+      "project:agent"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-06",
+    "query": "Receipt recovery idempotency pending timeout reconciliation",
+    "expected_record_ids": [
+      "project:receipts"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-07",
+    "query": "Delivery Git branches CI development container REST",
+    "expected_record_ids": [
+      "project:delivery"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-08",
+    "query": "Safety sensitive data exposure unsupported claims",
+    "expected_record_ids": [
+      "fact:safety"
+    ],
+    "answerable": true,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-09",
+    "query": "Synthetic Aurora deployment status",
+    "expected_record_ids": [
+      "project:conflict-a",
+      "project:conflict-b"
+    ],
+    "answerable": true,
+    "filters": {
+      "topic": "deployment"
+    },
+    "top_k": 2,
+    "expected_status": "review",
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-10",
+    "query": "Instruction injection sample hostile synthetic document",
+    "expected_record_ids": [
+      "source:injection"
+    ],
+    "answerable": true,
+    "filters": {
+      "topic": "injection"
+    },
+    "expected_status": "review",
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-11",
+    "query": "Neurosurgery molecular cryogenics surgical transplant",
+    "expected_record_ids": [],
+    "answerable": false,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-12",
+    "query": "Astrophysics gravitational redshift galaxies cosmology",
+    "expected_record_ids": [],
+    "answerable": false,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-13",
+    "query": "Nobel laureate robotics autonomous submarines",
+    "expected_record_ids": [],
+    "answerable": false,
+    "min_score": 0.3
+  },
+  {
+    "case_id": "eval-14",
+    "query": "Unverified kubernetes deployment retired claim",
+    "expected_record_ids": [],
+    "answerable": false,
+    "filters": {
+      "topic": "retired"
+    },
+    "min_score": 0.3
+  }
+]

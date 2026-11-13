@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "linkedin-atlas-l1-lab"
+version = "0.1.0"
+description = "Private interview learning lab with synthetic workflow effects"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "pydantic>=2.10,<3", "langgraph>=1,<2", "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1", "fastembed>=0.7,<1", "qdrant-client>=1.15,<2",
+  "openai>=2,<3"
+]
+
+[dependency-groups]
+dev = ["pytest>=8.3,<10", "httpx>=0.28,<1", "jsonschema>=4.23,<5"]
+
+[project.scripts]
+l1-lab = "l1_lab.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/l1_lab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = [
+  "infrastructure: setup and provided adapters",
+  "m1: Python contracts", "m2: agent control", "m3: ingestion",
+  "m4: retrieval", "m5: grounded answers", "m6: integration and evaluation",
+  "semantic: opt-in real local embeddings", "live: opt-in external model"
+]
