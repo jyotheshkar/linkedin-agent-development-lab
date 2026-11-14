@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import TypedDict
 from uuid import uuid4
 
+from langgraph.errors import NodeCancelledError
 from langgraph.graph import END, START, StateGraph
 
 from .agent import (DraftArgs, EffectArgs, GuardrailError, QueryArgs, ToolSpec,
@@ -122,10 +123,12 @@ class Workflow:
         # One graph node is ordinary Python; transitions repeat only while running.
         try:
             return self.graph.invoke({"run": run}, {"recursion_limit": 80})["run"]
-        except (KeyboardInterrupt, CancelledError):
+        except (KeyboardInterrupt, CancelledError, NodeCancelledError):
             # Cancellation cannot prove that a synchronous provider did nothing.
             # Reload its durable intent rather than clearing it or retrying.
             # If the provider committed, resume reconciles that same key first.
+            # The locked LangGraph wraps CancelledError from a synchronous node
+            # in NodeCancelledError; preserve that actual runtime exception.
             try:
                 interrupted = self.journal.load(run["run_id"])
                 pending = interrupted.get("in_flight")

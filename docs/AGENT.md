@@ -63,8 +63,11 @@ budgets still count every execution. Unknown outcomes, invalid output and
 permanent failures do not enter this retry path. The trace records requested
 backoff separately from the measured execution duration.
 
-Ctrl-C or an asynchronous cancellation raised during graph execution stops the
-current invocation and preserves its durable journal. A possible side effect
+Ctrl-C or cancellation raised during graph execution stops the current
+invocation and preserves its durable journal. The locked LangGraph converts
+`asyncio.CancelledError` raised by a synchronous node into `NodeCancelledError`;
+the workflow catches that wrapper and re-raises it after preserving state.
+`KeyboardInterrupt` remains unchanged. A possible side effect
 retains its in-flight identity in `pending` state for reconciliation before
 continuing; cancellation during pre-effect backoff records `cancelled` without
 inventing an effect. An explicit later resume continues the same reviewed

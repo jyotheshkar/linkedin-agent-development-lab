@@ -2,6 +2,7 @@ from asyncio import CancelledError
 from copy import deepcopy
 from pathlib import Path
 import pytest
+from langgraph.errors import NodeCancelledError
 
 from l1_lab.agent import GuardrailError
 from l1_lab.provider import FakeProvider
@@ -80,8 +81,11 @@ def test_retry_backoff_is_capped_and_recorded_without_changing_attempt_budget(tm
 
 
 @pytest.mark.m6
-@pytest.mark.parametrize("cancellation", [KeyboardInterrupt, CancelledError])
-def test_cancellation_after_effect_keeps_intent_and_reconciles_without_reexecution(tmp_path, monkeypatch, cancellation):
+@pytest.mark.parametrize("cancellation,propagated", [
+    (KeyboardInterrupt, KeyboardInterrupt),
+    (CancelledError, NodeCancelledError),
+])
+def test_cancellation_after_effect_keeps_intent_and_reconciles_without_reexecution(tmp_path, monkeypatch, cancellation, propagated):
     workflow = Workflow(tmp_path)
     workflow.start("apply", "cancel-after-effect")
     execute = workflow.provider.execute
@@ -93,8 +97,10 @@ def test_cancellation_after_effect_keeps_intent_and_reconciles_without_reexecuti
             raise cancellation()
         return receipt
     monkeypatch.setattr(workflow.provider, "execute", interrupt_after_effect)
-    with pytest.raises(cancellation):
+    with pytest.raises(propagated) as caught:
         workflow.resume("cancel-after-effect", approved=True)
+    if cancellation is CancelledError:
+        assert isinstance(caught.value.__cause__, CancelledError)
     interrupted = workflow.journal.load("cancel-after-effect")
     assert interrupted["status"] == "pending"
     assert interrupted["in_flight"]["tool"] == "sim_submit"
