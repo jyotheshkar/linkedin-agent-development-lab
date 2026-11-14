@@ -35,7 +35,8 @@ TOOLS = frozenset({"retrieve_evidence", "draft", "sim_submit", "sim_outreach", "
                    "sim_commit", "sim_deliver", "human_review", "knowledge_lookup", "run_inspect"})
 SAFE_STATUSES = frozenset({
     "running", "awaiting_review", "pending", "blocked", "completed", "rejected", "approved",
-    "ok", "error", "accepted", "verified", "reconciled", "failed", "started", "succeeded",
+    "ok", "error", "accepted", "verified", "reconciled", "failed", "started", "succeeded", "cancelled",
+    "retry_backoff", "interrupted_pending_reconciliation",
 })
 _IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9:_./-]{0,127}\Z")
 _ERROR_TYPE = re.compile(r"[A-Za-z_][A-Za-z0-9_]{0,79}\Z")

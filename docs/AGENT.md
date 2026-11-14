@@ -56,4 +56,20 @@ uv run pytest tests/test_atlas_lab.py -q
 
 Use temporary-store failure injections to study pre-effect transient failure, effect-success/response-timeout, invalid output, changed payload and projection repair. Read the actual tests before adapting them. The test results support observed software behavior, not independent learner explanations or unexecuted integrations.
 
+Declared pre-effect transient retries use fixed capped exponential backoff:
+50, 100 and at most 200 milliseconds. The constructor permits at most three
+additional retries, so cumulative backoff is at most 350 milliseconds; tool-call
+budgets still count every execution. Unknown outcomes, invalid output and
+permanent failures do not enter this retry path. The trace records requested
+backoff separately from the measured execution duration.
+
+Ctrl-C or an asynchronous cancellation raised during graph execution stops the
+current invocation and preserves its durable journal. A possible side effect
+retains its in-flight identity in `pending` state for reconciliation before
+continuing; cancellation during pre-effect backoff records `cancelled` without
+inventing an effect. An explicit later resume continues the same reviewed
+request. Cancellation does not forcibly terminate an arbitrary synchronous
+callable. Model SDK calls have their separately configured 30-second timeout
+and no hidden automatic retries.
+
 The graph API uses ordinary Python functions inside LangGraph `StateGraph`, with explicit persisted state and termination. See the current lock and [fresh verification](VERIFICATION.md) for versions/results. [State/recovery diagram](architecture/state-recovery.svg) is the component map.

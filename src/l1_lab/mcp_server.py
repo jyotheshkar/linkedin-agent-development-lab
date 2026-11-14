@@ -74,7 +74,7 @@ def _run_inspect(root: Path, request: RunInspectArgs) -> dict:
     if not isinstance(run, dict) or run.get("run_id") != request.run_id:
         raise ValueError("invalid run record")
     status = run.get("status")
-    if status not in {"running", "awaiting_review", "pending", "blocked", "completed", "rejected"}:
+    if status not in {"running", "awaiting_review", "pending", "blocked", "completed", "rejected", "cancelled", "revision_requested"}:
         raise ValueError("invalid run status")
     summary = {"run_id": request.run_id, "status": status, "read_only": True,
                "effects": "simulated", "gate_status": {}, "trace_event_count": 0}
