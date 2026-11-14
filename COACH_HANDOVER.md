@@ -8,9 +8,24 @@ The role is Capgemini AI Engineer - Engineering Augmentation, grounded in the re
 
 Resolve private repository ID **1456774523**, actual branch/commit and checkpoint. Read `START_HERE.md`, `AGENTS.md`, this file and the selected lesson entry. Open its exact source/tests. A private link neither grants access nor reveals unsaved edits. Use a bounded fallback when necessary:
 
+Canonical repository: [jyotheshkar/linkedin-agent-development-lab](https://github.com/jyotheshkar/linkedin-agent-development-lab).
+
 ```bash
 uv run l1-lab context-export --lesson CONTRACTS-01 --output .lab/context.json
 ```
+
+## Reproduce the application journey
+
+```bash
+uv run l1-lab run --job data/job.json --goal 'prepare application' --root .lab
+# Inspect the returned artifacts, target, payload and approval.plan_hash.
+uv run l1-lab resume RUN_ID --approve --plan-hash PLAN_HASH --root .lab
+uv run l1-lab trace RUN_ID --root .lab
+uv run l1-lab knowledge --root .lab
+uv run l1-lab dashboard --root .lab
+```
+
+Replace `RUN_ID` with the returned `run.run_id` and `PLAN_HASH` with that same run's `approval.plan_hash`. Approval covers the exact displayed material and simulated actions. To recover a pending outcome, resume the same ID with its plan hash without adding `--approve`; do not create a replacement run. The CLI and browser call the same `ApplicationService`.
 
 ## First learning action
 

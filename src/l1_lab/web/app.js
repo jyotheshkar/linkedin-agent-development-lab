@@ -236,7 +236,13 @@
       if (typeof artifact.content === "string") append(card, codeDetails("Read exact artifact content", artifact.content, true));
       else append(card, node("p", "help-text", "The API did not inline artifact content; download it to inspect the bytes."));
       const actions = node("div", "artifact-actions");
-      if (/^[a-f0-9]{64}$/.test(artifact.sha256 || "")) append(actions, button("Download server artifact", "secondary", () => act(() => downloadArtifact(artifact))));
+      if (/^[a-f0-9]{64}$/.test(artifact.sha256 || "")) {
+        const download = button("Download server artifact", "secondary", () => act(() => downloadArtifact(artifact)));
+        download.disabled = artifact.stored !== true;
+        if (download.disabled) download.title = "Available after reviewed bytes are stored";
+        append(actions, download);
+      }
+      if (artifact.stored !== true) append(card, node("p", "help-text", "Download is available after reviewed bytes are stored. The exact draft content above is available for review now."));
       append(actions, button("Learn the evidence store", "ghost", () => openLesson("ATLAS-01")));
       append(card, actions, codeDetails("Artifact manifest", artifact)); append(panel, card);
     });

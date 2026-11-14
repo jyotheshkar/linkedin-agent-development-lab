@@ -68,7 +68,7 @@ def main(argv=None):
         elif args.command in ("seed","knowledge","dashboard"):
             from .atlas_lab import AtlasLab
             from .knowledge import load_snapshot
-            lab=AtlasLab(args.root)
+            lab=AtlasLab(args.root/"atlas")
             if args.command=="seed": emit(lab.seed_snapshot(load_snapshot(FIXTURE)))
             elif args.command=="knowledge": emit({"records":lab.list_records(),"snapshot":lab.snapshot()})
             else: emit(lab.dashboard())

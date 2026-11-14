@@ -4,6 +4,8 @@ A complete Python learning MVP for evidence-backed application workflows,
 isolated Atlas knowledge, exact material review and recoverable simulated
 actions. Created in **2026**. Repository ID **1456774523**, private.
 
+Canonical repository: [jyotheshkar/linkedin-agent-development-lab](https://github.com/jyotheshkar/linkedin-agent-development-lab).
+
 The default application is implemented. Investigate its code, run an experiment
 and explain the result. The former twelve-function scaffold is preserved on
 `archive/student-scaffold-20261114`; `coach-reference` remains historical.
