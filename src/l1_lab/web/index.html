@@ -1,118 +1,74 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="A focused interview lab for Python agents, grounded retrieval, and safe workflow execution.">
-  <title>Atlas Fieldwork &#x2014; AI Engineering Lab</title>
-  <link rel="stylesheet" href="/assets/styles.css">
-  <script src="/assets/app.js" defer></script>
+  <meta name="description" content="Investigate a complete Python agent, Atlas Lab evidence, and grounded retrieval.">
+  <title>LinkedIn Agent Development Lab</title>
+  <link rel="stylesheet" href="/assets/styles.css"><script src="/assets/app.js" defer></script>
 </head>
 <body>
   <a class="sr-only skip-link" href="#main">Skip to content</a>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Primary navigation">
-      <a class="brand" href="#workspace" aria-label="Atlas Fieldwork home">
-        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="30" height="30" fill="none"><path d="M5 25 16 5l11 20M10 17h12M8 23h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span>ATLAS<span class="brand-subtitle">FIELDWORK</span></span>
-      </a>
-      <div class="sidebar-label">YOUR LEARNING SPACE</div>
-      <nav class="navigation">
-        <button class="nav-button active" data-view="workspace" aria-current="page"><span aria-hidden="true">&#x25c8;</span> Workflow lab</button>
-        <button class="nav-button" data-view="practice"><span aria-hidden="true">&#x25ce;</span> Interview practice</button>
-        <button class="nav-button" data-view="coverage"><span aria-hidden="true">&#x25a6;</span> Role coverage</button>
-        <button class="nav-button" data-view="settings"><span aria-hidden="true">&#x2699;</span> Connection</button>
+      <a class="brand" href="#workspace"><span class="brand-mark" aria-hidden="true">L</span><span>LinkedIn Agent<small>DEVELOPMENT LAB</small></span></a>
+      <nav aria-label="Lab views">
+        <button class="nav-button active" data-view="workspace" aria-current="page">Workflow</button>
+        <button class="nav-button" data-view="knowledge">Atlas Lab knowledge</button>
+        <button class="nav-button" data-view="learn">Learn a component</button>
+        <button class="nav-button" data-view="practice">Interview practice</button>
+        <button class="nav-button" data-view="coverage">JD coverage</button>
+        <button class="nav-button" data-view="settings">Connection</button>
       </nav>
-      <div class="sidebar-footer">
-        <div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span> A learning environment</div>
-        <p>Every external action is simulated.<br>Visible evidence. Honest progress.</p>
-        <span class="version-label">PYTHON &#xb7; AGENTS &#xb7; RAG</span>
-      </div>
+      <div class="sidebar-footer"><strong><span class="status-dot" aria-hidden="true"></span>Working code. Visible evidence.</strong><p>Employer actions are simulations.<br>Investigation is reference-assisted.<br>Independent skill is unmeasured.</p><span>Created in 2026</span></div>
     </aside>
-
     <main class="main" id="main">
-      <header class="topbar">
-        <div class="breadcrumb">AI ENGINEERING <span>/</span> L1 PREPARATION</div>
-        <div class="topbar-badges"><span class="badge muted" id="mode-badge">Connecting</span><span class="badge teal">Simulated effects</span></div>
-      </header>
+      <header class="topbar"><div>LINKEDIN AGENT DEVELOPMENT LAB <span>/</span> PYTHON · AGENTS · RAG</div><div><span class="badge muted" id="mode-badge">Connecting</span><span class="badge teal">SIMULATION</span></div></header>
       <div id="global-alert" class="banner hidden" role="alert"></div>
 
       <section id="view-workspace" class="view" aria-labelledby="workspace-title">
-        <div class="hero">
-          <div class="hero-copy"><div class="eyebrow">THE WORKFLOW LAB <span class="badge muted">Offline simulation</span></div><h1 id="workspace-title">From evidence<br>to <em>action.</em></h1><p>Inspect how a workflow plans, retrieves, and recovers.<br>Make each decision visible before the next step.</p></div>
-          <div class="hero-stat"><div class="stat-number">01 <span>&#x2192; 06</span></div><div class="stat-label">FOCUSED LEARNING MILESTONES</div><p>Python contracts to grounded responses.<br>One clear mechanism at a time.</p></div>
-        </div>
-
+        <div class="hero"><div class="hero-copy"><div class="eyebrow">INVESTIGATE THE COMPLETE SYSTEM</div><h1 id="workspace-title">Evidence before action.</h1><p>Supply a role, inspect retrieved evidence and real draft artifacts, then review the exact simulated actions. The same Python services power the CLI and this console.</p></div><button class="button secondary" data-learn="ANATOMY-01">Start with the architecture</button></div>
         <div class="workspace-grid">
-          <section class="card compose-card" aria-labelledby="goal-title">
-            <div class="card-header"><div><div class="eyebrow">01 / SET THE INTENT</div><h2 class="card-title" id="goal-title">Give the workflow a goal</h2></div><span class="badge muted" id="source-badge">Synthetic data</span></div>
+          <section class="card" aria-labelledby="goal-title">
+            <div class="card-header"><div><div class="eyebrow">01 / DEFINE A BOUNDED RUN</div><h2 class="card-title" id="goal-title">Job requirement and goal</h2></div><span class="badge muted" id="source-badge">Synthetic knowledge</span></div>
             <form id="run-form">
-              <label class="label" for="goal">Workflow goal</label>
-              <textarea id="goal" class="input" rows="4" maxlength="2000" required placeholder="Retrieve evidence for Python evaluation skills and prepare a simulated application."></textarea>
-              <div class="example-grid" aria-label="Example goals">
-                <button class="example-button" type="button" data-goal="Inspect evidence only for Python evaluation and data quality.">Inspect evidence <span aria-hidden="true">&#x2197;</span></button>
-                <button class="example-button" type="button" data-goal="Draft an evidence-backed approach for Python evaluation skills.">Draft an approach <span aria-hidden="true">&#x2197;</span></button>
-                <button class="example-button" type="button" data-goal="Prepare a simulated application using Python evaluation and data quality evidence.">Prepare application <span aria-hidden="true">&#x2197;</span></button>
-              </div>
-              <details class="details job-details"><summary>Set a synthetic role <span>Optional</span></summary><div class="details-content">
-                <label class="checkbox-label"><input type="checkbox" id="include-job"> Include this role in the run</label>
-                <div class="form-row"><div class="field"><label class="label" for="job-title">Role title</label><input class="input" id="job-title" value="AI Engineer" maxlength="200"></div><div class="field"><label class="label" for="job-company">Company</label><input class="input" id="job-company" value="Example Labs" maxlength="200"></div></div>
-                <div class="form-row"><div class="field"><label class="label" for="job-id">Requisition ID</label><input class="input" id="job-id" value="AI-17" maxlength="100"></div><div class="field"><label class="label" for="job-budget">Maximum tool calls</label><input class="input" id="job-budget" type="number" value="8" min="1" max="20" step="1"></div></div>
-                <label class="label" for="job-skills">Skills, separated by commas</label><input class="input" id="job-skills" value="Python, evaluation, data quality"><p class="help-text">The same strict Python contract validates this role. No employer receives these details.</p>
+              <label for="goal">Workflow goal</label><textarea id="goal" rows="3" maxlength="2000" required placeholder="Prepare a simulated application grounded in Python evaluation evidence."></textarea>
+              <div class="example-grid" aria-label="Example goals"><button class="example-button" type="button" data-goal="Inspect evidence only for Python evaluation and data quality.">Inspect evidence</button><button class="example-button" type="button" data-goal="Draft an evidence-backed approach for Python evaluation skills.">Draft material</button><button class="example-button" type="button" data-goal="Prepare a simulated application using Python evaluation and data quality evidence.">Prepare application</button></div>
+              <details class="details" open><summary>Supplied role</summary><div class="details-content">
+                <label><input type="checkbox" id="include-job" checked> Include this supplied role</label>
+                <div class="form-row"><div class="field"><label for="job-title">Role title</label><input id="job-title" value="AI Engineer" maxlength="200"></div><div class="field"><label for="job-company">Company</label><input id="job-company" value="Example Labs" maxlength="200"></div></div>
+                <div class="form-row"><div class="field"><label for="job-id">Requisition ID</label><input id="job-id" value="AI-17" maxlength="100"></div><div class="field"><label for="job-budget">Maximum tool calls</label><input id="job-budget" type="number" min="1" max="20" step="1" value="8"></div></div>
+                <label for="job-skills">Required skills, separated by commas</label><input id="job-skills" value="Python, evaluation, data quality"><p class="help-text">A supplied requirement or fixture is not a verified live vacancy. Input content cannot grant tool permissions.</p>
               </div></details>
-              <div class="compose-footer"><p class="help-text"><span aria-hidden="true">&#x25c7;</span> Approval comes before simulated effects.</p><button class="button primary" id="run-button" type="submit">Run workflow <span aria-hidden="true">&#x2192;</span></button></div>
+              <details class="details"><summary>Choose real adapter modes</summary><div class="details-content mode-grid">
+                <div><label for="retrieval-mode">Retrieval</label><select id="retrieval-mode"><option value="offline">Offline — hash test vectors</option><option value="semantic">Semantic — real local embeddings</option></select></div>
+                <div><label for="planner-mode">Planner</label><select id="planner-mode"><option value="offline">Offline — fixture proposals</option><option value="live">Live — configured model proposals</option></select></div>
+                <div><label for="generation-mode">Generation</label><select id="generation-mode"><option value="offline">Offline — extractive answers</option><option value="live">Live — configured model answers</option></select></div>
+                <p class="help-text mode-help">Semantic retrieval and real model generation are separate. Live modes require server-side configuration; credentials never belong in a job or draft.</p>
+              </div></details>
+              <div class="compose-footer"><p class="help-text">Pause for review before any simulated employer effect.</p><button class="button primary" id="run-button" type="submit">Prepare run</button></div>
             </form>
           </section>
-
-          <aside class="card system-card" aria-labelledby="session-title">
-            <div class="eyebrow">YOUR SESSION</div><h2 class="card-title" id="session-title">A clear view of every step.</h2>
-            <div class="step-indicator"><span>1</span><div><strong>Define</strong><p>A goal, a role, a fixed budget.</p></div></div>
-            <div class="step-indicator"><span>2</span><div><strong>Inspect</strong><p>Plans, evidence, and boundaries.</p></div></div>
-            <div class="step-indicator"><span>3</span><div><strong>Approve &amp; observe</strong><p>Simulated receipts you can trace.</p></div></div>
-            <div class="session-divider"></div>
-            <label class="label" for="recover-id">Recover a saved run</label><div class="recover-row"><input class="input" id="recover-id" placeholder="Paste run ID" autocomplete="off" maxlength="100"><button class="button secondary" id="recover-button" type="button">Load</button></div><p class="help-text">Only the last run ID is remembered in this browser. Tokens and answers are not stored here.</p>
-            <div class="session-status" id="connection-status"><span class="status-dot"></span><span>Checking the lab connection&#x2026;</span></div>
-          </aside>
+          <aside class="card" aria-labelledby="session-title"><div class="eyebrow">YOUR SESSION</div><h2 class="card-title" id="session-title">Trace one request.</h2><ol class="session-steps"><li>Validate a job and bounded goal.</li><li>Retrieve evidence and prepare artifacts.</li><li>Review bytes, hashes, plan and gaps.</li><li>Observe simulated receipts and projection.</li></ol><hr><label for="recover-id">Recover an existing run</label><div class="recover-row"><input id="recover-id" placeholder="Paste run ID" autocomplete="off" maxlength="100"><button class="button secondary" id="recover-button" type="button">Load</button></div><p class="help-text">Only the last run ID is remembered here. Reconciliation checks existing receipts before any repeat.</p><div class="session-status" id="connection-status">Checking lab connection…</div><hr><button class="button ghost" data-learn="WORKFLOW-01">Learn this workflow</button><button class="button ghost" data-view="knowledge">Inspect source knowledge</button></aside>
         </div>
-
-        <section class="card results-card" aria-labelledby="result-title">
-          <div class="card-header"><div><div class="eyebrow">02 / OPEN THE BLACK BOX</div><h2 class="card-title" id="result-title">Execution workspace</h2></div><span class="badge muted" id="run-status" aria-live="polite">No run yet</span></div>
-          <div class="tabs" role="tablist" aria-label="Run inspection">
-            <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" data-tab="overview">Overview</button>
-            <button class="tab" role="tab" aria-selected="false" aria-controls="panel-plan" id="tab-plan" data-tab="plan" tabindex="-1">Plan</button>
-            <button class="tab" role="tab" aria-selected="false" aria-controls="panel-evidence" id="tab-evidence" data-tab="evidence" tabindex="-1">Evidence</button>
-            <button class="tab" role="tab" aria-selected="false" aria-controls="panel-trace" id="tab-trace" data-tab="trace" tabindex="-1">Trace</button>
-          </div>
-          <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview"><div class="empty-state"><div class="empty-icon" aria-hidden="true">&#x2197;</div><h3>Your next decision, made visible.</h3><p>Run a workflow to inspect its state, grounded evidence,<br>approval checkpoint, and simulated receipts.</p><span class="empty-kicker">NOTHING HAS BEEN EXECUTED YET</span></div></div>
-          <div class="tab-panel hidden" id="panel-plan" role="tabpanel" aria-labelledby="tab-plan"></div>
-          <div class="tab-panel hidden" id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence"></div>
-          <div class="tab-panel hidden" id="panel-trace" role="tabpanel" aria-labelledby="tab-trace"></div>
-        </section>
-        <p class="workspace-footnote">A completed plan is separate from a completed application unit. Inspect the five evidence gates.</p>
+        <section class="card results-card" aria-labelledby="result-title"><div class="card-header"><div><div class="eyebrow">02 / INSPECT BEFORE REVIEW</div><h2 class="card-title" id="result-title">Execution workspace</h2></div><span class="badge muted" id="run-status" aria-live="polite">No run yet</span></div>
+          <div class="tabs" role="tablist" aria-label="Run inspection"><button class="tab active" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" data-tab="overview">Review &amp; gates</button><button class="tab" role="tab" aria-selected="false" aria-controls="panel-plan" id="tab-plan" data-tab="plan" tabindex="-1">Plan</button><button class="tab" role="tab" aria-selected="false" aria-controls="panel-evidence" id="tab-evidence" data-tab="evidence" tabindex="-1">Evidence</button><button class="tab" role="tab" aria-selected="false" aria-controls="panel-artifacts" id="tab-artifacts" data-tab="artifacts" tabindex="-1">Artifacts</button><button class="tab" role="tab" aria-selected="false" aria-controls="panel-trace" id="tab-trace" data-tab="trace" tabindex="-1">Trace &amp; recovery</button></div>
+          <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview"><div class="empty-state"><h3>Start with one concrete requirement.</h3><p>The result will show retrieved evidence, draft material and its review boundary. No outcome is inferred before the API returns it.</p></div></div>
+          <div class="tab-panel hidden" id="panel-plan" role="tabpanel" aria-labelledby="tab-plan"></div><div class="tab-panel hidden" id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence"></div><div class="tab-panel hidden" id="panel-artifacts" role="tabpanel" aria-labelledby="tab-artifacts"></div><div class="tab-panel hidden" id="panel-trace" role="tabpanel" aria-labelledby="tab-trace"></div>
+        </section><p class="workspace-footnote">A completed inspect/draft plan is separate from a completed simulated application unit. Five gates require receipt-backed evidence.</p>
       </section>
 
-      <section id="view-practice" class="view hidden" aria-labelledby="practice-title">
-        <div class="section-heading"><div class="eyebrow">INTERVIEW PRACTICE</div><h1 id="practice-title">Explain the mechanism.</h1><p>One original prompt at a time. Make your reasoning visible;<br>save an honest record for your coaching chat.</p></div>
-        <div class="practice-header"><span class="badge teal">Untimed learning</span><span class="badge muted">Ungraded drafts</span><button class="button secondary" id="download-practice" type="button">Export practice record <span aria-hidden="true">&#x2193;</span></button></div>
-        <div id="practice-state" class="card question-card"><p class="help-text">Loading the original practice prompts&#x2026;</p></div>
-        <p class="workspace-footnote">No scores or mastery are inferred here. A coach grades observed work using the AIE 10-point rubric.</p>
-      </section>
+      <section id="view-knowledge" class="view hidden" aria-labelledby="knowledge-title"><div class="section-heading"><div><div class="eyebrow">ISOLATED ATLAS LAB</div><h1 id="knowledge-title">Where the claims come from.</h1><p>Inspect versions, approvals and provenance. This local lab has no write path to operational Atlas.</p></div><button class="button secondary" id="refresh-knowledge" type="button">Refresh view</button></div><div id="knowledge-state" class="card"><p>Open this view to load the current source records.</p></div><div class="card"><div class="card-header"><h2 class="card-title">Derived reporting projection</h2><button class="button ghost" id="refresh-dashboard" type="button">Read projection</button></div><p class="help-text">Committed events and projected membership are distinct observations.</p><div id="dashboard-state"><p class="help-text">The projection has not been read yet.</p></div></div><button class="button ghost" data-learn="ATLAS-01">Learn this component</button></section>
 
-      <section id="view-coverage" class="view hidden" aria-labelledby="coverage-title">
-        <div class="section-heading"><div class="eyebrow">ROLE-ALIGNED ENGINEERING</div><h1 id="coverage-title">Know what you can defend.</h1><p>Connect the role requirements to concrete code and visible behavior.<br>Coverage is a learning map, not evidence of mastery.</p></div>
-        <div class="banner info">Based on the saved Capgemini AI Engineer / Engineering Augmentation role. L1 emphasis is a preparation hypothesis; the interview agenda is unconfirmed.</div>
-        <div class="coverage-grid" id="coverage-grid"></div>
-      </section>
+      <section id="view-learn" class="view hidden" aria-labelledby="learn-title"><div class="section-heading"><div><div class="eyebrow">ARCHITECTURE → CODE → EXPERIMENT → TEST</div><h1 id="learn-title">Learn one component.</h1><p>Open its place in the system, read the actual symbol and try one small change. Reading builder-provided code counts as reference exposure.</p></div><span class="badge muted">Learning scores N/A</span></div><div class="learning-grid"><nav class="card lesson-navigation" aria-label="Component lessons" id="lesson-list"><p class="help-text">Loading lesson map…</p></nav><article class="card lesson-detail" id="lesson-detail"><p class="help-text">Choose a component to begin.</p></article></div></section>
 
-      <section id="view-settings" class="view hidden" aria-labelledby="settings-title">
-        <div class="section-heading"><div class="eyebrow">CONNECTION</div><h1 id="settings-title">Keep the boundaries clear.</h1><p>Connect to this lab session without persisting credentials.</p></div>
-        <div class="card settings-panel"><div class="card-header"><div><h2 class="card-title">Session access token</h2><p class="card-description">Only needed when this deployment requires bearer authentication.</p></div><span class="badge muted" id="auth-badge">Checking</span></div><form id="token-form"><label class="label" for="token">Bearer token</label><div class="token-row"><input class="input" type="password" id="token" placeholder="Enter token for this page session" autocomplete="off" spellcheck="false"><button class="button primary" type="submit">Use token</button><button class="button ghost" type="button" id="clear-token">Clear</button></div><p class="help-text" id="token-status">Kept in page memory only. Never saved to browser storage, exports, or logs.</p></form></div>
-        <div class="card settings-panel"><h2 class="card-title">What this session can do</h2><div id="config-details" class="key-value"><p class="help-text">Configuration will appear when the server responds.</p></div><p class="help-text">The browser talks only to this lab API. This is not a live LinkedIn, Gmail, or Atlas connection.</p></div>
-      </section>
-      <footer class="page-footer"><span>ATLAS FIELDWORK</span><span>Understand it. Test it. Explain it.</span></footer>
+      <section id="view-practice" class="view hidden" aria-labelledby="practice-title"><div class="section-heading"><div><div class="eyebrow">INTERVIEW PREPARATION</div><h1 id="practice-title">Explain the mechanism.</h1><p>One original practice prompt at a time. L1/L2 emphasis is a preparation choice; the employer's exact agenda is unknown.</p></div></div><div class="practice-header"><span class="badge teal">Untimed</span><span class="badge muted">Ungraded drafts</span><button class="button secondary" id="download-practice" type="button">Export practice record</button></div><div id="practice-state" class="card question-card"><p class="help-text">Open this view to load the original practice prompts.</p></div><p class="workspace-footnote">No scores or mastery are inferred. A coach grades observed explanations and changes using the AIE 10-point rubric.</p></section>
+
+      <section id="view-coverage" class="view hidden" aria-labelledby="coverage-title"><div class="section-heading"><div><div class="eyebrow">CAPGEMINI AI ENGINEER / ENGINEERING AUGMENTATION</div><h1 id="coverage-title">Connect requirements to code.</h1><p>Coverage maps implementation and tests to the recruiter-provided JD. It is not a claim of personal mastery or known interview questions.</p></div></div><div class="coverage-grid" id="coverage-grid"></div></section>
+
+      <section id="view-settings" class="view hidden" aria-labelledby="settings-title"><div class="section-heading"><div><div class="eyebrow">CONNECTION &amp; MODES</div><h1 id="settings-title">Keep the boundaries clear.</h1><p>The browser calls only this lab. Runtime model/database access is configured securely on the server.</p></div></div><div class="card settings-panel"><div class="card-header"><h2 class="card-title">Session access token</h2><span class="badge muted" id="auth-badge">Checking</span></div><form id="token-form"><label for="token">Bearer token</label><div class="token-row"><input type="password" id="token" placeholder="Enter lab token for this page session" autocomplete="off" spellcheck="false"><button class="button primary" type="submit">Use token</button><button class="button ghost" type="button" id="clear-token">Clear</button></div><p class="help-text" id="token-status">Page memory only. Never saved to browser storage, exported learning records, or logs.</p></form></div><div class="card settings-panel"><h2 class="card-title">Observed configuration</h2><div id="config-details"><p class="help-text">Configuration appears after the server responds.</p></div><p class="help-text">ChatGPT connector sessions do not automatically exist inside this application. Snapshots, local tools and configured providers have separate boundaries.</p></div></section>
+      <footer class="page-footer"><span>LINKEDIN AGENT DEVELOPMENT LAB</span><span>Understand it. Change it. Test it. Explain it.</span></footer>
     </main>
-  </div>
-  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+  </div><div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -1,3 +1,10 @@
+# LEARN: RAG-01
+# ROLE: Coordinate ingestion, retrieval, final context and generation.
+# FLOW: Snapshot/query -> retained chunks -> validated result.
+# WHY: Dependency injection swaps the index while the same grounding contracts remain in force.
+# L1: Trace one input and its failure path, then run tests/test_service.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Provided integration wiring; student functions stay in their focused modules."""
 from __future__ import annotations
 import json

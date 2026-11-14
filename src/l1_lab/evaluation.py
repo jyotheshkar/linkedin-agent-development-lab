@@ -1,3 +1,10 @@
+# LEARN: EVALUATION-01
+# ROLE: Evaluate cases by stable identity and report explicit denominators.
+# FLOW: Nonindexed case labels + outputs -> measurements and regressions.
+# WHY: A small development bank is not held-out evidence or an interview prediction.
+# L1: Trace one input and its failure path, then run tests/test_evaluation.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Inspect retrieval, structural citations and labelled support separately.
 
 No lexical score here is advertised as semantic entailment. The evaluation bank
@@ -38,7 +45,25 @@ def compare_runs(baseline: list[dict], current: list[dict], tolerance: float = .
     boundaries receive a 1e-12 floating-point allowance; missing cases are
     never silently paired with a different case.
     """
-    raise NotImplementedError("M6: implement compare_runs")
+    tolerance = _finite_number(tolerance, "tolerance")
+    if tolerance < 0:
+        raise ValueError("tolerance cannot be negative")
+    before, after = _case_scores(baseline), _case_scores(current)
+    shared = sorted(before.keys() & after.keys())
+    rows = []
+    for case_id in shared:
+        delta = after[case_id] - before[case_id]
+        rows.append({"case_id": case_id, "baseline": before[case_id],
+                     "current": after[case_id], "delta": delta,
+                     "regression": delta < -tolerance - 1e-12})
+    deltas = [row["delta"] for row in rows]
+    regressions = sum(row["regression"] for row in rows)
+    return {"compared_count": len(rows), "missing_case_ids": sorted(before.keys() - after.keys()),
+            "new_case_ids": sorted(after.keys() - before.keys()), "per_case": rows,
+            "regression_count": regressions,
+            "regression_rate": regressions / len(rows) if rows else None,
+            "mean_delta": sum(deltas) / len(deltas) if deltas else None,
+            "worst_delta": min(deltas) if deltas else None}
 
 
 def _fraction(numerator: int, denominator: int) -> dict:
@@ -134,3 +159,4 @@ def evaluate(index: Any, generator: Any, cases: list[dict]) -> dict:
             "latency_ms": (time.perf_counter() - started) * 1000,
             "support_method": "developer-labelled expected evidence, exact extractive text and prohibited strings; not semantic entailment",
             "token_usage": None, "cost": None}
+

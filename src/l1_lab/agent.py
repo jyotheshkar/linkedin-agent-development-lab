@@ -1,3 +1,10 @@
+# LEARN: AGENT-01
+# ROLE: Define allowed tools, retry categories and verified completion.
+# FLOW: Planner proposals -> validation -> Workflow; receipts -> completion gates.
+# WHY: A registry keeps permission checks in code; arbitrary model-selected functions are excluded.
+# L1: Trace one input and its failure path, then run tests/test_agent.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Tool contracts and the three small agent-control student tasks."""
 from __future__ import annotations
 
@@ -67,7 +74,22 @@ def validate_tool_call(call: dict, registry: dict, allowed_tools: set[str], rema
     Return a detached {tool, args} dictionary. Invalid calls raise
     GuardrailError. A boolean is not an integer budget. No execution occurs.
     """
-    raise NotImplementedError("M2: implement validate_tool_call")
+    if type(remaining_budget) is not int or remaining_budget <= 0:
+        raise GuardrailError("tool-call budget exhausted or invalid")
+    if not isinstance(call, dict) or set(call) != {"tool", "args"}:
+        raise GuardrailError("tool proposal must contain only tool and args")
+    name = call["tool"]
+    if not isinstance(name, str) or name not in registry:
+        raise GuardrailError("unknown tool")
+    if name not in allowed_tools:
+        raise GuardrailError("tool is not permitted")
+    if not isinstance(call["args"], dict):
+        raise GuardrailError("tool arguments must be an object")
+    try:
+        args = registry[name].args_model.model_validate(call["args"]).model_dump()
+    except ValidationError as exc:
+        raise GuardrailError("tool argument schema rejected") from exc
+    return {"tool": name, "args": deepcopy(args)}
 
 
 def retry_allowed(error: Exception, attempt: int, max_retries: int) -> bool:
@@ -76,7 +98,11 @@ def retry_allowed(error: Exception, attempt: int, max_retries: int) -> bool:
     attempt=1 is the initial execution; max_retries counts additional
     executions. Unknown outcomes must be reconciled, never blindly retried.
     """
-    raise NotImplementedError("M2: implement retry_allowed")
+    if type(attempt) is not int or attempt < 1:
+        raise ValueError("attempt must be a positive integer")
+    if type(max_retries) is not int or max_retries < 0:
+        raise ValueError("max_retries must be a nonnegative integer")
+    return isinstance(error, TransientError) and attempt <= max_retries
 
 
 def completion_gates(receipts: dict) -> dict:
@@ -85,4 +111,21 @@ def completion_gates(receipts: dict) -> dict:
     Each receipt needs the matching gate, VERIFIED status, and sim: ID.
     A pending or absent receipt never earns completion credit.
     """
-    raise NotImplementedError("M6: implement completion_gates")
+    identifiers = Counter(
+        receipt.get("receipt_id") for receipt in receipts.values()
+        if isinstance(receipt, dict) and isinstance(receipt.get("receipt_id"), str)
+    )
+    result = {}
+    for gate in GATES:
+        receipt = receipts.get(gate)
+        result[gate] = bool(
+            isinstance(receipt, dict)
+            and receipt.get("gate") == gate
+            and receipt.get("status") == "VERIFIED"
+            and isinstance(receipt.get("receipt_id"), str)
+            and receipt["receipt_id"].startswith("sim:")
+            and identifiers[receipt["receipt_id"]] == 1
+        )
+    result["complete"] = all(result.values())
+    return result
+

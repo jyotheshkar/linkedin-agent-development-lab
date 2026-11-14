@@ -1,3 +1,10 @@
+# LEARN: DELIVERY-01
+# ROLE: Offer durable journal and independent simulated receipt adapters.
+# FLOW: Workflow intents -> short transactions; run lock -> serialized execution.
+# WHY: Session locks need a direct/session pool; transaction pooling cannot preserve session ownership.
+# L1: Trace one input and its failure path, then run tests/test_postgres_store.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Durable deployment stores for the simulated workflow.
 
 No constructor performs DDL. Run the explicit migration with a migration role

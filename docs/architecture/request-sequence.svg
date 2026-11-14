@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1110" viewBox="0 0 1120 1110" role="img" aria-labelledby="title description">
+<title id="title">One request, visible boundaries</title><desc id="description">The shared application service coordinates this journey; arrows do not grant approval.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#087f7b"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="48" y="52" font-family="Segoe UI,Arial,sans-serif" font-size="30" font-weight="650" fill="#183333">One request, visible boundaries</text>
+<text x="48" y="84" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="400" fill="#607575">The shared application service coordinates this journey; arrows do not grant approval.</text>
+<text x="65" y="159" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">01</text>
+<rect x="118" y="128" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="157" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">CLI / API entry</text>
+<text x="136" y="182" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Job + goal</text>
+<text x="790" y="159" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">cli.py / web_api.py</text>
+<polyline points="440,210 440,226" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="257" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">02</text>
+<rect x="118" y="226" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="255" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Validate and identify</text>
+<text x="136" y="280" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Strict Job + canonical target</text>
+<text x="790" y="257" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">contracts.py</text>
+<polyline points="440,308 440,324" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="355" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">03</text>
+<rect x="118" y="324" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="353" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Prepare from evidence</text>
+<text x="136" y="378" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Eligible knowledge -&gt; RAG -&gt; claims/gaps</text>
+<text x="790" y="355" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">ApplicationService + RAGService</text>
+<polyline points="440,406 440,422" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="453" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">04</text>
+<rect x="118" y="422" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="451" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Write real local drafts</text>
+<text x="136" y="476" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Application brief + outreach draft + hashes</text>
+<text x="790" y="453" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Atlas Lab artifact registry</text>
+<polyline points="440,504 440,520" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="551" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">05</text>
+<rect x="118" y="520" width="642" height="82" rx="12" fill="#eef8f5" stroke="#087f7b" stroke-width="1.4"/>
+<text x="136" y="549" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#087f7b">Owner review checkpoint</text>
+<text x="136" y="574" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Exact target/actions/artifacts/payload/policy</text>
+<text x="790" y="551" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Changed content requires fresh review</text>
+<polyline points="440,602 440,618" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="649" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">06</text>
+<rect x="118" y="618" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="647" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Store reviewed bytes</text>
+<text x="136" y="672" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Immutable digest before dependent submit</text>
+<text x="790" y="649" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Local artifact + evidence binding</text>
+<polyline points="440,700 440,716" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="747" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">07</text>
+<rect x="118" y="716" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="745" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Simulate distinct effects</text>
+<text x="136" y="770" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Application AND separate outreach receipts</text>
+<text x="790" y="747" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">FakeProvider: simulation only</text>
+<polyline points="440,798 440,814" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="845" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">08</text>
+<rect x="118" y="814" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="843" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Record and verify reporting</text>
+<text x="136" y="868" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Event commit -&gt; projection revision/membership</text>
+<text x="790" y="845" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Storage success is not delivery proof</text>
+<polyline points="440,896 440,912" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="65" y="943" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="650" fill="#087f7b">09</text>
+<rect x="118" y="912" width="642" height="82" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="136" y="941" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Return state and evidence</text>
+<text x="136" y="966" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="400" fill="#607575">Gates, gaps, artifacts, trace, recovery ID</text>
+<text x="790" y="943" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Inspect/draft completion != full unit</text>
+</svg>

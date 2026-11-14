@@ -1,3 +1,10 @@
+# LEARN: ANATOMY-01
+# ROLE: Provide reproducible commands over the same application services.
+# FLOW: Arguments -> validated application/service call -> JSON.
+# WHY: Thin adapters let a failing HTTP journey be reproduced without the browser.
+# L1: Trace one input and its failure path, then run tests/test_infrastructure.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 from __future__ import annotations
 import argparse
 import importlib.metadata
@@ -17,6 +24,15 @@ def main(argv=None):
     p=argparse.ArgumentParser(description="L1 learning lab: all external effects simulated")
     commands=p.add_subparsers(dest="command",required=True)
     commands.add_parser("doctor")
+    context=commands.add_parser("context-export")
+    context.add_argument("--lesson",default="CONTRACTS-01")
+    context.add_argument("--output",type=Path,default=Path(".lab/context.json"))
+    commands.add_parser("validate-lessons")
+    seed=commands.add_parser("seed")
+    seed.add_argument("--root",type=Path,default=Path(".lab"))
+    for name in ("knowledge","dashboard"):
+        read=commands.add_parser(name)
+        read.add_argument("--root",type=Path,default=Path(".lab"))
     for name in ("demo","evaluate"):
         cmd=commands.add_parser(name)
         cmd.add_argument("--mode",choices=["offline","semantic","live"],default="offline")
@@ -33,13 +49,30 @@ def main(argv=None):
     resume=commands.add_parser("resume")
     resume.add_argument("run_id");resume.add_argument("--approve",action="store_true")
     resume.add_argument("--root",type=Path,default=Path(".lab"))
+    resume.add_argument("--plan-hash")
+    resume.add_argument("--decision",choices=["approve","reject","revise"])
     trace=commands.add_parser("trace");trace.add_argument("run_id");trace.add_argument("--root",type=Path,default=Path(".lab"))
     imp=commands.add_parser("import-snapshot");imp.add_argument("file",type=Path)
+    imp.add_argument("--root",type=Path,default=Path(".lab"))
     export=commands.add_parser("export-progress");export.add_argument("--output",type=Path,default=Path(".lab/checkpoint.json"))
     export.add_argument("--attempts",type=Path)
     args=p.parse_args(argv)
     try:
-        if args.command=="doctor":
+        if args.command=="context-export":
+            from .context_export import export_context
+            bundle=export_context(args.lesson,args.output)
+            emit({"path":str(args.output),"lesson":args.lesson,"files":len(bundle["files"]),"commit":bundle["commit"],"worktree_dirty":bundle["worktree_dirty"]})
+        elif args.command=="validate-lessons":
+            from .context_export import validate_lessons
+            emit({"valid":True,"lessons":len(validate_lessons()["lessons"])})
+        elif args.command in ("seed","knowledge","dashboard"):
+            from .atlas_lab import AtlasLab
+            from .knowledge import load_snapshot
+            lab=AtlasLab(args.root)
+            if args.command=="seed": emit(lab.seed_snapshot(load_snapshot(FIXTURE)))
+            elif args.command=="knowledge": emit({"records":lab.list_records(),"snapshot":lab.snapshot()})
+            else: emit(lab.dashboard())
+        elif args.command=="doctor":
             packages={}
             for name in ["pydantic","pytest","langgraph","fastembed","qdrant-client","fastapi","openai"]:
                 try: packages[name]=importlib.metadata.version(name)
@@ -47,7 +80,7 @@ def main(argv=None):
             emit({"python":sys.version.split()[0],"packages":packages,
                   "default_data":"synthetic","external_effects":"simulation only",
                   "live_credentials_configured":bool(os.getenv("OPENAI_API_KEY") and os.getenv("OPENAI_MODEL")),
-                  "student_tasks":"12 on main; inspect ASSIGNMENT.md","competence":"unmeasured"})
+                  "student_tasks":"Complete MVP; optional experiments in docs/learning","competence":"unmeasured"})
         elif args.command in ("demo","evaluate"):
             mode="semantic" if args.mode=="live" else args.mode
             rag=RAGService(args.snapshot,mode=mode,generation="live" if args.mode=="live" else "offline")
@@ -62,13 +95,16 @@ def main(argv=None):
             finally: rag.close()
         elif args.command=="run":
             from .contracts import parse_job
+            from .application import ApplicationService
             job=parse_job(args.job.read_text(encoding="utf-8"))
-            rag=RAGService(args.snapshot,args.mode,args.generation)
-            try: emit(workflow(args.root,args.goal,job,args.planner,rag).start(args.goal))
-            finally: rag.close()
+            service=ApplicationService(args.root,seed=args.snapshot)
+            try: emit(service.prepare(args.goal,job,retrieval=args.mode,planner=args.planner,generation=args.generation))
+            finally: service.close()
         elif args.command=="resume":
-            from .workflow import Workflow
-            emit(Workflow(args.root).resume(args.run_id,approved=args.approve))
+            from .application import ApplicationService
+            service=ApplicationService(args.root)
+            try: emit(service.resume(args.run_id,approve=args.approve,plan_hash=args.plan_hash,decision=args.decision))
+            finally: service.close()
         elif args.command=="trace":
             from .journal import Journal
             emit(Journal(args.root/"runs").load(args.run_id)["trace"])
@@ -78,6 +114,8 @@ def main(argv=None):
             if snapshot["kind"]!="atlas_snapshot": raise ValueError("import requires kind atlas_snapshot")
             destination=Path("private/atlas_snapshot.json");destination.parent.mkdir(exist_ok=True)
             shutil.copyfile(args.file,destination)
+            from .atlas_lab import AtlasLab
+            AtlasLab(args.root/"atlas").import_snapshot(snapshot)
             emit({"path":str(destination),"selected_records":len(selected),"revision":snapshot["revision"],"continuous_sync":False})
         elif args.command=="export-progress":
             from .progress import export_checkpoint

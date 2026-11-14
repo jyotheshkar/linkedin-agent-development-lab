@@ -1,8 +1,17 @@
+# LEARN: WORKFLOW-01
+# ROLE: Execute a bounded LangGraph loop with persisted intents and human review.
+# FLOW: Validated plan -> journal -> independent provider -> completion.
+# WHY: Unknown outcomes require reconciliation; retry only declared pre-effect transients.
+# L1: Trace one input and its failure path, then run tests/test_workflow.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """A thin LangGraph plan/execute loop with explicit persisted Python state."""
 from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime, timezone
+from time import perf_counter
 from copy import deepcopy
 from pathlib import Path
 from typing import TypedDict
@@ -116,7 +125,8 @@ class Workflow:
     def _trace(run: dict, tool: str, status: str, step_id: str | None, attempt: int, source_ids=None) -> None:
         run["trace"].append({"run_id": run["run_id"], "step_id": step_id,
                              "tool": tool, "status": status, "attempt": attempt,
-                             "source_ids": list(source_ids or [])})
+                             "source_ids": list(source_ids or []),
+                             "timestamp": datetime.now(timezone.utc).isoformat()})
 
     @staticmethod
     def _validate_output(result: dict, spec: ToolSpec, key: str, args: dict) -> None:
@@ -177,6 +187,7 @@ class Workflow:
             self._trace(run, name, "ATTEMPT", step_id, attempt)
             self.journal.save(run)  # durable intent before provider action
             try:
+                started = perf_counter()
                 result = spec.fn(deepcopy(args), key)
                 self._validate_output(result, spec, key, args)
             except UnknownOutcome:
@@ -202,4 +213,6 @@ class Workflow:
                 self.journal.save(run)
                 return {"run": run}
             self._accept(run, name, spec, result, attempt)
+            run["trace"][-1]["duration_seconds"] = perf_counter() - started
+            self.journal.save(run)
             return {"run": run}

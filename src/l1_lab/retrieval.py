@@ -1,3 +1,10 @@
+# LEARN: RETRIEVAL-01
+# ROLE: Embed chunks and queries with the same adapter, then rank filtered hits.
+# FLOW: Chunks -> Qdrant local -> candidate hits -> grounding.
+# WHY: Hash vectors are deterministic test doubles; FastEmbed is the learned semantic alternative.
+# L1: Trace one input and its failure path, then run tests/test_retrieval.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Two explicitly labelled embedding modes, one Qdrant local vector store.
 
 offline = deterministic hashed word-count test double, NOT semantic evidence.
@@ -73,7 +80,32 @@ def rank_hits(hits: list[dict], top_k: int = 3, min_score: float = 0.2, filters:
     order by descending score, ascending chunk_id, return at most top_k copies.
     This relevance rule is calibrated only on the small labelled fixture set.
     """
-    raise NotImplementedError("M4: implement rank_hits")
+    _positive_int(top_k, "top_k")
+    if top_k > 100:
+        raise ValueError("top_k must be <= 100")
+    if isinstance(min_score, bool) or not isinstance(min_score, (int, float)) or not math.isfinite(min_score) or not -1 <= min_score <= 1:
+        raise ValueError("min_score must be a finite cosine threshold in [-1,1]")
+    if filters is not None and (not isinstance(filters, dict) or not all(isinstance(key, str) for key in filters)):
+        raise ValueError("filters must be a string-keyed object")
+    if not isinstance(hits, list):
+        raise ValueError("hits must be a list")
+    selected = []
+    seen = set()
+    for hit in hits:
+        if not isinstance(hit, dict) or not all(isinstance(hit.get(key), str) and hit[key] for key in ("chunk_id", "record_id", "text")):
+            raise ValueError("hit identity and text are required")
+        score = hit.get("score")
+        if isinstance(score, bool) or not isinstance(score, (int, float)) or not math.isfinite(score) or not -1.000001 <= score <= 1.000001:
+            raise ValueError("hit score must be finite cosine similarity")
+        if hit["chunk_id"] in seen:
+            raise ValueError("duplicate chunk_id")
+        seen.add(hit["chunk_id"])
+        metadata = hit.get("metadata", {})
+        if not isinstance(metadata, dict):
+            raise ValueError("hit metadata must be an object")
+        if score >= min_score and all(hit.get(key, metadata.get(key)) == value for key, value in (filters or {}).items()):
+            selected.append(deepcopy(hit))
+    return sorted(selected, key=lambda hit: (-hit["score"], hit["chunk_id"]))[:top_k]
 
 
 class VectorIndex:
@@ -138,3 +170,4 @@ class VectorIndex:
 
     def __exit__(self, *_exc: object) -> None:
         self.close()
+

@@ -1,3 +1,10 @@
+# LEARN: CONTRACTS-01
+# ROLE: Validate external JSON into a strict Job before routing.
+# FLOW: API/CLI input -> Job -> application service.
+# WHY: Strict types reject ambiguous coercion; an alternative is explicit versioned coercion at the edge.
+# L1: Trace one input and its failure path, then run tests/test_contracts.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """M1 edit boundaries: parse_job and normalize_identity only."""
 from __future__ import annotations
 
@@ -35,7 +42,12 @@ def parse_job(raw: str) -> Job:
     Reject non-finite JSON numbers and Boolean-as-integer budgets. Do not coerce
     arbitrary string input into lists or numbers. Unknown fields are errors.
     """
-    raise NotImplementedError("M1: implement parse_job")
+    def invalid_constant(value: str):
+        raise ValueError("non-finite JSON number: " + value)
+    data = json.loads(raw, parse_constant=invalid_constant)
+    if not isinstance(data, dict):
+        raise ValueError("job must be a JSON object")
+    return Job.model_validate(data)
 
 
 def normalize_identity(company: str, requisition_id: str,
@@ -45,4 +57,16 @@ def normalize_identity(company: str, requisition_id: str,
     Join with '::'; reject blanks, delimiter ambiguity and duplicate identities.
     `seen` is read-only: successful validation must not modify it.
     """
-    raise NotImplementedError("M1: implement normalize_identity")
+    parts = []
+    for value in (company, requisition_id):
+        if not isinstance(value, str):
+            raise ValueError("identity parts must be strings")
+        part = " ".join(unicodedata.normalize("NFKC", value).split()).casefold()
+        if not part or "::" in part:
+            raise ValueError("empty or ambiguous identity")
+        parts.append(part)
+    identity = "::".join(parts)
+    if seen is not None and identity in seen:
+        raise ValueError("duplicate identity: " + identity)
+    return identity
+

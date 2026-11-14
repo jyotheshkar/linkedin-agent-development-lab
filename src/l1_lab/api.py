@@ -1,10 +1,17 @@
+# LEARN: DELIVERY-01
+# ROLE: Expose validated REST requests and the console on one FastAPI app.
+# FLOW: HTTP -> typed request -> shared application services -> response.
+# WHY: Route handlers should validate and delegate, rather than duplicate workflow decisions.
+# L1: Trace one input and its failure path, then run tests/test_web_api.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Local REST exercise; optional bearer token, no outbound provider writes."""
 from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel, ConfigDict, Field
 from .contracts import Job
 from .service import RAGService
 
-app=FastAPI(title="L1 simulated fit API",version="0.2.0",docs_url=None,redoc_url=None)
+app=FastAPI(title="LinkedIn Agent Development Lab",version="0.3.0",docs_url=None,redoc_url=None)
 
 class FitRequest(BaseModel):
     model_config=ConfigDict(extra="forbid")
@@ -31,3 +38,5 @@ def fit(request:FitRequest,authorization:str|None=Header(default=None)):
 
 from .web_api import install_console
 install_console(app)
+from .learning_api import install_learning
+install_learning(app)

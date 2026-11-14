@@ -1,3 +1,10 @@
+# LEARN: WORKFLOW-01
+# ROLE: Atomically persist local workflow state separately from provider commits.
+# FLOW: Workflow state -> replace-on-save JSON -> future resume.
+# WHY: Single-file replacement avoids partial JSON; cross-process execution still needs the service lock.
+# L1: Trace one input and its failure path, then run tests/test_workflow.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Atomic local run journal. Provider receipts live in a separate database."""
 from __future__ import annotations
 

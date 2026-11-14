@@ -27,8 +27,12 @@ with tempfile.TemporaryDirectory() as scratch:
     if not student:
         run = response.json()["run"]
         assert run["status"] == "awaiting_review"
+        assert len(response.json()["artifacts"]) == 2
         done = client.post(f"/api/runs/{run['run_id']}/resume", json={"approve": True, "plan_hash": run["plan_hash"]})
         assert done.status_code == 200, done.text
         assert done.json()["run"]["completion"]["full_unit"] is True
+        assert done.json()["reporting"]["projection"]["up_to_date"] is True
+        assert client.get("/api/knowledge").status_code == 200
+        assert client.get("/api/learning/CONTRACTS-01").status_code == 200
     print({"wheel_resources": "verified", "student": student, "heavy_runtime_dependencies": False,
            "api_flow": "unfinished task honestly blocked" if student else "review and five simulated receipts"})

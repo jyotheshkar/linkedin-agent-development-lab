@@ -1,3 +1,10 @@
+# LEARN: WORKFLOW-01
+# ROLE: Model an independent receipt service without contacting employers.
+# FLOW: Exact approved payload -> unique simulated receipt -> reconciliation.
+# WHY: Uniqueness plus payload binding matters; a hash by itself provides no exactly-once guarantee.
+# L1: Trace one input and its failure path, then run tests/test_workflow.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Persistent fake provider: no network, email, employer or Atlas adapters."""
 from __future__ import annotations
 
