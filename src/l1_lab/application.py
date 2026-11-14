@@ -142,6 +142,8 @@ class ApplicationService:
         identity = normalize_identity(validated_job.company, validated_job.requisition_id)
         job_data = validated_job.model_dump()
         allowed = OfflinePlanner(target_identity=identity).plan(goal)
+        if planner == "offline" and len(allowed) > validated_job.max_calls:
+            raise GuardrailError("requested workflow exceeds the supplied tool-call budget")
         with self._locked(), self.telemetry.span("application.start", adapter="application-service"):
             if any(call["tool"] in EFFECTS for call in allowed):
                 self._reserved(identity)
@@ -285,6 +287,9 @@ class ApplicationService:
             original = engine.registry[name]
             def execute(args, key, gate=gate, name=name):
                 run = self.journal.load(run_id)
+                if not any(item["plan_hash"] == run["plan_hash"] and item["decision"] == "approve"
+                           for item in self.lab.approvals(run_id)):
+                    raise GuardrailError("simulated action requires its persisted exact-material approval")
                 prior_reporting = self._synchronize(run)
                 if run.get("receipts") and prior_reporting["status"] != "verified":
                     raise ReportingPending("repair prior event/projection before any new simulated action")
@@ -469,4 +474,3 @@ class ApplicationService:
 
     def close(self):
         self.telemetry.close()
-

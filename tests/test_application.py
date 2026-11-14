@@ -88,6 +88,20 @@ def test_prepare_creates_real_job_specific_bytes_and_review_bound_actions(applic
     assert result["run"]["outputs"][0]["prepared"]["artifacts"]
 
 
+def test_invalid_input_and_insufficient_budget_create_no_run_or_material(application):
+    supplied = job()
+    before = deepcopy(supplied)
+    for invalid in ({**supplied, "max_calls": True}, {**supplied, "skills": [""]}, {**supplied, "unexpected": "field"}):
+        with pytest.raises(ValueError):
+            application.prepare("prepare application", invalid)
+    with pytest.raises(ValueError, match="budget"):
+        application.prepare("prepare application", job(max_calls=2))
+    assert supplied == before
+    assert list((application.root / "runs").glob("*.json")) == []
+    assert list((application.root / "pending_materials").iterdir()) == []
+    assert application.provider.effect_count() == 0
+
+
 def test_approved_bytes_are_stored_before_actions_and_receipts_match_exact_payload(application, monkeypatch):
     prepared = prepare(application)
     original = application.provider.execute
@@ -137,6 +151,25 @@ def test_unapproved_and_wrong_plan_hash_cannot_execute(application):
     with pytest.raises(ReviewConflict):
         application.resume(prepared["run"]["run_id"], approve=True)
     assert application.provider.effect_count() == 0
+
+
+def test_explicit_approve_decision_with_exact_hash_authorizes_the_review(application):
+    prepared = prepare(application)
+    result = application.resume(prepared["run"]["run_id"],
+                                plan_hash=prepared["run"]["plan_hash"], decision="approve")
+    assert result["approval"]["decision"] == "approve"
+    assert result["gates"]["complete"] is True
+    assert application.provider.effect_count() == 5
+
+
+@pytest.mark.parametrize("decision", ["reject", "revise"])
+def test_conflicting_boolean_approval_and_reject_decision_are_rejected(application, decision):
+    prepared = prepare(application)
+    with pytest.raises(ValueError):
+        application.resume(prepared["run"]["run_id"], approve=True,
+                           plan_hash=prepared["run"]["plan_hash"], decision=decision)
+    assert application.provider.effect_count() == 0
+    assert application.lab.approvals(prepared["run"]["run_id"]) == []
 
 
 def test_changed_pending_artifact_blocks_before_recording_approval(application):
