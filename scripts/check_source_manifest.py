@@ -6,8 +6,8 @@ from pathlib import Path
 
 def digest(path: Path, encoding: str) -> str:
     content = path.read_bytes()
-    if encoding == "utf8-lf":
-        content = content.decode("utf-8").replace("\r\n", "\n").encode("utf-8")
+    if encoding == "utf8-lf-final-newline":
+        content = (content.decode("utf-8").replace("\r\n", "\n").rstrip("\n") + "\n").encode("utf-8")
     return hashlib.sha256(content).hexdigest()
 
 

@@ -1,206 +1,206 @@
 {
   "schema_version": 1,
-  "scope": "Saved source/test/config/docs bytes normalized to LF for UTF8; verification reports excluded to avoid circular hashes",
+  "scope": "Saved source/test/config/docs content; UTF8 normalizes CRLF and terminal blank lines to one final LF; verification reports excluded to avoid circular hashes. Binary files use exact bytes.",
   "code_head": "01100cc77447bd23d600ecd416f7600eaef69c6f",
   "files": [
     {
       "path": ".devcontainer/devcontainer.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "794451f1b8a6b0502c2f1c0af2ed9158dadf2e0bc6eaae3eab49ab7e68a1a2bc"
     },
     {
       "path": ".devcontainer/setup.sh",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "5c769124e40a738813d86b84b4e83c88809edc08c4b856c6c1703f4f874fd3a6"
     },
     {
       "path": ".dockerignore",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "8fc34740be05555442d01f35b43515bcd5e2bbc051482c01cf380f7bef9b0317"
     },
     {
       "path": ".env.example",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "6ccf5b6a992b716aa7c5bb33d3d48cf5900e74473cbccda2ad93cacebf34cf8a"
     },
     {
       "path": ".github/workflows/offline.yml",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "99c1c07f143615804283dea75d2eb5d5bcbf0dd1abae1cfa6a21eeb6e5bf5332"
     },
     {
       "path": ".gitignore",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "4559ed151a9206ac9697f35eaa4060bf42ba3d052458349282e4c8c623e7730f"
     },
     {
       "path": ".python-version",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
     },
     {
       "path": ".vercelignore",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "a242759669f8c944cb2f857b4490bd2d912022a4f5d86e6a3c24165c860b92db"
     },
     {
       "path": "AGENTS.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "77a0952ff4be22cb810603958da2f4ee7594a3e9894f000edae67e53d3350819"
     },
     {
       "path": "ASSIGNMENT.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "b5749264eab4ff3166ec41a33f613b611b4fa8a2df425aaa245206aafcb8beb9"
     },
     {
       "path": "BUILD_REPORT.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "efc4f663e97f0815f37a9a5ac23cef3d0af145b0f2102eac3ca3c4172747aa32"
     },
     {
       "path": "CHAT_BOOTSTRAP.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "3ab02307f8b4e1f08f0811e8a5c27d7c68c03c85f3317535eb602a17d1b0f6b3"
     },
     {
       "path": "COACH_HANDOVER.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "30e503d523e7629e8d4bec35fd4eeff83b7c5a29d06420f55d138413b3ee93f2"
     },
     {
       "path": "CONTRIBUTIONS.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "ad791e7f90f3e197479685b130a6b5453a5b6393b0e5afefae8990ad1a2607c8"
     },
     {
       "path": "Dockerfile",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "824bae1aaaa0bbb6d6f1a14b9ea7a1256cf5252b21fadb7f295613889dae3729"
     },
     {
       "path": "LEARNING_PATH.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "b1ea398c5496bb0b32ba386603e80fb0b1a54cbba7a6b025fcdc47db34426e56"
     },
     {
       "path": "README.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "3ba31c1fda1f0f91ab6225ce658dab88af8c0a799a3feee90e794326b5d97fb2"
     },
     {
       "path": "START_HERE.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "06eab7323e0735eb4dcdf817ad0c0829534546712ca7acaa6f76cca0de218ea3"
     },
     {
       "path": "app.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "50cd7b5eee2a0d74d710d0abef3b884dcc257677256b2213ba933e80ac00f127"
     },
     {
       "path": "data/eval_cases.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2cd368a56960d3c4dc8b986ae55f41882701f2c40a0fd24cb774a2b822ca5a10"
     },
     {
       "path": "data/eval_holdout.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "21dd7cda18ce2c44477502f52811b46e0645bd62660e4c8c2404e702e63e65b3"
     },
     {
       "path": "data/interview_questions.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "21cb370679f0f0a2aeceffe2d4c230581ee08fb29873bec998ee1c1e2d40a7f0"
     },
     {
       "path": "data/job.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "ec2ef095c9ce52719289507c0a8ad1516d6b4f3867c0b65e12c5a4fcb747b768"
     },
     {
       "path": "data/progress.schema.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "296ae4d8ba3ee14d1ed8fcdce14bf67d58ba30bf50c9be2870f1791f5bb1f925"
     },
     {
       "path": "data/project_identity.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "599aa5539a98337bce76d9ae5bc037f59b30ec4a3c7c511df5ecab6a84d9fdf7"
     },
     {
       "path": "data/student_tasks.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "26924a03bb85dd3951b97c9b21c386a8fd04609b5675b3bc0ee00e1c4b72ea1a"
     },
     {
       "path": "data/synthetic_snapshot.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "8690a0c5e02c4e7481e41e151438dd7b120b48579379e07602fa81a69b4b97b9"
     },
     {
       "path": "docs/AGENT.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9791e688bbf74353ff7cb9541221e714d7924a6cedb3eb97a1a3770740ca4422"
     },
     {
       "path": "docs/ATLAS_SNAPSHOT.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "b8de8eb1bea3adb4c1028411db0e21dc7c841168bc4b049086fc73d0288361ca"
     },
     {
       "path": "docs/DECISIONS.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "0dcd9908727e4a80183b9ddebcf077883d4fb5246ceb36a7424bc5e92255ecf4"
     },
     {
       "path": "docs/DELIVERY.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "671341d1e7f68fbf589648b9c348bb52e02e89bba7cb773dbab7d7e909d78865"
     },
     {
       "path": "docs/DEPLOYMENT_VERIFICATION.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "890cd9c7b6967d077e3079349958fa6fa988efa7ae5a20f1627bf75161f1cc66"
     },
     {
       "path": "docs/EVALUATION.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "08dcb9750a7255e69e51a50228441e1b74d935f7e28ee2c9f5974ca3c9589cd7"
     },
     {
       "path": "docs/JD_COVERAGE.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "91f1555bc46ec9bc5718ded4cda99eac71acc3713ded6d63e93638be1d2631ab"
     },
     {
       "path": "docs/MCP.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "4af109128304f68b2458d01fb18b5e471e76ac6fe0db4fc288ea73b3170ee889"
     },
     {
       "path": "docs/PRIVACY.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "fbe5d8fc80883734f903cc9d37d718eb50be6398d27556d8fc11c5a1a68cc6ea"
     },
     {
       "path": "docs/RAG.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "67cf350444fedf48a651ce765afe09811d6b38750934bc2007e0cbeadc4c455b"
     },
     {
       "path": "docs/VERCEL_DELIVERY.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "bf11ac07c6df34fe6120f7d1dbfea69445ea450574d65e5dac9896a6ba2dc888"
     },
     {
       "path": "docs/architecture/README.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "29910a70b059be711575b32188d43730487a8fb5f325e69baee7c6955ad25da7"
     },
     {
       "path": "docs/architecture/diagrams.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "5288d9d09b85414a6d4a5c8e872d3a5c49054eae44cf8186cfde0d025caba673"
     },
     {
@@ -210,7 +210,7 @@
     },
     {
       "path": "docs/architecture/learning-map.svg",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2cff1a653545a42ad593bfe3581828cf1316285c652da03c61b288bdd10d5748"
     },
     {
@@ -220,7 +220,7 @@
     },
     {
       "path": "docs/architecture/rag-index-query.svg",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9286ea9c62dc61fafd9f818810b0430ab02d9e908c6b00fef267b595277323f2"
     },
     {
@@ -230,7 +230,7 @@
     },
     {
       "path": "docs/architecture/request-sequence.svg",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "368ada82b6a6db260a871f8c249e6e768ddde95b26eb150161b1e32f43027fb9"
     },
     {
@@ -240,7 +240,7 @@
     },
     {
       "path": "docs/architecture/state-recovery.svg",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "57f5c1ef8934bc35f2e82a6837e019131c596dd639d9cf4ed268c774dfce7091"
     },
     {
@@ -250,467 +250,467 @@
     },
     {
       "path": "docs/architecture/system-anatomy.svg",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "8aebe56065c4ec316cd536e8426745a0315bb37ed06e25f7f044dde003879dd7"
     },
     {
       "path": "docs/learning/01-anatomy.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "6abd6127a64df72d324cd9fc79f4c7463599e0c006f983038ffd55611b1b77e5"
     },
     {
       "path": "docs/learning/02-contracts.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "723cd7f932e28b43a3c11672a54a35efc5fe2817adb8471ed1945ec85ac7b102"
     },
     {
       "path": "docs/learning/03-agent-control.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2b49ce76a39fad326c3a87768231857feee388f86e816ffb1acccfe1b8563f23"
     },
     {
       "path": "docs/learning/04-workflow-recovery.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "ab964d1d8dcdc15c19a52858a8fc532e4f7fd8ec12fa8d84433d8fac8346c3de"
     },
     {
       "path": "docs/learning/05-atlas-lab.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "bf5cf3293b612a54c2a43aab1b92c4edb4b23b554f838e91583ae675443fb6af"
     },
     {
       "path": "docs/learning/06-ingestion.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "d1dd7f9b1cb624d4bf277492c5ff5b17472e4906a31c4696f234b512874322f2"
     },
     {
       "path": "docs/learning/07-retrieval.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "0ead5bcf202332587673c1ad77a3e3ecd1c2230924ec2db302d25143c723fe46"
     },
     {
       "path": "docs/learning/08-grounding.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "d52a7f4cf9d4420e5c9bb94a74b70e0cf3af1ca4921703dfd1ee34aeab1452a3"
     },
     {
       "path": "docs/learning/09-evaluation.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "73ad0b716d98a4d6ee0259dc1b66767af00d2fad1bfe18222eea3886578f8c66"
     },
     {
       "path": "docs/learning/10-delivery.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "7a787407929015398d2767d76083e13f6375ab079967f706cf200017ddbbfd60"
     },
     {
       "path": "docs/learning/HANDOFF_CHECK.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "32466b35833be140117550a12f91ea6da870a0e79f2c2e60a3d10463b67f4d74"
     },
     {
       "path": "docs/learning/README.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "79c20e1ed81702d66ee65e9b2689c569abb4842bd18848ef1bc1a17223056799"
     },
     {
       "path": "docs/learning/lesson-index.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2c32c577f896947d01a7da253f664166ae3643badbd2dde04d140c79a6d3f4a4"
     },
     {
       "path": "docs/learning/lesson-index.schema.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "19a3d9931a0d7e113f7dcd03ec101f2c4f5a5d7328e4cec8e33e5df3e2b8be03"
     },
     {
       "path": "docs/provenance.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "89a47ac43ef2150a08f4f1997289f17e54401386134286a5a5c4c85a520557f3"
     },
     {
       "path": "docs/skills-library/README.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "837f4d3d301aed2ac249ab998a55281d9e8b0bd113b7b67c55ce79fcbe51fd81"
     },
     {
       "path": "docs/skills-library/anthropics--anthropic-sdk-python.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "49f8aea14db787ccbc5ef5f75013761ac7c12c1b98a4c92a7bc50791ad85bfb3"
     },
     {
       "path": "docs/skills-library/manifest.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "bf07136b3a3a218c23f3117d0c3b32c69013004da8e64602c7260aa6bbbd324c"
     },
     {
       "path": "docs/skills-library/openai--evals.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "70b63a41dc1fbef7294d85ffa1ae6ad1d68c94916b8fa273f88c44006628637a"
     },
     {
       "path": "docs/skills-library/openai--openai-agents-python.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "b72d0612ad4b25c975c11d27cedd3289fa0b5be6a518a642d1c38fc8198a491d"
     },
     {
       "path": "docs/skills-library/openai--openai-cookbook.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "cd953fbeefbcb1604a6e145a1d7e1126155ee35d8dca4fbf1220619793aef591"
     },
     {
       "path": "docs/skills-library/openai--openai-python.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "93d28fbc9ab14f08888dcafe8ab77c03a1729eeb2d2d72f71aa382ef97e93112"
     },
     {
       "path": "docs/skills-library/openai--tiktoken.md",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "0afa2295cd693592ea624deb076668cc6892aabe5df8e983568b48b17a9bf93f"
     },
     {
       "path": "migrations/001_deployment.sql",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "a7eeef8a0fa7f1cf89a6987d56fa5b6bbd4765566e1ac43897be3ebf27b9332c"
     },
     {
       "path": "pyproject.toml",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "8a15fab290c1fd0c94df41dc9fa67e16c11b25aaacd217c379d2264c71ea3cc0"
     },
     {
       "path": "scripts/build_vector_cache.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "74c3bc9551ee3a6ceb9fe2aaf4209910411010f157b95aad362f9907f5d916f9"
     },
     {
       "path": "scripts/check_installed.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "b5f6b75bc96fb75831ce71e1f875668ed85d4cb8843e40c335ea805663bc4c3c"
     },
     {
       "path": "scripts/check_release.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "d45a39bd65f2a88b722da995937514ffde8515b5e821c8c4d1dd447a80847d63"
     },
     {
       "path": "scripts/check_source_manifest.py",
-      "encoding": "utf8-lf",
-      "sha256": "3331d5a6bce172e1accb2ee91151296dc18fda58055f96f8c334320d4ffb1c43"
+      "encoding": "utf8-lf-final-newline",
+      "sha256": "035477723be7c46a6aca00e179a495263333a04b9b4b8fdb42e73575cf162709"
     },
     {
       "path": "scripts/evaluate_holdout.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "4d4e651a0fe00e011e9b690ba041f8d3162e33f58fb050bd1e566f7f2d160e84"
     },
     {
       "path": "scripts/migrate_deployment.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "7dd4e99d3cb48bf3b7924c587776422f150ccbbcbad12af4c4e0817494649535"
     },
     {
       "path": "scripts/probe.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "670fdcd8028bb71f27cfb56fc241346964cc9d894cd1002df249a51ae2a1f09d"
     },
     {
       "path": "scripts/verify_cli_journey.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "fcdf6cd98b5adba55eac025989c8d640dc328af63d56b50de6faeb1c382d68d0"
     },
     {
       "path": "src/l1_lab/__init__.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "3f70ccbe6b9aca4666082782f45b1f7b1ec2cd4a66601044f719311bbd539d3f"
     },
     {
       "path": "src/l1_lab/agent.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "8e072f6effe8e5cd8e21b6221075cd3eeacce395fbc6f740cf582cc6cceaf448"
     },
     {
       "path": "src/l1_lab/api.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "5af502f6456e5a9b637fae0bc159be3cbe484e702a7cda6c93f418bd34671378"
     },
     {
       "path": "src/l1_lab/application.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "c24be6ff21c89665e5aa40bd1fbd0fdbe6850c0d7b2ca8b97556a53238d5d18f"
     },
     {
       "path": "src/l1_lab/atlas_lab.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "35c04a5eaf160227edc9c99c4a8748476c77f8a41f0f12c4254220a385cd272c"
     },
     {
       "path": "src/l1_lab/cli.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "fc16c2ead535c5560160f8803d4faede063ebf567284528b1746955b9d80a845"
     },
     {
       "path": "src/l1_lab/context_budget.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "ceb6bf759c19e9f84116d11ea980f4b7a3a481b3f61101d50b88a28979a0faaf"
     },
     {
       "path": "src/l1_lab/context_export.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "ae13fab5754c86eaeb53dcbd8969c961a0a02aa6f58b6afabbb61651344b8b23"
     },
     {
       "path": "src/l1_lab/contracts.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "3a34fd76d31117231814dbf077c91e76e1e644a09a915e62774a26998bf15c71"
     },
     {
       "path": "src/l1_lab/deploy_retrieval.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "6ef668d015b5fb77a66f43bd220f631b22b4a8d28d2223dbfe6982b694cf1179"
     },
     {
       "path": "src/l1_lab/deployment.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "41ca9a4d5838bc971de2777d06d7efb6fcac195da03db1f339a77d00602a271f"
     },
     {
       "path": "src/l1_lab/evaluation.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "02a94747a13d95b9f58b061102d15699eb3aaa619e2b3e413a7896a7e7d2ecc4"
     },
     {
       "path": "src/l1_lab/grounding.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2c722604cd8d3ae83e6a990888ebd730d84ae8ccfc1da5cad90e17253fca4a3b"
     },
     {
       "path": "src/l1_lab/journal.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "e1d80462acdf01c869c425b7ca7a3ce85cf224afa2e1a02564b310c9bd18b9f6"
     },
     {
       "path": "src/l1_lab/knowledge.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "d89265fde3f85e6a807284b24ac19de635a78f0823ef19c665071dc3977ba7bd"
     },
     {
       "path": "src/l1_lab/learning_api.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "320f3c775a65d2d537b060feb808a2b96cc3afa8abe423d38eced384b71b8f82"
     },
     {
       "path": "src/l1_lab/materials.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "f93ea728d284b9150d3f2689956a24b71cecc8e6b22132b91ad5609cf82455bf"
     },
     {
       "path": "src/l1_lab/mcp_server.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "6a4b4833b56060431e8ea894aea29042360f583e57d917a431314f235d136642"
     },
     {
       "path": "src/l1_lab/observability.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "0d04d10a24a429617b2c0ff29e73636867a54dff018402b88d1b24d23e9b8545"
     },
     {
       "path": "src/l1_lab/openai_adapter.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "c2ed9f464a812d508034654247f63a3d414c132ad739ec086a054e2662be5591"
     },
     {
       "path": "src/l1_lab/planner.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "f63e1f8d9f245dc725fd4e562cf0b4e109010484e7d44e5635c9e913eae1e211"
     },
     {
       "path": "src/l1_lab/postgres_store.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "a6c8e4226e5dbd1c2f61382f3cbf559e7b9fa1e72e5372c9faef5fe59037c0ba"
     },
     {
       "path": "src/l1_lab/progress.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "82cfbd6e457442f1cd80331db845b096133afbb4d4e848b498e4d81065ea6419"
     },
     {
       "path": "src/l1_lab/provider.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "656c6ca432b8bbad7e6a987934573877dc7c18bd08b539ac33d084dab21525de"
     },
     {
       "path": "src/l1_lab/resources.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "5bd02d4c5c68fd00a49087603a0ac842137bb2f6a8200c7d4873686a9bee814e"
     },
     {
       "path": "src/l1_lab/retrieval.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "cf01a88b0e1774bc01f57cb81043d29415ca45b52a5bc068b34c0149b1f95cf0"
     },
     {
       "path": "src/l1_lab/service.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "f186ecede286faa988f1534eeb7f66d18f19a0629b9c767871478806074a167d"
     },
     {
       "path": "src/l1_lab/web/app.js",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "4015bf4042e3359ba6240a5c2270547f144c78e225dd2f5017e0bd10526ba84a"
     },
     {
       "path": "src/l1_lab/web/index.html",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "adef33354ed1bb039a5132b5bb9baa86856bb0d2958e556e71db89fa89155732"
     },
     {
       "path": "src/l1_lab/web/styles.css",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2052b82bc968832cd2e3e1f476ae7d767b30e1696c7a62a4a5bf511bc6f115af"
     },
     {
       "path": "src/l1_lab/web_api.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "62cb3bf30e83df2992a45ac8b820e72642781e0e57f3c8dba5edcc187c81eee7"
     },
     {
       "path": "src/l1_lab/workflow.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "a8f18495e5394d26384293a6ee4579a1fe76b9fb082d9b79148403c9c925013d"
     },
     {
       "path": "tests/test_agent.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9e23e3cc11b49912bf10ec7da4d04b2a3e4da0e99a9e611da5b373dd3e1930b9"
     },
     {
       "path": "tests/test_application.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "240e6fe89cb28146355944920f79ed3ede34a92f2f3614c6284603c5d9708f46"
     },
     {
       "path": "tests/test_atlas_lab.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9b494e030dd3a61d9513a4099519b50e9ec6d6abdeea4eb1594ab088ed274b06"
     },
     {
       "path": "tests/test_cli_journey.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "01748accb67e10fc20f48f1f98681bd10449db0094bfd4a1ff61c0b91c7bf92d"
     },
     {
       "path": "tests/test_context_budget.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "cd19d2b05e053dcbb9ec79137439d00db45aafa79b1bbcf61047b8bcde6a73d1"
     },
     {
       "path": "tests/test_context_export.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "7d7d544415881dd34e480b2d7262d8db9cc7aa1d59479b9819e2e9b040df566b"
     },
     {
       "path": "tests/test_contracts.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9abceb31f2afd810fbf4b1c7c36c9b4829594ee029c6c147932745d06da2076b"
     },
     {
       "path": "tests/test_deploy_retrieval.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "1b4ca6bf371a3db8789679b618ffbb4c81f456c712aab6d875ff17fb7a99b135"
     },
     {
       "path": "tests/test_evaluation.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "29e887dba01d5d02a49b9f5390e3e7924d88c488e01205f8b47cdbc386de25a0"
     },
     {
       "path": "tests/test_grounding.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "960af3864a6102f01ebc67cd5c5fe5b2f26849425cdc46efd2ddff5adeba9cbe"
     },
     {
       "path": "tests/test_infrastructure.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "cf58f0879b7c8d45e54781ceb5ddbdc6e8d1349fc4024e816cfaefb088eb3b0b"
     },
     {
       "path": "tests/test_knowledge.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "0b77ec55df895762b9c0375a6f02601db82edc89d039ca4e849c113526694aa4"
     },
     {
       "path": "tests/test_learning_api.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "0e63625bf28c2efb99c126f62709c656b6de1364260948d087acdc44e58bf878"
     },
     {
       "path": "tests/test_mcp_server.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "ff2577bc32c42a11cebef1d4c490c497be7009b50ed425091d2978cb53aeed8f"
     },
     {
       "path": "tests/test_observability.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "227aa6f9a24033a7386334f0aed8c3f2c82fa1f8b57515378aaca0cb7d281f5b"
     },
     {
       "path": "tests/test_openai_adapter.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "f3526bee6d59a195d567710d2248c923e81aacf3309db5890034cbf031080423"
     },
     {
       "path": "tests/test_planner.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "67e5d72e5175149789c4079070380acde80c3250feac9d02167edd346b21aa9a"
     },
     {
       "path": "tests/test_postgres_api.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9a0afe46d2b3a4a9ef133ec6f73fbc452e017009ff7eff61828d6e575d64f61c"
     },
     {
       "path": "tests/test_postgres_store.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2a20fdd452ad01a08c4c2a8f83d2a895cd5fe4ef964897a1ec5731f7a66b160f"
     },
     {
       "path": "tests/test_progress.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "92e894bd20980a7635c08dc6e756c2c8863d32debedc6b9649874df64d3c924d"
     },
     {
       "path": "tests/test_retrieval.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "e500046eb54d143cca9d11c503e7aea7fc0ce439868f71c352e3e209de50044b"
     },
     {
       "path": "tests/test_semantic.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "461544eeb3b5c04bbbd18d8b2a9de85c0bb930363a8cb708f14525b4ca083649"
     },
     {
       "path": "tests/test_service.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "fed2353a92eaee07548493d32c799b2c4a7714e37594c22cf17567508bcb9c3b"
     },
     {
       "path": "tests/test_web_api.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "9918fc511ca6d6d4a33039710895778dd189e82a6692b1b4dbe9c76078cc7304"
     },
     {
       "path": "tests/test_workflow.py",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "c83e6743d7ec6359bf88c111bacdc1d5679f88f06e2bb0e1d5dbe3d1bfd34df1"
     },
     {
       "path": "uv.lock",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "2a967354c161b7ab6331d1b632fc714c095981a28661d2fd6c03d96c6fbf6d60"
     },
     {
       "path": "vercel.json",
-      "encoding": "utf8-lf",
+      "encoding": "utf8-lf-final-newline",
       "sha256": "07268c853818937a1032bc8629a411ecfd1417a6184d19cce9d39c8a59d3232f"
     }
   ]
