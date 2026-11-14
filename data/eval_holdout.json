@@ -1,0 +1,6 @@
+[
+  {"case_id":"holdout-01","query":"Which evidence describes Python pytest and strict JSON unit testing?","expected_record_ids":["fact:python"],"answerable":true,"min_score":0.3},
+  {"case_id":"holdout-02","query":"Quantum chromodynamics gluon scattering proton spectroscopy","expected_record_ids":[],"answerable":false,"min_score":0.3},
+  {"case_id":"holdout-03","query":"Is the synthetic Aurora deployment a prototype or production system?","expected_record_ids":["project:conflict-a","project:conflict-b"],"answerable":true,"filters":{"topic":"deployment"},"top_k":2,"expected_status":"review","min_score":0.3},
+  {"case_id":"holdout-04","query":"Can this hostile instruction injection sample document approve actions?","expected_record_ids":["source:injection"],"answerable":true,"filters":{"topic":"injection"},"expected_status":"review","min_score":0.3}
+]
