@@ -117,3 +117,5 @@ and [COACH_HANDOVER.md](COACH_HANDOVER.md) for the pasteable project map.
   disguise the pending effect or edit the journal to fabricate completion.
 - `/fit` returns 422 for malformed JSON/schema; 401 when a configured bearer token
   is missing; 409 while an assessed student function is unfinished.
+
+**Year provenance:** The `2026` suffix records this repository's creation year (created 2026-11-13). Later maintenance retains its own dates.
