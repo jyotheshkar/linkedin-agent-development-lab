@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "source_code_commit": "b4ae43d83984cae33b3f4fc1f9cbefb2a8d8b2fd",
+  "command": "uv run python scripts/evaluate_holdout.py --mode semantic",
+  "environment": "Codespace Python3.12.11",
+  "case_count": 4,
+  "bank": "data/eval_holdout.json",
+  "bank_sha256": "21dd7cda18ce2c44477502f52811b46e0645bd62660e4c8c2404e702e63e65b3",
+  "embedding": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimensions": 384,
+    "normalization": "l2",
+    "store": "Qdrant local"
+  },
+  "threshold": 0.3,
+  "generation": "offline-extractive",
+  "label_source": "developer authored, not external independent benchmark",
+  "metrics": {
+    "retrieval_recall_at_k": {
+      "numerator": 4,
+      "denominator": 4
+    },
+    "citation_validity": {
+      "numerator": 4,
+      "denominator": 4
+    },
+    "answer_support": {
+      "numerator": 3,
+      "denominator": 4
+    },
+    "abstention_accuracy": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "answerable_coverage": {
+      "numerator": 1,
+      "denominator": 3
+    },
+    "expected_status_accuracy": {
+      "numerator": 2,
+      "denominator": 2
+    }
+  },
+  "cases": [
+    {
+      "case_id": "holdout-01",
+      "status": "supported",
+      "supported_claims": 1,
+      "claim_count": 1
+    },
+    {
+      "case_id": "holdout-02",
+      "status": "supported",
+      "supported_claims": 0,
+      "claim_count": 1
+    },
+    {
+      "case_id": "holdout-03",
+      "status": "review",
+      "supported_claims": 1,
+      "claim_count": 1
+    },
+    {
+      "case_id": "holdout-04",
+      "status": "review",
+      "supported_claims": 1,
+      "claim_count": 1
+    }
+  ],
+  "known_limitation": "Unrelated negative query returned a cited but irrelevant claim instead of abstaining. Threshold not retuned after observation.",
+  "coverage_interpretation": "Two expected-review scenarios count in the answerable denominator; this is not learner accuracy.",
+  "token_usage": null,
+  "cost": null,
+  "latency_ms": null,
+  "raw_local_report": ".lab/eval-holdout-semantic.json"
+}
