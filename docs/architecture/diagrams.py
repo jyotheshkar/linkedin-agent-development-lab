@@ -133,23 +133,24 @@ def system():
 
 
 def request():
-    d=Diagram('request-sequence','One request, visible boundaries','The shared application service coordinates this journey; arrows do not grant approval.',1110)
+    d=Diagram('request-sequence','One request, visible boundaries','The shared application service coordinates this journey; arrows do not grant approval.',1200)
     rows=[
       ('01','CLI / API entry','Job + goal','cli.py / web_api.py'),
       ('02','Validate and identify','Strict Job + canonical target','contracts.py'),
       ('03','Prepare from evidence','Eligible knowledge -> RAG -> claims/gaps','ApplicationService + RAGService'),
-      ('04','Write real local drafts','Application brief + outreach draft + hashes','Atlas Lab artifact registry'),
-      ('05','Owner review checkpoint','Exact target/actions/artifacts/payload/policy','Changed content requires fresh review'),
-      ('06','Store reviewed bytes','Immutable digest before dependent submit','Local artifact + evidence binding'),
-      ('07','Simulate distinct effects','Application AND separate outreach receipts','FakeProvider: simulation only'),
-      ('08','Record and verify reporting','Event commit -> projection revision/membership','Storage success is not delivery proof'),
-      ('09','Return state and evidence','Gates, gaps, artifacts, trace, recovery ID','Inspect/draft completion != full unit')]
+      ('04','Write real local drafts','Application brief + outreach draft + hashes','materials.PendingMaterials.write'),
+      ('05','Validate and bind proposals','Fixture/live planner; executor owns authority','ApplicationService._bound_calls'),
+      ('06','Owner review checkpoint','Exact target/actions/artifacts/payload/policy','Changed content requires fresh review'),
+      ('07','Store reviewed bytes','Immutable digest before dependent submit','Local artifact + evidence binding'),
+      ('08','Simulate distinct effects','Application AND separate outreach receipts','FakeProvider: simulation only'),
+      ('09','Record and verify reporting','Event commit -> projection revision/membership','Storage success is not delivery proof'),
+      ('10','Return state and evidence','Gates, gaps, artifacts, trace, recovery ID','Inspect/draft completion != full unit')]
     for i,(number,title,body,module) in enumerate(rows):
         y=128+i*98
         d.text(65,y+31,number,18,TEAL,True)
-        d.box(118,y,642,82,title,[body],accent=i==4)
+        d.box(118,y,642,82,title,[body],accent=i==5)
         d.text(790,y+31,module,13,MUTED)
-        if i<8:d.arrow([(440,y+82),(440,y+98)])
+        if i<9:d.arrow([(440,y+82),(440,y+98)])
     d.save()
 
 
