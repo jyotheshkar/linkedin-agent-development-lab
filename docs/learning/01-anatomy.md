@@ -12,6 +12,12 @@ Trace an inspect-only goal into retrieval and back to a result. Then compare an 
 
 ## Read the actual implementation
 
+- [src/l1_lab/application.py](../../src/l1_lab/application.py) :: `ApplicationService.prepare`
+
+- [src/l1_lab/application.py](../../src/l1_lab/application.py) :: `ApplicationService.resume`
+
+- [src/l1_lab/application.py](../../src/l1_lab/application.py) :: `ApplicationService.get`
+
 - [src/l1_lab/service.py](../../src/l1_lab/service.py) :: `RAGService.answer`
 
 - [src/l1_lab/workflow.py](../../src/l1_lab/workflow.py) :: `Workflow`

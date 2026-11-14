@@ -1,171 +1,145 @@
-# Deliver the completed simulation to Vercel
+# Future delivery: Python/FastAPI on Vercel
 
-This is the delivery exercise to perform **after the student simulation is
-complete**. It does not report an existing deployment or provisioned database.
-The current student branch intentionally contains unfinished functions. Keep
-production release disabled until those functions and release checks pass on
-the exact learner commit. A tested reference branch does not satisfy that gate
-for student work.
+**Status: DEPLOYMENT_PREPARED_NOT_EXECUTED.** The current product is the complete
+local LinkedIn Agent Development Lab, repository ID **1456774523**:
+https://github.com/jyotheshkar/linkedin-agent-development-lab.
+The core functions are implemented; learning uses investigation and isolated
+experiments. Completion of the code does not establish learner competence.
 
-The deployment continues to use isolated synthetic evidence and simulated
-receipts. Hosting the lab does not turn `sim_submit`, `sim_outreach` or an Atlas
-snapshot into a live application integration. The browser question bank was
-authored from AIE/JD context; AIE and Minister are not runtime services here.
+This build does not import/link a Vercel project, run deployment commands, attach
+automatic deployment to pushes, provision a database/domain, create credentials
+or publish a package. GitHub is the source of truth; Codespaces is the development
+environment and its private forwarded port is a development preview.
 
-## Runtime shape
+## What is portable, and what still needs work
 
-The repository-root `app.py` exposes the FastAPI application as `app`. Vercel's
-FastAPI integration resolves that entrypoint and deploys the application as one
-Python function. Configuration for this function belongs under `app.py` in
-`vercel.json`, rather than treating every FastAPI route as a separate function.
-The lab console is served at `/console` by the application.
+The root `app.py` exports FastAPI. `vercel.json` selects FastAPI and configures
+the resolved `app.py` function with a 60-second duration and development/private
+file exclusions. Python 3.12, `pyproject.toml` and `uv.lock` remain the delivery
+basis. There is no reason to rewrite the service in TypeScript to use a template.
 
-| Concern | Codespace/local practice | Cloud deployment |
+The local complete journey stores approved knowledge versions, artifact bytes,
+application events and projection state through `AtlasLab`. It keeps provider
+receipt commits independent of the workflow journal. These are durable within
+the chosen local workspace, but the workspace's lifetime is not a production
+storage guarantee.
+
+**Hosted full-MVP execution must fail closed.** Existing Postgres journal,
+simulated-receipt and request-budget adapters cover the earlier engine's narrow
+contracts. They do not provide parity for the new Atlas Lab knowledge,
+artifact, approval, event-ledger and projection contracts. Configuring
+`DATABASE_URL` or `LAB_RELEASE_READY=true` cannot complete that missing adapter.
+A deployment that mixes durable runs with ephemeral SQLite/artifact files would
+lose the content an approval and receipt refer to.
+
+| Concern | Current local MVP | Required before hosted full-MVP release |
 | --- | --- | --- |
-| Workflow journal | Local files in ignored working state | Postgres journal |
-| Fake-provider receipts | Local SQLite independent of journal | Separate durable Postgres receipt transactions |
-| Concurrent resume | One local learner process | Run-scoped advisory lock around complete start/resume |
-| Retrieval | Offline test vectors, or optional local FastEmbed/Qdrant lab | Lightweight immutable synthetic index with explicitly labelled offline hash vectors |
-| Secrets | Local environment or Codespaces secrets | Vercel environment secrets |
-| Private Atlas evidence | Explicit ignored local import | Excluded from this synthetic cloud release |
+| Knowledge/version state | SQLite Atlas Lab; immutable snapshot imports | Durable versioned store with atomic refresh, revocation and source restrictions |
+| Prepared/reviewed material | Persisted manifests and content-bound review state | Durable artifact registry and immutable byte storage, with matching versions/hashes |
+| Workflow state | Local journal; lock-coordinated execution | Durable journal and concurrency contract across instances |
+| Provider effects | Separate persistent fake-provider receipts | Separate durable receipt transactions with the same idempotency/payload rules |
+| Events/projection | Atlas Lab ledger and derived readback | Durable ledger plus independently checked projection revision/membership and repair |
+| Retrieval | Explicit offline or real local FastEmbed/Qdrant | A tested semantic option with fixed embedding identity; no silent hash fallback |
+| Credentials | Local environment/Codespaces secrets | Separate preview/production secrets and restricted storage access |
+| Data | Synthetic by default; explicit private local snapshot import | Synthetic hosted release by default; any new private-data transfer needs its own reviewed scope |
 
-Cloud process memory and local scratch files are not the durable source of
-workflow truth. A fresh function instance must recover the run and fake receipt
-from Postgres. The cloud hash-vector path remains deterministic offline
-retrieval; it is not proof of semantic embeddings. Keep genuine FastEmbed/Qdrant
-experiments in the local/Codespaces lab and report their execution separately.
+Implement a durable Atlas storage interface and its migrations before enabling
+the application routes on an ephemeral host. Verify the entire journey against
+that implementation, including a fresh process, two concurrent resumes and a
+failure after provider success but before ledger/projection success. Existing
+Postgres component test passes are evidence only for their stated scope.
 
-`PostgresJournal.run_lock` uses a session advisory lock. Its connection must be
-direct or session-pooled and remain associated with that session for the entire
-locked operation. A transaction-pooled DSN is unsuitable for this lock. Normal
-short journal/receipt transactions can use the managed provider's suitable
-database connection; configure a separate lock DSN where required. The workflow
-must hold the run lock across read, reconciliation, execution and journal save.
-Unique receipt identity and payload-fingerprint checks are the simulated
-provider contract. They do not establish exactly-once behavior for an unrelated
-real employer or email provider.
+## Retaining genuine semantic RAG
 
-## Required environment
+The current genuine semantic exercise uses FastEmbed's
+`BAAI/bge-small-en-v1.5`, 384-dimensional normalized vectors and Qdrant local.
+The `lab` dependency extra supplies its ONNX and vector dependencies. The slim
+default wheel excludes them and retains an explicitly labelled hash-vector test
+double. Selecting semantic mode must require the real adapter; it must never
+quietly become offline mode after a model-download or service error.
 
-| Variable | Purpose and boundary |
-| --- | --- |
-| `LAB_STATE_BACKEND=postgres` | Select durable cloud state; local filesystem state is not a cloud substitute |
-| `DATABASE_URL` | Secret managed-Postgres connection string with required provider TLS settings |
-| `DATABASE_LOCK_URL` | Required cloud configuration: use a direct/session-pooled connection; it may equal a verified direct/session-capable `DATABASE_URL` |
-| `LAB_API_TOKEN` | Secret bearer token of at least 32 characters; required for cloud API access |
-| `LAB_RELEASE_READY=true` | Explicit release intent after checks; this flag is not evidence that checks passed |
-| `TEST_DATABASE_URL` | Disposable isolated Postgres database for integration/release verification, not the production data store |
+Three future hosting designs are plausible:
 
-Configure secrets through the Vercel environment editor or interactive CLI
-prompts. Never place a token or DSN in a command argument, tracked file, browser
-URL, question draft or trace. The bearer token is a simple lab access control,
-not a multi-user authentication or authorization system. Keep the deployment
-private through the project's access controls and use separate preview and
-production credentials/databases when both environments are used.
+| Design | What it preserves | Trade-offs and evidence needed |
+| --- | --- | --- |
+| Bundle FastEmbed with the Python function; use durable remote vector storage | Same embedding model in indexing and query paths | Measure unpacked dependencies/weights, memory, cold starts, inference duration and provider limits; never download weights for every request |
+| Separate Python semantic worker/service and durable vector store | Current model and Python retrieval logic | Adds deployment, service authentication, network latency and operational work; needs timeouts, version pinning and monitored availability |
+| Hosted embedding service plus managed vector store | Stateless request handler and durable index | Adds credentials, data-sharing review, vendor cost and network dependency; re-embed the whole corpus, pin model/dimension/normalization and calibrate thresholds rather than mix vector spaces |
 
-No database is provisioned by these instructions. Before the later delivery
-exercise, select an authorized managed Postgres database dedicated to the lab,
-obtain its TLS connection details and a direct/session-capable locking route,
-and configure the variables above. Do not reuse operational Atlas tables.
+A separate semantic worker is a reasonable first design to measure when
+bundling proves unsuitable; this is an engineering proposal, not an implemented
+integration. No service above was provisioned. Latency, cold-start and cost
+measurements are unknown. Do not quote prices or claim a budget until the
+selected service, region, observed use and dated rate source are recorded.
+Live answer generation and live planning remain independent selections from
+semantic retrieval.
 
-## Complete and verify the learner commit
+## Release rehearsal in the repository
 
-Run these commands from the repository root in a prepared Codespace. The
-committed dependency lock is authoritative. Vercel installs the default runtime
-from `pyproject.toml` and `uv.lock`; no separate requirements file is needed.
-The `lab` extra supplies Qdrant/FastEmbed for the full local test suite.
-Do not resolve a new dependency set during release.
+Run the documented local checks against the exact commit and frozen lock:
 
 ```bash
 uv sync --locked --extra lab
+uv run l1-lab doctor
 uv run pytest -m 'not semantic and not live and not postgres'
-uv run python scripts/check_release.py
+LAB_SEMANTIC=1 uv run pytest -m semantic
+uv build --wheel
 ```
 
-`check_release.py` is the release gate: it checks for unfinished task bodies and
-runs the defined local verification, including the separate real-Postgres
-integration requirement with `TEST_DATABASE_URL`. A missing test database or an
-unrun integration is an incomplete release check. Do not convert an unavailable
-integration into a passing result. Real model planning, generation and local
-semantic tests have separate opt-in evidence; offline passes do not verify them.
+Use `TEST_DATABASE_URL` only for an isolated disposable database when testing
+the retained Postgres contracts. Run `uv run pytest -m postgres` against that
+service. It does not migrate or verify production Atlas.
 
-Record the exact Git commit, lockfile hash, commands and test results. Confirm
-the deployment export contains only runtime dependencies and excludes private
-snapshots, model caches, `.lab` state, local environment files and raw private
-traces. Installing development dependencies into the Codespace does not mean
-they should all be bundled into the function.
+The installed-wheel smoke test must run from outside the checkout and confirm
+packaged data, lessons and console assets. Build a container locally if the
+current CI provides that check; do not publish it merely to test packaging.
+Record actual results in `docs/VERIFICATION.md` with commit/lock/model identity.
 
-Run the explicit schema migration once against the chosen dedicated deployment
-database with its `DATABASE_URL` already set securely:
+`scripts/check_release.py` is a local verification aid, not a deployment action
+or proof that hosted Atlas parity exists. Any earlier report saying the old
+journal/receipt engine passed is historical evidence. A later cloud release
+requires new application-level tests for the durable Atlas adapter and chosen
+semantic service/bundle.
 
-```bash
-uv run python -m l1_lab.postgres_store migrate
-```
+## Manual delivery after a later explicit release instruction
 
-The migration source is `migrations/001_deployment.sql`; the module command is
-the supported application migration entrypoint. Review its changes before
-applying them. Use the release tests against a disposable database to verify
-migration and state behavior before touching deployment state. Do not run
-migrations as a request handler or assume a function startup is executed once.
+Before a future import, linking action or deployment:
 
-## Configure and deploy at the end of the exercise
+1. Resolve this same private repository ID and the reviewed commit; choose the
+   intended Vercel team/project/environment.
+2. Finish and test durable knowledge/artifact/event/projection adapters and
+   migrations. Review backups, schema compatibility and least-privilege access.
+3. Measure the chosen semantic path within the host's package, memory and
+   duration limits. Record that path and its unavailable/error behavior.
+4. Configure preview and production with separate synthetic databases/artifact
+   namespaces and secrets. Keep migration privileges away from request handlers.
+5. Review the deploy action and keep its workflow manual and guarded. Ordinary
+   code pushes in this task run tests only.
+6. After an authorized later deploy, test the observed URL: auth rejection,
+   exact-artifact approval, full run, pending/reconciliation repair, process
+   restart and concurrency. Capture actual deployment/build receipts.
 
-Use the authorized Vercel project and record the CLI version used. Interactive
-linking and secret entry avoid printing credential values into shell history.
-These are instructions for the later release, not actions taken by this build:
+Legacy Postgres session advisory locks require a direct or session-pooled lock
+connection; a transaction-pooled DSN cannot preserve that session association.
+The lock must span read, reconciliation, effect execution and saves. Keep provider
+effects in their own committed transactions. Migrations run explicitly, never
+as a request handler or with an assumption that startup happens once.
 
-```bash
-vercel --version
-vercel link
-vercel env add DATABASE_URL --environment production --type secret
-vercel env add DATABASE_LOCK_URL --environment production --type secret
-vercel env add LAB_API_TOKEN --environment production --type secret
-vercel env add LAB_STATE_BACKEND --environment production --type config
-vercel env add LAB_RELEASE_READY --environment production --type config
-```
+Keep `LAB_API_TOKEN` and database credentials in supported secret mechanisms;
+never paste them into chat, URLs, tracked files, browser storage or traces.
+A single-owner bearer token does not implement multi-user authorization.
+No credential values or deployment commands are supplied here.
 
-Enter the configured values at the prompts. `DATABASE_LOCK_URL` can use the
-same connection details only when they meet the session-lock requirement.
-Set the non-secret configuration values to `postgres` and `true` respectively.
-If the project already has a variable, use its update flow and redeploy after
-configuration changes. Do not paste secret values into the command line.
+A rollback changes application traffic/code; it does not undo stored effects,
+data or schema migrations. Reconciliation must remain compatible with receipts
+and reviewed artifacts created by a prior release. Preview testing cannot prove
+production environment credentials or storage routing are correct.
 
-After the exact learner commit passes the release checks and its database is
-migrated, deploy the reviewed release:
+## Official references rechecked 14 November 2026
 
-```bash
-vercel --prod
-```
+- [Vercel FastAPI](https://vercel.com/docs/frameworks/backend/fastapi): Python entrypoint, single-function configuration and application packaging.
+- [Python runtime](https://vercel.com/docs/functions/runtimes/python): dependency manifests, version selection and explicit file exclusions.
+- [Function limits](https://vercel.com/docs/functions/limitations): package, memory and execution constraints.
 
-The current CLI documentation says a new project's first deployment is
-production even when `--prod` is omitted. Therefore, omitting that flag is not a
-way to bypass the lab's production release gate. No deployment should run
-during unfinished simulation work. The intended sequence is learn, implement,
-test, review, migrate, then deploy the completed simulation.
-
-## Verify what was actually deployed
-
-Use the observed deployment URL and exact commit. Check the health response and
-the console, then test an authenticated synthetic request and an unauthenticated
-rejection. Start a simulated run, observe its review pause, approve/resume it,
-and recover it through a later request. Inspect the database-backed state and
-receipt evidence rather than relying on one warm process. Exercise two concurrent
-resumes in the dedicated integration environment and confirm one logical effect.
-
-Retain the deployment/build receipt and outcomes of these checks. A successful
-build does not prove database connectivity, concurrency correctness, authorization
-or durable recovery. Keep production data synthetic even after verification.
-If a check fails, stop traffic to the affected exercise and return to the last
-verified code/configuration. Database changes have their own compatibility and
-recovery plan; reverting a deployment does not revert schema or data.
-
-## Official references checked 13 November 2026
-
-- [FastAPI on Vercel](https://vercel.com/docs/frameworks/backend/fastapi): supported entrypoints and single-function packaging.
-- [Vercel Python runtime](https://vercel.com/docs/functions/runtimes/python): Python/dependency configuration and runtime bundle scope.
-- [Vercel CLI deploy](https://vercel.com/docs/cli/deploy): deployment target and first-deployment behavior.
-- [Vercel CLI environment variables](https://vercel.com/docs/cli/env): interactive environment management.
-
-Platform commands and limits can change. Recheck these official pages at the
-later deployment exercise rather than inferring an unchanged service contract
-from this preparation document.
+Platform options change. Re-read these references for the eventual selected
+plan instead of treating this preparation document as a permanent limit table.

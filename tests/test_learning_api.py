@@ -60,3 +60,24 @@ def test_bad_manifest_fails_closed_without_host_paths(client, monkeypatch, tmp_p
     response = client.get("/api/learning")
     assert response.status_code == 503
     assert str(tmp_path) not in response.text
+
+
+def test_declared_real_lessons_resolve_to_source_and_svg_resources():
+    """The shipped teaching map must describe actual bundled resources."""
+    index = learning_api.learning_index()
+    assert len(index["lessons"]) >= 6
+    for entry in index["lessons"]:
+        result = learning_api.learning_lesson(entry["id"])
+        assert result["content"].strip()
+        assert result["source_excerpts"]
+        assert all(source["content"].strip() for source in result["source_excerpts"])
+        for diagram in result["diagrams"]:
+            response = learning_api.learning_diagram(diagram["name"])
+            assert response.media_type == "image/svg+xml"
+
+
+def test_source_excerpt_keeps_the_relevant_decorator(client, monkeypatch):
+    source = learning_api.PACKAGE_DIR / "contracts.py"
+    source.write_text('@staticmethod\ndef parse_job(raw):\n    return raw\n', encoding="utf-8")
+    data = client.get("/api/learning/CONTRACTS-01").json()
+    assert data["source_excerpts"][0]["content"].startswith("@staticmethod\ndef parse_job")

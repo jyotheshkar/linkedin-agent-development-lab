@@ -10,7 +10,7 @@ import ast
 from datetime import datetime, timezone
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import subprocess
 
@@ -30,11 +30,15 @@ def redact(text: str) -> str:
 
 
 def _read(root: Path, relative: str) -> str:
+    if not isinstance(relative, str) or "\\" in relative or ".." in PurePosixPath(relative).parts:
+        raise ValueError("context path is outside the teaching allowlist")
     candidate = root / relative
     if not relative.startswith(SAFE_PREFIXES) or candidate.is_symlink():
         raise ValueError("context path is outside the teaching allowlist")
     path = candidate.resolve()
-    if not path.is_relative_to(root.resolve()) or not path.is_file() or path.stat().st_size > MAX_FILE_BYTES:
+    allowed_roots = [(root / prefix).resolve() for prefix in SAFE_PREFIXES]
+    if (not path.is_relative_to(root.resolve()) or not any(path.is_relative_to(base) for base in allowed_roots)
+            or not path.is_file() or path.stat().st_size > MAX_FILE_BYTES):
         raise ValueError("context path missing, oversized or outside the repository")
     return path.read_text(encoding="utf-8")
 

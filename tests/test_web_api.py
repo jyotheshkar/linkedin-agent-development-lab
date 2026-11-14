@@ -278,7 +278,10 @@ def test_reference_run_exposes_grounded_evidence_and_pauses_before_effects(clien
     assert FakeProvider(isolated_local_configuration / "provider.sqlite3").effect_count() == 0
     assert evidence["source_kind"] == "synthetic"
     assert evidence["retrieval"]["semantic_embeddings"] is False
-    assert evidence["answer"]["status"] == "supported"
+    # The complete application explicitly surfaces the missing retrieval-skill
+    # evidence in the default job; uncertainty must remain visible for review.
+    assert evidence["answer"]["status"] == "review"
+    assert evidence["answer"]["gaps"]
     cited = {cid for claim in evidence["answer"]["claims"] for cid in claim["evidence_ids"]}
     assert cited and cited <= set(evidence["context_chunk_ids"])
     accepted_sources = {cid for event in run["trace"] for cid in event["source_ids"]}

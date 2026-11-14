@@ -3,37 +3,169 @@
   "$id": "urn:linkedin-agent-development-lab:lesson-index:1",
   "title": "Code-linked lesson index version 1",
   "type": "object",
-  "required": ["schema_version", "project", "lessons"],
+  "required": [
+    "schema_version",
+    "project",
+    "lessons"
+  ],
   "additionalProperties": false,
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {
+      "const": 1
+    },
     "project": {
       "type": "object",
-      "required": ["title", "repository_id", "repository_url", "source_year"],
-      "properties": {"title": {"type": "string"}, "repository_id": {"const": 1456774523}, "repository_url": {"type": "string"}, "source_year": {"const": 2026}},
+      "required": [
+        "title",
+        "repository_id",
+        "repository_url",
+        "source_year"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "repository_id": {
+          "const": 1456774523
+        },
+        "repository_url": {
+          "type": "string"
+        },
+        "source_year": {
+          "const": 2026
+        }
+      },
       "additionalProperties": false
     },
-    "lessons": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/lesson"}}
+    "lessons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/lesson"
+      }
+    }
   },
   "$defs": {
-    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "strings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
     "lesson": {
       "type": "object",
-      "required": ["id", "title", "path", "prerequisites", "source_files", "symbols", "tests", "diagrams", "jd_areas", "experiment", "l1_prompt", "l2_prompt"],
+      "required": [
+        "id",
+        "title",
+        "path",
+        "prerequisites",
+        "source_files",
+        "symbols",
+        "tests",
+        "diagrams",
+        "jd_areas",
+        "experiment",
+        "l1_prompt",
+        "l2_prompt"
+      ],
       "additionalProperties": false,
       "properties": {
-        "id": {"type": "string", "pattern": "^[A-Z]+-[0-9]{2}$"},
-        "title": {"type": "string", "minLength": 1},
-        "path": {"type": "string", "pattern": "^docs/learning/[A-Za-z0-9_-]+\\.md$"},
-        "prerequisites": {"$ref": "#/$defs/strings"},
-        "source_files": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^src/l1_lab/[A-Za-z0-9_/.-]+\\.py$"}},
-        "symbols": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["file", "symbol"], "properties": {"file": {"type": "string"}, "symbol": {"type": "string", "minLength": 1}}, "additionalProperties": false}},
-        "tests": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^tests/test_[A-Za-z0-9_]+\\.py::test_[A-Za-z0-9_]+$"}},
-        "diagrams": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^docs/architecture/[a-z0-9-]+\\.svg$"}},
-        "jd_areas": {"$ref": "#/$defs/strings"},
-        "experiment": {"type": "object", "required": ["id", "summary", "safe_boundary", "test_command"], "properties": {"id": {"type": "string"}, "summary": {"type": "string"}, "safe_boundary": {"type": "string"}, "test_command": {"type": "string"}}, "additionalProperties": false},
-        "l1_prompt": {"type": "string", "minLength": 1},
-        "l2_prompt": {"type": "string", "minLength": 1}
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z]+-[0-9]{2}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^docs/learning/[A-Za-z0-9_-]+\\.md$"
+        },
+        "prerequisites": {
+          "$ref": "#/$defs/strings"
+        },
+        "source_files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^src/l1_lab/[A-Za-z0-9_/.-]+\\.py$"
+          }
+        },
+        "symbols": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "file",
+              "symbol"
+            ],
+            "properties": {
+              "file": {
+                "type": "string"
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "tests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^tests/test_[A-Za-z0-9_]+\\.py::(?:[A-Za-z][A-Za-z0-9_]*::)?test_[A-Za-z0-9_]+$"
+          }
+        },
+        "diagrams": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^docs/architecture/[a-z0-9-]+\\.svg$"
+          }
+        },
+        "jd_areas": {
+          "$ref": "#/$defs/strings"
+        },
+        "experiment": {
+          "type": "object",
+          "required": [
+            "id",
+            "summary",
+            "safe_boundary",
+            "test_command"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "safe_boundary": {
+              "type": "string"
+            },
+            "test_command": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "l1_prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "l2_prompt": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     }
   }

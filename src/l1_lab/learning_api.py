@@ -47,11 +47,12 @@ def _relative(path: str, prefix: str, suffix: str, base: Path) -> Path:
 def _manifest() -> dict:
     """Load the versioned teaching map without executing source or lessons."""
     data = json.loads(_read(LEARNING_DIR / "lesson-index.json"))
-    if data.get("schema_version") != 1 or not isinstance(data.get("lessons"), list):
+    if type(data.get("schema_version")) is not int or data["schema_version"] != 1 or not isinstance(data.get("lessons"), list):
         raise ValueError("invalid lesson index")
     if not 1 <= len(data["lessons"]) <= 100:
         raise ValueError("invalid lesson count")
     seen = set()
+    diagram_names = {}
     for lesson in data["lessons"]:
         lesson_id = lesson.get("id")
         if not isinstance(lesson_id, str) or not re.fullmatch(r"[A-Z][A-Z0-9-]{1,63}", lesson_id) or lesson_id in seen:
@@ -62,6 +63,10 @@ def _manifest() -> dict:
             raise ValueError("invalid lesson links")
         for diagram in lesson.get("diagrams", []):
             _relative(diagram, "docs/architecture", ".svg", ARCHITECTURE_DIR)
+            name = PurePosixPath(diagram).name
+            if name in diagram_names and diagram_names[name] != diagram:
+                raise ValueError("ambiguous diagram name")
+            diagram_names[name] = diagram
         for item in lesson.get("symbols", []):
             if not isinstance(item, dict) or not isinstance(item.get("symbol"), str):
                 raise ValueError("invalid source-symbol link")
@@ -87,7 +92,8 @@ def _excerpt(item: dict) -> dict:
             raise ValueError("linked source symbol is absent")
         nodes = selected.body
     lines = source.splitlines()
-    text = "\n".join(lines[selected.lineno - 1:selected.end_lineno])
+    start = min([selected.lineno] + [node.lineno for node in selected.decorator_list])
+    text = "\n".join(lines[start - 1:selected.end_lineno])
     return {"path": item["file"], "symbol": item["symbol"],
             "content": text[:24_000], "truncated": len(text) > 24_000,
             "source_kind": "source_read_at_request_time"}

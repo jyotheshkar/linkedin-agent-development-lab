@@ -16,4 +16,4 @@ SVG is the canonical rendered vector artifact. The matching PNG previews are gen
 python docs/architecture/diagrams.py
 ```
 
-Arrows show data/control relationships, never inferred source trust or approval. Local state and optional Postgres are alternatives. `service.py` coordinates the RAG path; it is not merely the last box. Learner scoring is not part of each application request. A semantic retrieval test does not establish live generation.
+Arrows show data/control relationships, never inferred source trust or approval. The local complete-MVP path uses SQLite/journal/artifact storage. The legacy Postgres workflow is a separate persistence option; full Atlas/artifact parity is not assumed, and future hosting must fail closed until its durable contract is verified. These are not sequential stages. `service.py` coordinates RAG rather than being its final box. Learner scoring is outside each application request. A semantic retrieval test does not establish live generation.

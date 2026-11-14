@@ -37,6 +37,7 @@ class IntegrityError(ValueError):
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS lab_meta(key TEXT PRIMARY KEY,value INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS lab_settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);
 INSERT OR IGNORE INTO lab_meta VALUES('schema_version',1);
 INSERT OR IGNORE INTO lab_meta VALUES('knowledge_revision',0);
 INSERT OR IGNORE INTO lab_meta VALUES('ledger_revision',0);
@@ -226,7 +227,8 @@ class AtlasLab:
         import_id = "import:" + envelope_hash
         with self._connect(write=True) as db:
             current = self._revision(db, "knowledge_revision")
-            if only_if_empty and db.execute("SELECT 1 FROM knowledge_versions LIMIT 1").fetchone():
+            if only_if_empty and (db.execute("SELECT 1 FROM knowledge_versions LIMIT 1").fetchone()
+                                  or db.execute("SELECT 1 FROM knowledge_imports LIMIT 1").fetchone()):
                 return {"seeded": False, "revision": current}
             if expected_revision is not None:
                 _integer(expected_revision, "expected revision")
@@ -250,6 +252,7 @@ class AtlasLab:
                 version_id = versions[(record["table"], record["record_id"], record["record_version"])]
                 db.execute("INSERT INTO knowledge_current VALUES(?,?,?,?,?)", (
                     record["table"], record["record_id"], version_id, _json(record), import_id))
+            db.execute("INSERT INTO lab_settings VALUES('active_import',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (import_id,))
             revision = self._advance(db, "knowledge_revision")
         return {"seeded": True, "revision": revision, "import_id": import_id,
                 "source_revision": snapshot["revision"], "records": len(selected), "kind": origin}
@@ -277,6 +280,7 @@ class AtlasLab:
         """
         with self._connect() as db:
             revision = self._revision(db, "knowledge_revision")
+            source = db.execute("SELECT i.* FROM knowledge_imports i JOIN lab_settings s ON s.value=i.import_id WHERE s.key='active_import'").fetchone()
             rows = db.execute("SELECT c.observed_json,v.origin,c.import_id FROM knowledge_current c JOIN knowledge_versions v USING(version_id) ORDER BY c.table_name,c.record_id").fetchall()
             records, source_kinds = [], set()
             for row in rows:
@@ -290,9 +294,21 @@ class AtlasLab:
                 record["snapshot_revision"] = revision
                 record["export_text_hash"] = hashlib.sha256(record["text"].encode()).hexdigest()
                 records.append(record)
-            return {"schema_version": 1, "kind": "atlas_snapshot" if "atlas_snapshot" in source_kinds else "synthetic",
+            source_age = None
+            if source:
+                try:
+                    observed_time = datetime.fromisoformat(source["retrieved_at"].replace("Z", "+00:00"))
+                    if observed_time.tzinfo is not None:
+                        source_age = max(0.0, (datetime.now(timezone.utc) - observed_time).total_seconds())
+                except ValueError:
+                    pass
+            return {"schema_version": 1, "kind": "atlas_snapshot" if "atlas_snapshot" in source_kinds or (source and source["kind"] == "atlas_snapshot") else "synthetic",
                     "revision": revision, "retrieved_at": _now(), "records": records,
                     "coverage": {"source_records": len(rows), "selected_records": len(records),
+                        "active_import_id": source["import_id"] if source else None,
+                        "source_revision": source["source_revision"] if source else None,
+                        "source_retrieved_at": source["retrieved_at"] if source else None,
+                        "source_age_seconds": source_age,
                         "snapshot_revision_meaning": "atomic lab export revision; native source revision/time retained in record metadata",
                         "source": "isolated Atlas Lab; no live synchronization"}}
 
@@ -518,6 +534,9 @@ class AtlasLab:
                     raise IntegrityError("registered event artifact bytes are unavailable") from None
                 if hashlib.sha256(content).hexdigest() != matching[0]["digest"]:
                     raise IntegrityError("event artifact bytes failed verification")
+                if isinstance(reference, dict) and "content" in reference:
+                    if not isinstance(reference["content"], str) or reference["content"].encode("utf-8") != content:
+                        raise IntegrityError("simulated payload content differs from its reviewed artifact bytes")
                 artifact_ids.append(matching[0]["artifact_id"])
             if previous and (previous["status"] == receipt["status"] or previous["status"] == "VERIFIED"):
                 return self._event(previous)

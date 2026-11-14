@@ -18,6 +18,12 @@ Shuffle score rows and remove one case. Follow ID alignment and denominators ins
 
 - [src/l1_lab/progress.py](../../src/l1_lab/progress.py) :: `compute_metrics`
 
+- [src/l1_lab/observability.py](../../src/l1_lab/observability.py) :: `LocalTelemetry.span`
+
+- [src/l1_lab/observability.py](../../src/l1_lab/observability.py) :: `JSONLSpanExporter.export`
+
+- [src/l1_lab/observability.py](../../src/l1_lab/observability.py) :: `safe_attributes`
+
 Open the linked source and tests before explaining behavior; use the current checkout, not remembered line numbers.
 
 ## One optional experiment
@@ -53,3 +59,7 @@ These are original preparation prompts, not known employer questions. Keep fresh
 - `tests/test_progress.py::test_no_attempts_have_no_accuracy_or_mastery_evidence`
 
 - `tests/test_progress.py::test_missing_assistance_declaration_cannot_establish_independent_mastery`
+
+- `tests/test_observability.py::test_real_sdk_spans_have_parent_identity_and_measured_duration`
+
+- `tests/test_observability.py::test_exception_message_stack_and_request_content_are_not_recorded`

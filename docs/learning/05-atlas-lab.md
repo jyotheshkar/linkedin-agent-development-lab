@@ -12,6 +12,18 @@ Start at AtlasSnapshotSource and select_records. Trace record_id, record_version
 
 ## Read the actual implementation
 
+- [src/l1_lab/atlas_lab.py](../../src/l1_lab/atlas_lab.py) :: `AtlasLab.import_snapshot`
+
+- [src/l1_lab/atlas_lab.py](../../src/l1_lab/atlas_lab.py) :: `AtlasLab.review`
+
+- [src/l1_lab/atlas_lab.py](../../src/l1_lab/atlas_lab.py) :: `AtlasLab.store_artifact`
+
+- [src/l1_lab/atlas_lab.py](../../src/l1_lab/atlas_lab.py) :: `AtlasLab.record_event`
+
+- [src/l1_lab/atlas_lab.py](../../src/l1_lab/atlas_lab.py) :: `AtlasLab.project`
+
+- [src/l1_lab/atlas_lab.py](../../src/l1_lab/atlas_lab.py) :: `AtlasLab.projection`
+
 - [src/l1_lab/knowledge.py](../../src/l1_lab/knowledge.py) :: `AtlasSnapshotSource`
 
 - [src/l1_lab/knowledge.py](../../src/l1_lab/knowledge.py) :: `select_records`
@@ -25,7 +37,7 @@ In a synthetic record copy, introduce a newer revoked version and inspect the se
 **Safe boundary:** Only synthetic lab records are editable; imported real snapshots remain read-only and outside Git.
 
 ```bash
-uv run pytest tests/test_knowledge.py::test_latest_revocation_does_not_resurrect_old_approval -q
+uv run pytest tests/test_atlas_lab.py::AtlasLabTests::test_synthetic_create_edit_review_and_revoke_are_immutable_versions -q
 ```
 
 Record the actual command/result. A passing targeted test supports that behavior; it does not establish personal mastery or untested paths.
@@ -43,6 +55,14 @@ Source hash, sanitized export hash, chunk identity and artifact byte digest iden
 These are original preparation prompts, not known employer questions. Keep fresh mock variants separate.
 
 ## Exact public test targets
+
+- `tests/test_atlas_lab.py::AtlasLabTests::test_synthetic_create_edit_review_and_revoke_are_immutable_versions`
+
+- `tests/test_atlas_lab.py::AtlasLabTests::test_imported_source_is_read_only_and_native_hash_stays_distinct`
+
+- `tests/test_atlas_lab.py::AtlasLabTests::test_five_distinct_events_need_separate_projection_membership_readback`
+
+- `tests/test_atlas_lab.py::AtlasLabTests::test_projection_failure_or_same_revision_membership_corruption_repairs_without_effect_repeat`
 
 - `tests/test_knowledge.py::test_latest_revocation_does_not_resurrect_old_approval`
 

@@ -34,12 +34,12 @@ class Diagram:
     def box(self, x, y, width, height, title, lines=(), accent=False, dash=False):
         self.rect(x, y, width, height, PALE if accent else '#ffffff', TEAL if accent else LINE, dash=dash)
         self.text(x+18, y+29, title, 17, TEAL if accent else INK, True)
-        cursor = y+54
-        chars = max(18, int((width-36)/7.5))
+        cursor = y+53
+        chars = max(18, int((width-36)/6.8))
         for line in lines:
             for wrapped in textwrap.wrap(line, width=chars) or ['']:
-                self.text(x+18, cursor, wrapped, 14, MUTED)
-                cursor += 21
+                self.text(x+18, cursor, wrapped, 13, MUTED)
+                cursor += 19
         if cursor > y+height+5:
             raise ValueError(f'Box text exceeds layout: {self.name}/{title}')
 
@@ -127,7 +127,7 @@ def system():
     d.arrow([(405,420),(373,420),(373,625),(340,625)])
     d.arrow([(560,462),(560,565)])
     d.arrow([(915,462),(915,565)])
-    d.text(405,736,'Persistence: local SQLite/journal OR supported Postgres; not sequential stages.',13,MUTED)
+    d.text(70,736,'Local MVP: SQLite/journal. Legacy Postgres workflow is separate; Atlas artifact parity is not assumed.',13,MUTED)
     d.note(800,['Tests/configuration support the runtime; learner scoring is a separate learning path.','Imported private snapshots stay untracked. Indexes and projections derive from eligible source evidence.'])
     d.save()
 
@@ -164,7 +164,7 @@ def rag():
     d.box(48,368,300,116,'Query and search',['Query embedding -> vector query','Metadata filter, score rule, top-k','rank_hits: not a truth score'])
     d.box(410,368,300,116,'Bound retained context',['build_context: whole chunks','Keep IDs; evidence is untrusted','Character budget != token count'],True)
     d.box(772,368,300,116,'Generate structured answer',['Extractive OR real model adapter','Claims + evidence IDs + gaps','Output headroom in model budget'])
-    d.arrow([(922,280),(922,320),(198,320),(198,368)])
+    d.arrow([(922,280),(922,316),(27,316),(27,426),(48,426)])
     d.arrow([(348,426),(410,426)]);d.arrow([(710,426),(772,426)])
     d.box(410,577,300,142,'Validate and review',['validate_answer against retained IDs','Exact quotes; conflict -> review','Unknown evidence -> gap/abstain','Structural validity != entailment'],True)
     d.arrow([(922,484),(922,648),(710,648)])
@@ -184,13 +184,14 @@ def recovery():
     d.box(772,360,300,134,'Verified provider receipt',['Gate + action identity + payload','Same receipt survives restart','No duplicate employer simulation'])
     d.arrow([(922,250),(922,300),(198,300),(198,360)])
     d.arrow([(922,250),(922,320),(560,320),(560,360)])
+    d.arrow([(48,420),(26,420),(26,280),(950,280),(950,250)],(62,272,'declared transient + budget: retry'))
     d.arrow([(710,427),(772,427)],(716,412,'reconcile'))
     d.box(48,609,300,130,'Blocked / rejected',['No automatic effect repetition','Fix cause and obtain fresh review','Preserve known receipt evidence'])
     d.box(410,609,300,130,'Ledger / projection pending',['Repair event logging or projection','Do not repeat application/outreach','Verify revision and membership'],True)
     d.box(772,609,300,130,'Plan finished',['Inspect/draft may validly finish','Full unit needs all verified gates','Pending delivery != full completion'])
     d.arrow([(198,494),(198,609)])
     d.arrow([(922,494),(922,548),(560,548),(560,609)])
-    d.arrow([(710,674),(772,674)])
+    d.arrow([(710,674),(772,674)],(716,659,'verified'))
     d.note(832,['Restart reconstructs state from durable evidence, not an in-memory RAG cache.','A stable hash alone does not ensure exactly-once behavior; provider uniqueness and payload checks matter.'])
     d.save()
 

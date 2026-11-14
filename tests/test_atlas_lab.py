@@ -59,6 +59,15 @@ class AtlasLabTests(unittest.TestCase):
         self.assertEqual(rebuilt.snapshot()["records"], [])
         self.assertEqual(rebuilt.list_records()[0]["approval_status"], "ARCHIVED")
 
+    def test_empty_private_refresh_keeps_source_identity_and_is_not_reseeded(self):
+        self.lab.import_snapshot(snapshot([], revision=22, kind="atlas_snapshot"))
+        self.assertFalse(self.lab.seed_snapshot(snapshot())["seeded"])
+        exported = AtlasLab(self.lab.root).snapshot()
+        self.assertEqual(exported["kind"], "atlas_snapshot")
+        self.assertEqual(exported["records"], [])
+        self.assertEqual(exported["coverage"]["source_revision"], 22)
+        self.assertIsNotNone(exported["coverage"]["source_age_seconds"])
+
     def test_synthetic_create_edit_review_and_revoke_are_immutable_versions(self):
         created = self.lab.put_synthetic({"record_id": "synthetic:new", "text": "Small Python prototype."})
         self.assertEqual(created["approval_status"], "REVIEW_REQUIRED")
@@ -255,6 +264,15 @@ class AtlasLabTests(unittest.TestCase):
             self.lab.record_event("run_1", "storage", receipt, payload)
         self.assertEqual(len(self.lab.events()), 1)
         self.assertEqual(self.lab.events()[0]["event_id"], event["event_id"])
+
+    def test_simulated_payload_text_must_match_its_registered_artifact_bytes(self):
+        manifest = self.artifact()
+        payload = {"identity": "example::req-1", "payload": {"job_identity": "example::req-1",
+            "artifacts": [{"sha256": manifest["sha256"], "version": 1, "content": "different unsupported text"}]}}
+        receipt = self.provider.execute("application", payload, "sim-key:wrong-text")
+        with self.assertRaises(IntegrityError):
+            self.lab.record_event("run_1", "application", receipt, payload)
+        self.assertEqual(self.lab.events(), [])
 
     def test_concurrent_event_logging_has_one_canonical_event_and_revision(self):
         event, receipt, payload = self.event("storage")

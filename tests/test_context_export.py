@@ -2,6 +2,15 @@ import json
 from pathlib import Path
 import pytest
 from l1_lab.context_export import export_context, redact, validate_lessons
+from l1_lab.context_export import _read
+
+def test_read_cannot_traverse_from_source_to_private_data(tmp_path):
+    (tmp_path / "src/l1_lab").mkdir(parents=True)
+    (tmp_path / "private").mkdir()
+    (tmp_path / "private/atlas_snapshot.json").write_text('{"private":"synthetic"}')
+    for path in ("src/l1_lab/../../private/atlas_snapshot.json", "src/l1_lab/../../.env", "src/l1_lab/..\\..\\private/atlas_snapshot.json"):
+        with pytest.raises(ValueError):
+            _read(tmp_path, path)
 
 def test_manifest_references_real_symbols_tests_and_diagrams():
     assert len(validate_lessons()["lessons"]) >= 8

@@ -16,7 +16,7 @@ from pathlib import Path
 import sqlite3
 from uuid import uuid4
 
-from .agent import GuardrailError, ToolSpec, UnknownOutcome, completion_gates, validate_tool_call
+from .agent import GuardrailError, PermanentError, ToolSpec, UnknownOutcome, completion_gates, validate_tool_call
 from .atlas_lab import AtlasLab
 from .contracts import Job, normalize_identity, parse_job
 from .grounding import validate_answer
@@ -36,6 +36,10 @@ ORDER = ("sim_store", "sim_submit", "sim_outreach", "sim_commit", "sim_deliver")
 
 class ReviewConflict(ValueError):
     """The exact reviewed material/target is stale, reserved or changed."""
+
+
+class ReportingPending(PermanentError):
+    """Known pre-effect pause: prior receipt logging needs repair first."""
 
 
 class PreparedPlanner:
@@ -125,11 +129,13 @@ class ApplicationService:
         Planning and generation modes are independent of retrieval. Live mode
         is explicit and optional; no adapter silently falls back on failure.
         """
+        if modes is not None and not isinstance(modes, dict):
+            raise ValueError("application modes must be an object")
         if modes:
             if set(modes) - {"retrieval", "planner", "generation"}:
                 raise ValueError("unknown application mode")
             retrieval, planner, generation = (modes.get("retrieval", retrieval), modes.get("planner", planner), modes.get("generation", generation))
-        if retrieval not in {"offline", "semantic"} or planner not in {"offline", "live"} or generation not in {"offline", "live"}:
+        if retrieval not in ("offline", "semantic") or planner not in ("offline", "live") or generation not in ("offline", "live"):
             raise ValueError("unsupported retrieval, planner or generation mode")
         raw = job.model_dump() if isinstance(job, Job) else job
         validated_job = parse_job(raw if isinstance(raw, str) else canonical(raw))
@@ -202,6 +208,8 @@ class ApplicationService:
         # approved-domain material. A model-supplied approval flag is not used.
         checking = Workflow(self.root, provider=self.provider, journal=self.journal)
         allowed_names = {call["tool"] for call in allowed}
+        if not isinstance(proposals, list) or not 1 <= len(proposals) <= 32:
+            raise GuardrailError("planner must return a bounded nonempty proposal list")
         checked = [validate_tool_call(call, checking.registry, allowed_names, prepared["job"]["max_calls"]) for call in proposals]
         names = [call["tool"] for call in checked]
         if not names or names[0] != "retrieve_evidence" or len(names) != len(set(names)):
@@ -277,6 +285,9 @@ class ApplicationService:
             original = engine.registry[name]
             def execute(args, key, gate=gate, name=name):
                 run = self.journal.load(run_id)
+                prior_reporting = self._synchronize(run)
+                if run.get("receipts") and prior_reporting["status"] != "verified":
+                    raise ReportingPending("repair prior event/projection before any new simulated action")
                 self._validate_preparation(prepared, run, sources=gate in {"storage", "application", "outreach"})
                 if gate == "storage":
                     for artifact in prepared["artifacts"]:
@@ -340,6 +351,9 @@ class ApplicationService:
         """Review exact persisted bytes or reconcile the existing partial run."""
         if type(approve) is not bool or decision not in {None, "approve", "reject", "revise"}:
             raise ValueError("invalid review decision")
+        if approve and decision in {"reject", "revise"}:
+            raise ValueError("approval and rejection flags conflict")
+        approve = approve or decision == "approve"
         with self._locked(), self.telemetry.span("application.resume", run_id=run_id):
             run = self.journal.load(run_id)
             prepared = self._prepared(run)
@@ -370,8 +384,15 @@ class ApplicationService:
                 self.journal.save(run)
             # Repair the existing event/projection state first, without model
             # calls or provider execution. Workflow reconciles unknown outcomes.
-            self._synchronize(run)
+            prior_reporting = self._synchronize(run)
+            if prior_reporting["status"] != "verified" and (run.get("receipts") or run.get("in_flight")):
+                run["status"] = "pending"
+                self.journal.save(run)
+                return self._result(run, prepared, prior_reporting)
             run = self._engine(run_id, prepared).resume(run_id, approved=approve)
+            if run.get("error") == "ReportingPending":
+                run["status"] = "pending"
+                self.journal.save(run)
             reporting = self._synchronize(run)
             self._trace_events(run, before)
             return self._result(run, prepared, reporting)
@@ -448,3 +469,4 @@ class ApplicationService:
 
     def close(self):
         self.telemetry.close()
+

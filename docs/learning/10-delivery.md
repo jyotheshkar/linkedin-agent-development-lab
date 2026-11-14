@@ -20,6 +20,8 @@ Read an authenticated API route and the test proving rejection before storage wo
 
 - [src/l1_lab/cli.py](../../src/l1_lab/cli.py) :: `main`
 
+- [src/l1_lab/mcp_server.py](../../src/l1_lab/mcp_server.py) :: `create_server`
+
 Open the linked source and tests before explaining behavior; use the current checkout, not remembered line numbers.
 
 ## One optional experiment
@@ -53,3 +55,5 @@ These are original preparation prompts, not known employer questions. Keep fresh
 - `tests/test_web_api.py::test_body_limit_counts_actual_bytes_before_json_or_work`
 
 - `tests/test_web_api.py::test_asset_allowlist_and_console_redirect`
+
+- `tests/test_mcp_server.py::test_stdio_discovery_invocation_rejection_and_read_only_state`
