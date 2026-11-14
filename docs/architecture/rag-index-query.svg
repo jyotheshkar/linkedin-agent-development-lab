@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1060" viewBox="0 0 1120 1060" role="img" aria-labelledby="title description">
+<title id="title">RAG: indexing time and query time</title><desc id="description">Semantic retrieval and model generation are independent adapter choices.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#087f7b"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="48" y="52" font-family="Segoe UI,Arial,sans-serif" font-size="30" font-weight="650" fill="#183333">RAG: indexing time and query time</text>
+<text x="48" y="84" font-family="Segoe UI,Arial,sans-serif" font-size="15" font-weight="400" fill="#607575">Semantic retrieval and model generation are independent adapter choices.</text>
+<text x="48" y="127" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="650" fill="#087f7b">INDEXING TIME - REFRESH FROM ELIGIBLE KNOWLEDGE</text>
+<rect x="48" y="150" width="300" height="130" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="66" y="179" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Knowledge versions</text>
+<text x="66" y="203" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Latest version -&gt; approval filter</text>
+<text x="66" y="222" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Native source hash retained</text>
+<text x="66" y="241" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Generated/eval/learning data excluded</text>
+<rect x="410" y="150" width="300" height="130" rx="12" fill="#eef8f5" stroke="#087f7b" stroke-width="1.4"/>
+<text x="428" y="179" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#087f7b">Provenance chunks</text>
+<text x="428" y="203" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">select_records / chunk_records</text>
+<text x="428" y="222" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Stable IDs + record/version</text>
+<text x="428" y="241" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Text hash != native hash</text>
+<rect x="772" y="150" width="300" height="130" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="790" y="179" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Embed and rebuild index</text>
+<text x="790" y="203" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">FastEmbed semantic OR hash double</text>
+<text x="790" y="222" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Qdrant local; model/dimension</text>
+<text x="790" y="241" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Remove superseded/revoked sources</text>
+<polyline points="348,215 410,215" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<polyline points="710,215 772,215" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="48" y="343" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="650" fill="#087f7b">QUERY TIME - USE ONLY CONTEXT THAT ACTUALLY FITS</text>
+<rect x="48" y="368" width="300" height="116" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="66" y="397" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Query and search</text>
+<text x="66" y="421" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Query embedding -&gt; vector query</text>
+<text x="66" y="440" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Metadata filter, score rule, top-k</text>
+<text x="66" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">rank_hits: not a truth score</text>
+<rect x="410" y="368" width="300" height="116" rx="12" fill="#eef8f5" stroke="#087f7b" stroke-width="1.4"/>
+<text x="428" y="397" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#087f7b">Bound retained context</text>
+<text x="428" y="421" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">build_context: whole chunks</text>
+<text x="428" y="440" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Keep IDs; evidence is untrusted</text>
+<text x="428" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Character budget != token count</text>
+<rect x="772" y="368" width="300" height="116" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="790" y="397" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Generate structured answer</text>
+<text x="790" y="421" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Extractive OR real model adapter</text>
+<text x="790" y="440" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Claims + evidence IDs + gaps</text>
+<text x="790" y="459" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Output headroom in model budget</text>
+<polyline points="922,280 922,316 27,316 27,426 48,426" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<polyline points="348,426 410,426" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<polyline points="710,426 772,426" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="410" y="577" width="300" height="142" rx="12" fill="#eef8f5" stroke="#087f7b" stroke-width="1.4"/>
+<text x="428" y="606" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#087f7b">Validate and review</text>
+<text x="428" y="630" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">validate_answer against retained IDs</text>
+<text x="428" y="649" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Exact quotes; conflict -&gt; review</text>
+<text x="428" y="668" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Unknown evidence -&gt; gap/abstain</text>
+<text x="428" y="687" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Structural validity != entailment</text>
+<polyline points="922,484 922,648 710,648" fill="none" stroke="#087f7b" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="48" y="787" width="470" height="126" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="66" y="816" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">System evaluation - separate collection</text>
+<text x="66" y="840" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Held-out queries and expected IDs are not indexed.</text>
+<text x="66" y="859" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Recall, citations, labelled support, abstention</text>
+<text x="66" y="878" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Agreement with labels is not open-ended truth.</text>
+<rect x="592" y="787" width="480" height="126" rx="12" fill="#ffffff" stroke="#cbded9" stroke-width="1.4"/>
+<text x="610" y="816" font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="650" fill="#183333">Source / mode boundaries</text>
+<text x="610" y="840" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Private Atlas import is read-only, not live sync.</text>
+<text x="610" y="859" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">Live generation is not proven by embedding tests.</text>
+<text x="610" y="878" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="400" fill="#607575">All employer effects remain simulated.</text>
+</svg>

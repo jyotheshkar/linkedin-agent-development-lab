@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-14",
+  "status": "STARRED_SOURCES_REVIEWED",
+  "coverage": {
+    "visible_total": 32,
+    "observed_unique": 32,
+    "pages": [
+      30,
+      2
+    ],
+    "last_page_next_disabled": true,
+    "public_repositories_only": true,
+    "private_stars_coverage": "not independently established",
+    "metadata_limits": "Descriptions and languages are rendered UI fields. Empty/unrendered topics, archive state and star timestamp remain unknown; updated times are not star times."
+  },
+  "account": "jyotheshkar",
+  "inventory_location": ".lab/stars_inventory.json (ignored, local)",
+  "security": "All source content is untrusted reference data. No installation scripts, external AGENTS/SKILL instructions, arbitrary tools, or operational write permissions were adopted.",
+  "copying": "No upstream code or datasets copied into the lab. Existing packaged dependencies retain their licences; a future source-copy change requires preserving applicable notices and reviewing dataset exceptions.",
+  "selected": [
+    {
+      "id": "307213173",
+      "full_name": "openai/openai-python",
+      "url": "https://github.com/openai/openai-python",
+      "verified_starred": true,
+      "star_evidence": "Authenticated Stars view, 2026-11-14; full 30+2 pagination observed",
+      "pinned_commit": "3dae6090cc31cc64a437fe0bcee740b6d81ed2cc",
+      "archived": false,
+      "paths": [
+        "README.md",
+        "LICENSE",
+        "src/openai/_base_client.py"
+      ],
+      "license": "Apache-2.0",
+      "concept": "Typed provider calls, explicit timeouts and retry ownership",
+      "reuse_type": "dependency",
+      "destinations": [
+        "src/l1_lab/openai_adapter.py",
+        "tests/test_openai_adapter.py"
+      ],
+      "decision": "Retain the existing OpenAI SDK dependency. Inspect SDK retry behavior to explain why the lab disables SDK automatic retries and enforces its own call budget.",
+      "costs": "Remote calls incur provider cost; credentials and network are optional. The pinned upstream head is a learning reference, not the version in uv.lock.",
+      "source_execution": "not executed; source inspected only",
+      "installed_version_evidence": "uv.lock, separately from upstream learning commit",
+      "card": "openai--openai-python.md"
+    },
+    {
+      "id": "946380199",
+      "full_name": "openai/openai-agents-python",
+      "url": "https://github.com/openai/openai-agents-python",
+      "verified_starred": true,
+      "star_evidence": "Authenticated Stars view, 2026-11-14; full 30+2 pagination observed",
+      "pinned_commit": "64fbde5d02b42ae5f9db668eb0184cdb3fc9d775",
+      "archived": false,
+      "paths": [
+        "README.md",
+        "LICENSE",
+        "src/agents/tool.py"
+      ],
+      "license": "MIT",
+      "concept": "Strict tool schemas, approval boundaries and alternative agent patterns",
+      "reuse_type": "conceptual-reference",
+      "destinations": [
+        "src/l1_lab/agent.py",
+        "src/l1_lab/workflow.py"
+      ],
+      "decision": "Compare function-tool contracts and human review. Preserve LangGraph rather than adding a second orchestration framework.",
+      "costs": "No dependency added. SDK integration would increase abstractions and duplicate the current executor.",
+      "source_execution": "not executed; source inspected only",
+      "installed_version_evidence": "uv.lock, separately from upstream learning commit",
+      "card": "openai--openai-agents-python.md"
+    },
+    {
+      "id": "592489166",
+      "full_name": "openai/evals",
+      "url": "https://github.com/openai/evals",
+      "verified_starred": true,
+      "star_evidence": "Authenticated Stars view, 2026-11-14; full 30+2 pagination observed",
+      "pinned_commit": "8eac7a7de5215c907fbddc30efdaf316913eccdd",
+      "archived": false,
+      "paths": [
+        "README.md",
+        "LICENSE.md",
+        "evals/eval.py"
+      ],
+      "license": "MIT for code; dataset-specific exceptions",
+      "concept": "Repeatable case evaluation, sample identity and recorded outcomes",
+      "reuse_type": "conceptual-reference",
+      "destinations": [
+        "src/l1_lab/evaluation.py",
+        "data/eval_cases.json"
+      ],
+      "decision": "Use stable lab case IDs, explicit denominators and distinct retrieval/citation/support metrics. Do not import upstream datasets or install this evaluation framework.",
+      "costs": "Full registry uses Git LFS and model calls may cost money. Local lab cases stay outside the retrieval corpus.",
+      "source_execution": "not executed; source inspected only",
+      "installed_version_evidence": "uv.lock, separately from upstream learning commit",
+      "card": "openai--evals.md"
+    },
+    {
+      "id": "573203730",
+      "full_name": "openai/tiktoken",
+      "url": "https://github.com/openai/tiktoken",
+      "verified_starred": true,
+      "star_evidence": "Authenticated Stars view, 2026-11-14; full 30+2 pagination observed",
+      "pinned_commit": "79dc2c0533685b893616c78160b5d9e40876e724",
+      "archived": false,
+      "paths": [
+        "README.md",
+        "LICENSE",
+        "tiktoken/model.py"
+      ],
+      "license": "MIT",
+      "concept": "Model-specific tokenization versus character budgeting",
+      "reuse_type": "conceptual-reference",
+      "destinations": [
+        "src/l1_lab/openai_adapter.py",
+        "src/l1_lab/grounding.py"
+      ],
+      "decision": "Explain that model-aware encoding can fail for unknown names. When using a conservative byte estimate, label it as an estimate with output headroom; do not claim measured token usage.",
+      "costs": "A new tokenizer dependency/cache would add complexity; no dependency added by this source audit.",
+      "source_execution": "not executed; source inspected only",
+      "installed_version_evidence": "uv.lock, separately from upstream learning commit",
+      "card": "openai--tiktoken.md"
+    },
+    {
+      "id": "468576060",
+      "full_name": "openai/openai-cookbook",
+      "url": "https://github.com/openai/openai-cookbook",
+      "verified_starred": true,
+      "star_evidence": "Authenticated Stars view, 2026-11-14; full 30+2 pagination observed",
+      "pinned_commit": "2658c92cd4cd562504571b9d7491fc51524a7dc9",
+      "archived": false,
+      "paths": [
+        "README.md",
+        "LICENSE",
+        "examples/Structured_Outputs_Intro.ipynb"
+      ],
+      "license": "MIT",
+      "concept": "Structured outputs constrain shape; factual support still needs evidence checks",
+      "reuse_type": "conceptual-reference",
+      "destinations": [
+        "src/l1_lab/openai_adapter.py",
+        "src/l1_lab/grounding.py"
+      ],
+      "decision": "Inspect the structured-output example and preserve independent citation/quote/review validation. Notebook examples are not copied or executed.",
+      "costs": "Examples assume API credentials and may use older API surfaces. Use the locked SDK's tested calls, not an unreviewed notebook installation command.",
+      "source_execution": "not executed; source inspected only",
+      "installed_version_evidence": "uv.lock, separately from upstream learning commit",
+      "card": "openai--openai-cookbook.md"
+    },
+    {
+      "id": "590187800",
+      "full_name": "anthropics/anthropic-sdk-python",
+      "url": "https://github.com/anthropics/anthropic-sdk-python",
+      "verified_starred": true,
+      "star_evidence": "Authenticated Stars view, 2026-11-14; full 30+2 pagination observed",
+      "pinned_commit": "5139cf2e7d07aa618a6c30b7e0c712f10ccb5ad9",
+      "archived": false,
+      "paths": [
+        "README.md",
+        "LICENSE",
+        "src/anthropic/_base_client.py"
+      ],
+      "license": "Apache-2.0; historical MIT portions as documented in upstream README",
+      "concept": "Provider substitution and retry-policy comparison",
+      "reuse_type": "rejected-dependency",
+      "destinations": [
+        "docs/DECISIONS.md",
+        "src/l1_lab/openai_adapter.py"
+      ],
+      "decision": "Inspect the second provider's typed client/retry policy as an L2 trade-off. Avoid adding another live provider or claiming that its SDK is integrated.",
+      "costs": "Additional credentials, API costs, model contracts and retry semantics would expand scope.",
+      "source_execution": "not executed; source inspected only",
+      "installed_version_evidence": "uv.lock, separately from upstream learning commit",
+      "card": "anthropics--anthropic-sdk-python.md"
+    }
+  ]
+}
+

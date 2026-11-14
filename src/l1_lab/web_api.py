@@ -1,3 +1,10 @@
+# LEARN: DELIVERY-01
+# ROLE: Enforce authentication, payload limits and API/service boundaries.
+# FLOW: Same-origin requests -> authorization/budget -> application -> JSON.
+# WHY: Local preview and future hosted persistence are different configurations.
+# L1: Trace one input and its failure path, then run tests/test_web_api.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Same-origin console API. Every provider effect remains explicitly simulated."""
 from __future__ import annotations
 
@@ -11,6 +18,7 @@ import re
 import threading
 import time
 import weakref
+from typing import Literal
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, Header, HTTPException
@@ -33,12 +41,16 @@ class RunRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     goal: str = Field(min_length=1, max_length=2000)
     job: Job | None = None
+    retrieval: Literal["offline", "semantic"] = "offline"
+    planner: Literal["offline", "live"] = "offline"
+    generation: Literal["offline", "live"] = "offline"
 
 
 class ResumeRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     approve: bool = False
     plan_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    decision: Literal["approve", "reject", "revise"] | None = None
 
 
 def authorize(authorization: str | None = Header(default=None)) -> Settings:
@@ -123,6 +135,8 @@ def mapped_errors():
     except GuardrailError as exc:
         raise HTTPException(422, "The request failed the workflow's validation rules.") from exc
     except ValueError as exc:
+        if type(exc).__name__ in {"ReviewConflict", "VersionConflict"}:
+            raise HTTPException(409, "The reviewed material, source or reserved target changed; inspect the saved run.") from exc
         raise HTTPException(422, "Invalid workflow request.") from exc
     except Exception as exc:
         # Database errors can contain hosts, credentials or SQL. Never echo them.
@@ -152,7 +166,7 @@ def asset(asset: str):
 def config():
     settings = Settings.read()
     tasks = unfinished_tasks()
-    return {"mode": "student" if tasks else "reference", "effects": "simulated", "source": "synthetic",
+    return {"mode": "student" if tasks else "complete", "effects": "simulated", "source": "synthetic",
             "retrieval": "offline hash test double", "generation": "offline extractive", "planner": "offline fixture",
             "storage": settings.backend, "auth_required": bool(settings.token) or settings.cloud,
             "unfinished_tasks": tasks, "release_ready": False,
@@ -172,6 +186,17 @@ def create_run(request: RunRequest, settings: Settings = Depends(authorize)):
     with mapped_errors():
         consume(settings, "create", 10)
         journal, provider = stores(settings)
+        if settings.backend == "local":
+            from .application import ApplicationService
+            from .deploy_retrieval import ImmutableVectorIndex
+            job = request.job or Job.model_validate(json.loads((DATA_DIR / "job.json").read_text()))
+            service = ApplicationService(settings.root, index_factory=ImmutableVectorIndex if request.retrieval == "offline" else None)
+            try:
+                return service.prepare(request.goal, job, retrieval=request.retrieval, planner=request.planner, generation=request.generation)
+            finally:
+                service.close()
+        if (request.retrieval, request.planner, request.generation) != ("offline", "offline", "offline"):
+            raise HTTPException(503, "Hosted semantic and live model adapters require the documented deployment extension.")
         run_id = uuid4().hex
         with run_lock(journal, run_id):
             rag = RAGService(index_factory=ImmutableVectorIndex)
@@ -189,6 +214,11 @@ def read_run(run_id: str, settings: Settings = Depends(authorize)):
     with mapped_errors():
         consume(settings, "read", 60)
         journal, _ = stores(settings)
+        if settings.backend == "local":
+            from .application import ApplicationService
+            service = ApplicationService(settings.root)
+            try: return service.get_run(run_id)
+            finally: service.close()
         return result(journal.load(run_id))
 
 
@@ -199,6 +229,13 @@ def resume_run(run_id: str, request: ResumeRequest, settings: Settings = Depends
     with mapped_errors():
         consume(settings, "resume", 20)
         journal, provider = stores(settings)
+        if settings.backend == "local":
+            from .application import ApplicationService
+            service = ApplicationService(settings.root)
+            try:
+                return service.resume(run_id, approve=request.approve, plan_hash=request.plan_hash, decision=request.decision)
+            finally:
+                service.close()
         with run_lock(journal, run_id):
             run = journal.load(run_id)
             if not hmac.compare_digest(run["plan_hash"], request.plan_hash):
@@ -209,6 +246,43 @@ def resume_run(run_id: str, request: ResumeRequest, settings: Settings = Depends
                 raise HTTPException(409, "This run stopped before review. Inspect its error and create a fresh run.")
             engine = Workflow(settings.root, journal=journal, provider=provider)
             return result(engine.resume(run_id, approved=request.approve))
+
+
+@router.get("/api/knowledge")
+def knowledge_view(settings: Settings = Depends(authorize)):
+    with mapped_errors():
+        if settings.backend != "local":
+            raise HTTPException(503, "Atlas Lab's complete knowledge/artifact backend is local; cloud parity is pending.")
+        from .application import ApplicationService
+        service = ApplicationService(settings.root)
+        try: return service.knowledge()
+        finally: service.close()
+
+
+@router.get("/api/dashboard")
+def dashboard_view(settings: Settings = Depends(authorize)):
+    with mapped_errors():
+        if settings.backend != "local":
+            raise HTTPException(503, "The full Atlas Lab projection requires its local artifact/event store.")
+        from .application import ApplicationService
+        service = ApplicationService(settings.root)
+        try: return service.dashboard()
+        finally: service.close()
+
+
+@router.get("/api/artifacts/{digest}")
+def artifact_bytes(digest: str, settings: Settings = Depends(authorize)):
+    from fastapi.responses import Response
+    if not re.fullmatch(r"[a-f0-9]{64}", digest):
+        raise HTTPException(422, "Invalid artifact digest.")
+    with mapped_errors():
+        if settings.backend != "local":
+            raise HTTPException(503, "Durable hosted artifact storage is not configured.")
+        from .application import ApplicationService
+        service = ApplicationService(settings.root)
+        try: content = service.lab.get_artifact(digest)
+        finally: service.close()
+        return Response(content, media_type="text/markdown", headers={"Content-Disposition": f'attachment; filename="simulation-{digest[:12]}.md"'})
 
 
 class ConsoleBoundary:

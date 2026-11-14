@@ -1,3 +1,10 @@
+# LEARN: RAG-01
+# ROLE: Select eligible source versions and split text without losing provenance.
+# FLOW: Atlas snapshot -> eligible records -> retrieval chunks.
+# WHY: Newest revocation must beat older approval; append-only history alone is insufficient.
+# L1: Trace one input and its failure path, then run tests/test_knowledge.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Read-only, deliberately small Atlas snapshot contract; no connector credentials.
 
 Only flattened, selected knowledge belongs here. The importer, not this module,
@@ -113,7 +120,37 @@ def select_records(snapshot: dict) -> list[dict]:
     identity is (table,record_id). Preserve native content_hash and add a separate
     export_text_hash for selected text. Raise ValueError on malformed inputs.
     """
-    raise NotImplementedError("M3: implement select_records")
+    if not isinstance(snapshot, dict) or not isinstance(snapshot.get("records"), list):
+        raise ValueError("snapshot records must be a list")
+    if snapshot.get("schema_version") != 1 or isinstance(snapshot.get("schema_version"), bool):
+        raise ValueError("unsupported snapshot schema_version")
+    if snapshot.get("kind") not in {"synthetic", "atlas_snapshot"}:
+        raise ValueError("select only an explicit synthetic or atlas_snapshot envelope")
+    _integer(snapshot.get("revision"), "revision")
+    latest: dict[tuple[str, str], dict] = {}
+    versions: dict[tuple[str, str, int], str] = {}
+    for record in snapshot["records"]:
+        _validate_record(record)
+        if record["snapshot_revision"] != snapshot["revision"]:
+            raise ValueError("mixed snapshot revisions; restart the source scan")
+        identity = (record["table"], record["record_id"])
+        version_key = (*identity, record["record_version"])
+        canonical = json.dumps(record, sort_keys=True, ensure_ascii=False, allow_nan=False)
+        if version_key in versions and versions[version_key] != canonical:
+            raise ValueError("contradictory duplicate record version")
+        versions[version_key] = canonical
+        if identity not in latest or record["record_version"] > latest[identity]["record_version"]:
+            latest[identity] = record
+    selected = []
+    for identity in sorted(latest):
+        record = latest[identity]
+        if record["approval_status"] != "APPROVED" or record.get("superseded", False):
+            continue
+        copy = deepcopy(record)
+        copy["export_text_hash"] = hashlib.sha256(copy["text"].encode("utf-8")).hexdigest()
+        copy.setdefault("metadata", {})
+        selected.append(copy)
+    return selected
 
 
 def _text_parts(text: str, max_chars: int) -> list[str]:
@@ -141,4 +178,26 @@ def chunk_records(records: list[dict], max_chars: int = 600) -> list[dict]:
     change when record version or chunk text changes. Empty input returns [].
     Only approved, non-superseded records may be supplied. No input mutation.
     """
-    raise NotImplementedError("M3: implement chunk_records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    _integer(max_chars, "max_chars", 40)
+    if max_chars > 4000:
+        raise ValueError("max_chars must be <= 4000")
+    chunks = []
+    seen: set[str] = set()
+    for record in records:
+        _validate_record(record)
+        if record["approval_status"] != "APPROVED" or record.get("superseded", False):
+            raise ValueError("chunk only selected approved records")
+        for index, text in enumerate(_text_parts(record["text"], max_chars)):
+            text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+            identity = json.dumps([record["table"], record["record_id"], record["record_version"], index, text_hash])
+            chunk_id = "chunk:" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:24]
+            if chunk_id in seen:
+                raise ValueError("duplicate selected record would create duplicate chunks")
+            seen.add(chunk_id)
+            chunk = deepcopy(record)
+            chunk.update(chunk_id=chunk_id, chunk_index=index, chunk_text_hash=text_hash, text=text)
+            chunks.append(chunk)
+    return chunks
+

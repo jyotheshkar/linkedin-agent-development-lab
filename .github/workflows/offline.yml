@@ -20,7 +20,6 @@ jobs:
           uv pip install --python .lab/wheel-env/bin/python dist/*.whl
           .lab/wheel-env/bin/python -I scripts/check_installed.py
   reference:
-    if: github.ref == 'refs/heads/coach-reference' || github.ref == 'refs/heads/deployment-reference'
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -31,7 +30,7 @@ jobs:
           POSTGRES_DB: lab_test
         ports: ['5432:5432']
         options: >-
-          --health-cmd pg_isready --health-interval 10s
+          --health-cmd "pg_isready -U lab -d lab_test" --health-interval 10s
           --health-timeout 5s --health-retries 5
     env:
       TEST_DATABASE_URL: postgresql://lab:synthetic-test-only@localhost:5432/lab_test
@@ -43,3 +42,7 @@ jobs:
       - run: python -m pip install uv==0.13.8
       - run: uv sync --locked --extra lab
       - run: uv run pytest -m 'not semantic and not live' --junitxml=.lab/deployment-reference.xml
+      - run: uv run l1-lab validate-lessons
+      - run: uv run l1-lab context-export --lesson CONTRACTS-01 --output .lab/ci-context.json
+      - name: Build portable container without publication
+        run: docker build -t linkedin-agent-lab:test .

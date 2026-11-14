@@ -60,7 +60,8 @@ def postgres_http(monkeypatch, tmp_path):
     for name in ("OPENAI_API_KEY", "OPENAI_MODEL"):
         monkeypatch.delenv(name, raising=False)
     for name, value in {
-        "VERCEL": "1",
+        # Narrow Postgres engine tests run locally. The complete Atlas artifact
+        # service intentionally blocks cloud release until durable parity exists.
         "LAB_STATE_BACKEND": "postgres",
         "DATABASE_URL": database_url,
         "DATABASE_LOCK_URL": database_url,

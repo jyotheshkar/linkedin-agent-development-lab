@@ -50,6 +50,10 @@ class _Model:
         self.last_usage = None
 
     def _parse(self, schema, instructions: str, user_input: str):
+        from .context_budget import ContextBudget
+        # The configured limit must be at or below the selected model's actual
+        # limit. Bytes are a conservative estimate, never reported as usage.
+        self.last_budget = ContextBudget(context_tokens=int(os.getenv("OPENAI_CONTEXT_TOKENS", "32768"))).check(instructions, user_input)
         response = self.client.responses.parse(
             model=self.model, instructions=instructions,
             input=user_input, text_format=schema, max_output_tokens=1800,

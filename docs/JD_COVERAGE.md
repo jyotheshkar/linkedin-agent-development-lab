@@ -1,68 +1,36 @@
-# Role evidence and lab coverage
+# Recruiter JD to inspectable implementation
 
-This lab is aligned with the recruiter-provided **Capgemini AI Engineer,
-Engineering Augmentation** role. The source is attachment
-`AI-Engineer-JD-2026-10-15.html` in Gmail message `1a1a0ca9d338a22d`, preserved in
-the installed AIE `references/jd-source.md`. The packaged role/evidence and
-coaching protocol were read for this build. They are source snapshots, not
-evidence of an official interview agenda or of current employment terms.
+The source is **Capgemini AI Engineer - Engineering Augmentation**, recruiter attachment `AI-Engineer-JD-2026-10-15.html`, Gmail message `1a1a0ca9d338a22d`, preserved in AIE `references/jd-source.md`. The exact attachment was reread for this upgrade on 14 November 2026 and matched the packaged role snapshot. The table paraphrases that specific source rather than a generic advert.
 
-The newer 13 November user report says the recruiter confirmed assessment
-clearance and progression to L1. It supersedes the older packaged
-clearance-unknown note. Interview date, format and official score remain
-unknown. L1 implementation emphasis is a preparation choice, not a confirmed
-employer rubric. No prior guided practice result is imported as independent
-competence.
+The user reported assessment clearance and progression to L1 following Namrata's call on 13 November. Interview date, exact agenda, pass thresholds and official score are unknown. L1 implementation/L2 design emphasis are preparation choices, not insider knowledge. No historical guided practice score becomes independent competence.
 
-## Exact coverage map
+The links below identify code and executable test targets. Their presence is not a claim that every test/integration has run: [VERIFICATION.md](VERIFICATION.md) owns fresh observed results, environments and remaining gaps.
 
-| Role requirement, paraphrased from the JD | Existing evidence or concept reused | Newly built learning surface | Remaining evidence or gap |
-| --- | --- | --- | --- |
-| Clean Python, environments, packaging and pytest | Archived assisted agent/RAG practice; installed LinkedIn validators inspected as source | `contracts.py`, focused task bodies, `pyproject.toml`, lock and milestone tests | Learner must implement, explain and test independent changes; a builder/reference test pass is different evidence |
-| REST APIs, JSON, authentication and errors | Existing project architecture is context, not a claim of personal production API ownership | FastAPI request contracts, bearer boundary, local CLI/browser integration and rejection tests | Verify cloud access controls and secret handling on the actual deployment; the lab token is not full multi-user identity |
-| Tools, structured LLM outputs and prompt design | Archived agent tool-routing exercise and inspected workflow concepts | `OpenAIPlanner`, `OpenAIAnswerGenerator`, schema checks and the shared deterministic executor path | Contract tests with fakes do not verify live planning or generation; report each actual provider run separately |
-| At least one framework and common workflow patterns | Existing private LinkedIn workflow is a project anchor; its installed helpers are validators/planners, not proof of autonomous provider execution | Thin LangGraph plan/execute graph with explicit Python state, distinct fixture plans and review pause | Explain why the graph is useful and when a script suffices; no need to claim all named frameworks are implemented |
-| Human approval and safe failure | LinkedIn/Atlas concepts: completion gates, pending events and recovery | Immutable reviewed-plan identity, declared retries, validation failures and simulated effect review | Demonstrate fresh failure/recovery variants; simulation is not a live employer authorization system |
-| RAG chunking, embeddings and vector queries | Approved selected Atlas facts/project metadata are a private read-only snapshot; RAG was not asserted to exist in inspected LinkedIn helpers | Provenance-preserving ingestion/chunks, offline hash vectors, optional FastEmbed/Qdrant semantic lab, retrieval manifest and filters | A snapshot is not live synchronization; hash vectors are not semantic embeddings; a model download/test requires its own observed result |
-| Context and token limits | AIE explanation/verification discipline | Whole-chunk context budget and citation IDs in `grounding.py` | The budget counts characters; provider token accounting and actual model limits require additional checks |
-| Evaluation before release and output testing | Archived RAG practice distinguished lexical overlap from semantic truth | Separate retrieval/citation/extractive-support/abstention metrics; stable case-ID regression comparison | Small developer-labelled cases are not an expert truth set; output membership and quotation do not prove entailment |
-| Tracing, telemetry, usage, cost and adoption | Atlas provenance and event-evidence concepts | Run/step/tool/status/attempt/source-ID trace events and measured elapsed execution times | No production adoption data, full telemetry platform or observed provider billing; unknown token/cost fields remain absent or null |
-| Git, CI/CD and Docker working knowledge | Existing GitHub portfolio is context; authorship and deployment need separate evidence | Student/reference branches, labelled Actions workflow, dev-container configuration and release gate | A host-local run is not a Codespaces/container/Actions pass; actual cloud receipts must be observed |
-| Troubleshooting and feedback-driven improvement | User-supplied Amazon evaluation and failure-analysis experience, kept separate from engineering claims | Failure injection, receipt reconciliation, concurrent/durable-state delivery exercises and changed scenarios | Learner explains a concrete observed failure and correction; do not invent scale, savings, production ownership or teamwork outcomes |
-| MCP awareness and exposing an agent tool | Connected ChatGPT plugins supplied source context during the build | Delivery review and original question comparing the Python registry with an MCP interface | This lab does not implement an MCP server; discovery, schemas, transport and authenticated access remain an explanation/extension topic |
-| AI risks, injection, validation and sensitive data | Approved-claim boundaries and conservative project wording | Injection fixture, untrusted-context envelope, structural output checks and excluded private corpus/state | String/structural tests are bounded controls, not a security certification or a semantic safety guarantee |
-| Walk through a substantial application, its tests and failures | Real Amazon evaluation, assisted historical code and verified portfolio work remain distinct | End-to-end synthetic project plus original code-linked interview prompts | Only observed learner explanations, changes, tests and transfer support independent competence |
+| JD area ID | Requirement and implementation surface | Exact source symbol | Public test / verification target | Lesson and limitation |
+|---|---|---|---|---|
+| `python` | Typed Python, JSON contracts, packaging/environment and useful tests | `contracts.Job`, `parse_job`, `normalize_identity` | `tests/test_contracts.py::test_strict_budget`; locked install/wheel smoke in fresh verification | [CONTRACTS-01](learning/02-contracts.md); builder code is not learner fluency |
+| `rest` | Thin CLI/FastAPI interfaces, request schema, auth, bounded payload and safe errors | `web_api.create_run`, `ConsoleBoundary`, `api.fit` | `tests/test_web_api.py::test_authentication_happens_before_storage_or_work`; `test_body_limit_counts_actual_bytes_before_json_or_work` | [DELIVERY-01](learning/10-delivery.md); single-owner bearer protection is not multi-user identity |
+| `structured_llm` | Optional real-model planning/generation with schema-checked proposals | `OpenAIPlanner.plan`, `OpenAIAnswerGenerator.generate`, `validate_tool_call` | `tests/test_openai_adapter.py::test_live_plan_contract_without_network`; actual live runs separately reported | [AGENT-01](learning/03-agent-control.md), [GROUNDING-01](learning/08-grounding.md); mocks are not live verification |
+| `agent_framework` | One LangGraph plan/execute workflow over explicit Python state | `Workflow`, `OfflinePlanner.plan`, `PreparedPlanner` | `tests/test_planner.py::test_different_goals_select_different_fixture_plans`; workflow integration tests | [ANATOMY-01](learning/01-anatomy.md), [AGENT-01](learning/03-agent-control.md); routing/ReAct are comparisons, not extra implemented frameworks |
+| `human_review` | Review actual target, artifact version/hash, source/policy and action payload | `ApplicationService.prepare`, `ApplicationService.resume`, `AtlasLab.save_approval` | `tests/test_workflow.py::test_changed_persisted_plan_cannot_inherit_approval`; `tests/test_atlas_lab.py::AtlasLabTests::test_action_approval_is_separate_from_knowledge_approval` | [WORKFLOW-01](learning/04-workflow-recovery.md), [ATLAS-01](learning/05-atlas-lab.md); all effects remain simulation |
+| `safe_failure` | Bounded declared retries, independent provider receipts and restart reconciliation | `retry_allowed`, `FakeProvider.execute/reconcile`, `Workflow.resume` | `tests/test_workflow.py::test_unknown_outcome_reserves_capacity_until_reconciliation`; `test_changed_payload_cannot_receive_old_receipt_credit_on_resume` | [WORKFLOW-01](learning/04-workflow-recovery.md); a hash alone cannot promise exactly-once external delivery |
+| `rag` | Approved record versions, provenance chunks, local semantic vector retrieval and refresh | `AtlasLab.snapshot`, `select_records`, `chunk_records`, `FastEmbedEmbedding`, `VectorIndex.search` | `tests/test_knowledge.py::test_latest_revocation_does_not_resurrect_old_approval`; `tests/test_semantic.py::test_actual_fastembed_and_qdrant_semantic_path` | [ATLAS-01](learning/05-atlas-lab.md), [RAG-01](learning/06-ingestion.md), [RETRIEVAL-01](learning/07-retrieval.md); a snapshot is not continuous sync and hash vectors are not semantic |
+| `structured_llm` / `rag` | Bounded context and structured grounded output with source/gap/review states | `build_context`, `validate_answer`, `RAGService.answer` | `tests/test_service.py::test_context_budget_only_retained_citations`; `tests/test_grounding.py::test_structural_checks_are_not_semantic_truth_checks` | [GROUNDING-01](learning/08-grounding.md); character count is not exact tokens and citations do not prove entailment |
+| `evaluation` | Separate recall, citation validity, labelled support, abstention and stable-ID regression | `evaluate`, `compare_runs` | `tests/test_evaluation.py::test_regression_aligns_ids_and_reports_missing_new`; `test_valid_citation_with_fabricated_claim_fails_extractive_support_proxy` | [EVALUATION-01](learning/09-evaluation.md); small labelled cases and model judges are fallible |
+| `tracing` | Real local OpenTelemetry spans/export with bounded redacted attributes | `LocalTelemetry.span`, `JSONLSpanExporter.export`, `safe_attributes` | `tests/test_observability.py::test_real_sdk_spans_have_parent_identity_and_measured_duration`; `test_exception_message_stack_and_request_content_are_not_recorded` | [EVALUATION-01](learning/09-evaluation.md); observed events, not hidden reasoning; unknown usage/cost stays unknown |
+| `delivery` | Git/history, Actions, development container, wheel resources and prepared future hosting | `resources.py`, `cli.main`, delivery configuration | `scripts/check_installed.py`; actual CI/container/wheel receipts in fresh verification | [DELIVERY-01](learning/10-delivery.md); private preview and inert deployment preparation are not a hosted release |
+| `mcp` | Small read-only local protocol example: discover tools, schema, invoke/reject | `mcp_server.create_server` | `tests/test_mcp_server.py::test_stdio_discovery_invocation_rejection_and_read_only_state` | [DELIVERY-01](learning/10-delivery.md), [MCP.md](MCP.md); no arbitrary SQL/shell/write authority and not a production Atlas endpoint |
+| `privacy` | Untrusted job/document inputs, read-only imports and private-data exclusion | `validate_tool_call`, `validate_answer`, `AtlasLab.import_snapshot`, `context_export.export_context` | `tests/test_workflow.py::test_retrieved_hostile_fixture_is_data_on_actual_workflow_path`; `tests/test_context_export.py::test_one_lesson_export_is_bounded_and_private_files_are_absent` | Across lessons; bounded tests are not a security certification |
+| `substantial_project` | End-to-end content-backed artifacts, separate simulation events and verified projection membership | `ApplicationService.prepare/resume/get`, `AtlasLab.store_artifact/record_event/project/projection` | `tests/test_atlas_lab.py::AtlasLabTests::test_artifact_bytes_versions_and_retry_are_immutable_and_restart_safe`; `test_five_distinct_events_need_separate_projection_membership_readback` | [ANATOMY-01](learning/01-anatomy.md), [WORKFLOW-01](learning/04-workflow-recovery.md); only observed learner explanation/change evidence supports personal competence |
 
-## New cloud delivery extension
+## Data, generation and delivery distinctions
 
-Postgres-backed state, run locking and Vercel packaging are delivery exercises
-added to this lab. The JD asks for basic delivery practices; it does not mandate
-Vercel, Postgres or a particular cloud architecture. Local journal/SQLite
-mechanisms and the optional cloud Postgres backend should be explained as
-different deployment contracts. A migration file or adapter implementation is
-not evidence of a provisioned database, an executed real-database test, or a live
-deployment. See `VERCEL_DELIVERY.md` and the build report for the precise release
-sequence and observed verification.
+The complete local MVP and legacy Postgres workflow adapters have different storage contracts. Atlas knowledge/artifact parity must not be inferred from durable run receipts alone. Future hosting must preserve semantic retrieval and reviewed artifacts with tested durable state, or fail closed. No Vercel import/deployment, public preview, hosted resource provisioning or operational Atlas write is authorized by this upgrade.
 
-## AIE-informed practice without fabricated scoring
+Data source, retrieval, planner, generation and effects are independent dimensions. Real embeddings do not establish live planning/generation; all employer effects remain **SIMULATION**. A source-approved neutral architecture statement does not prove personal code ownership or deployment.
 
-`data/interview_questions.json` contains sixteen original code-linked prompts,
-including changed scenarios. It stores question IDs, topic/mode, required-point
-categories, code symbols and optional hints; it contains no answer key. The
-browser displays one prompt at a time and exports raw ungraded drafts with
-assistance information. Those drafts do not become scored attempts simply by
-being submitted or downloaded.
+## Learning evidence
 
-A coach can later grade an observed answer using correctness 4, reasoning 2,
-boundaries/verification 2 and explanation 2. Every graded attempt requires an
-explicit assistance declaration. Two independent fully correct distinct
-scenarios, including transfer, are required for the lab's mastery label; a later
-critical misconception resets that evidence. Missing denominators remain N/A.
-These are transparent practice measures, not employer pass thresholds or hiring
-probabilities. The final mock uses fresh questions later, and learning is
-untimed unless requested.
+The complete code is intentionally visible. `docs/learning/lesson-index.json` links ten concise investigations with source/tests/diagrams and optional isolated experiments. The browser practice bank contains original prompts, not an official answer key. Practice drafts remain ungraded until reviewed.
 
-The packaged AIE sources informed the content at build time. The runtime app
-does not invoke AIE, append to its static package, write Minister learning or
-update operational Atlas records. Portable exports enable a later coaching chat
-to review the learner's evidence explicitly.
+For observed attempts use correctness 4, reasoning 2, boundaries/verification 2 and explanation 2 with explicit assistance/reference exposure. No attempts means N/A. Two independent fully correct distinct scenarios including transfer establish the lab's mastery label; this is not an employer threshold or hiring probability. The runtime does not automatically update the AIE plugin, Minister or operational Atlas.

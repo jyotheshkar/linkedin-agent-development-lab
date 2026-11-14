@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "ATLAS_SNAPSHOT_VERIFIED",
+  "scope": "Host-local approved selected snapshot import, read-only enforcement, chunking and deterministic hash retrieval/grounding; no semantic or live model claim for this snapshot",
+  "python": "3.11.15",
+  "native_revision": 3482,
+  "selected_records": 5,
+  "chunks": 6,
+  "retrieved_hits": 2,
+  "answer_status": "supported",
+  "real_records_read_only": true,
+  "source_sha256": "a5d58d2e0db3f2f7bfe96ad6dfb7c2c8d88fd2b7fcd5c4839a186369b746c198",
+  "operational_writes": 0,
+  "source_age_seconds": 98931.961899
+}

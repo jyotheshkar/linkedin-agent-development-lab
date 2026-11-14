@@ -1,0 +1,581 @@
+{
+  "schema_version": 1,
+  "project": {
+    "title": "LinkedIn Agent Development Lab",
+    "repository_id": 1456774523,
+    "repository_url": "https://github.com/jyotheshkar/linkedin-agent-development-lab",
+    "source_year": 2026
+  },
+  "lessons": [
+    {
+      "id": "ANATOMY-01",
+      "title": "Read the working system",
+      "path": "docs/learning/01-anatomy.md",
+      "prerequisites": [],
+      "source_files": [
+        "src/l1_lab/application.py",
+        "src/l1_lab/service.py",
+        "src/l1_lab/workflow.py",
+        "src/l1_lab/cli.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/application.py",
+          "symbol": "ApplicationService.prepare"
+        },
+        {
+          "file": "src/l1_lab/application.py",
+          "symbol": "ApplicationService.resume"
+        },
+        {
+          "file": "src/l1_lab/application.py",
+          "symbol": "ApplicationService.get"
+        },
+        {
+          "file": "src/l1_lab/service.py",
+          "symbol": "RAGService.answer"
+        },
+        {
+          "file": "src/l1_lab/workflow.py",
+          "symbol": "Workflow"
+        },
+        {
+          "file": "src/l1_lab/cli.py",
+          "symbol": "main"
+        }
+      ],
+      "tests": [
+        "tests/test_service.py::test_integrated_evidence_workflow_pauses",
+        "tests/test_workflow.py::test_read_only_plan_completion_is_not_full_unit_completion"
+      ],
+      "diagrams": [
+        "docs/architecture/system-anatomy.svg",
+        "docs/architecture/request-sequence.svg",
+        "docs/architecture/learning-map.svg"
+      ],
+      "jd_areas": [
+        "substantial_project",
+        "agent_framework",
+        "python"
+      ],
+      "experiment": {
+        "id": "EXP-ANATOMY-01",
+        "summary": "Trace an inspect-only goal and compare its completion gates with an application goal.",
+        "safe_boundary": "Use the synthetic store and existing interfaces; change no application code.",
+        "test_command": "uv run pytest tests/test_workflow.py::test_read_only_plan_completion_is_not_full_unit_completion -q"
+      },
+      "l1_prompt": "Trace one validated job through the modules and identify the first human-review boundary.",
+      "l2_prompt": "Explain why one modular Python application is appropriate here and when a queue or service split would become necessary."
+    },
+    {
+      "id": "CONTRACTS-01",
+      "title": "JSON is input, not a contract",
+      "path": "docs/learning/02-contracts.md",
+      "prerequisites": [
+        "ANATOMY-01"
+      ],
+      "source_files": [
+        "src/l1_lab/contracts.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/contracts.py",
+          "symbol": "Job"
+        },
+        {
+          "file": "src/l1_lab/contracts.py",
+          "symbol": "parse_job"
+        },
+        {
+          "file": "src/l1_lab/contracts.py",
+          "symbol": "normalize_identity"
+        }
+      ],
+      "tests": [
+        "tests/test_contracts.py::test_valid_job",
+        "tests/test_contracts.py::test_strict_budget",
+        "tests/test_contracts.py::test_duplicate_normalized_identity"
+      ],
+      "diagrams": [
+        "docs/architecture/request-sequence.svg",
+        "docs/architecture/learning-map.svg"
+      ],
+      "jd_areas": [
+        "python",
+        "rest",
+        "safe_failure"
+      ],
+      "experiment": {
+        "id": "EXP-CONTRACTS-01",
+        "summary": "In an isolated input fixture, compare max_calls=8 with true, a numeric string, and a blank skill.",
+        "safe_boundary": "Create an ignored .lab/experiments input copy; do not change the working Job contract or committed fixture.",
+        "test_command": "uv run pytest tests/test_contracts.py -q"
+      },
+      "l1_prompt": "Explain the Python objects created by JSON decoding and why Boolean-as-integer needs a strict boundary.",
+      "l2_prompt": "Defend strict validation versus coercion and explain how a versioned API schema could evolve safely."
+    },
+    {
+      "id": "AGENT-01",
+      "title": "Proposals do not grant permission",
+      "path": "docs/learning/03-agent-control.md",
+      "prerequisites": [
+        "CONTRACTS-01"
+      ],
+      "source_files": [
+        "src/l1_lab/agent.py",
+        "src/l1_lab/planner.py",
+        "src/l1_lab/openai_adapter.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/agent.py",
+          "symbol": "validate_tool_call"
+        },
+        {
+          "file": "src/l1_lab/agent.py",
+          "symbol": "retry_allowed"
+        },
+        {
+          "file": "src/l1_lab/planner.py",
+          "symbol": "OfflinePlanner.plan"
+        },
+        {
+          "file": "src/l1_lab/openai_adapter.py",
+          "symbol": "OpenAIPlanner.plan"
+        }
+      ],
+      "tests": [
+        "tests/test_agent.py::test_permissions_and_detached_arguments",
+        "tests/test_agent.py::test_retry_attempts_vs_additional_retries",
+        "tests/test_planner.py::test_different_goals_select_different_fixture_plans",
+        "tests/test_openai_adapter.py::test_live_plan_contract_without_network"
+      ],
+      "diagrams": [
+        "docs/architecture/request-sequence.svg",
+        "docs/architecture/state-recovery.svg"
+      ],
+      "jd_areas": [
+        "structured_llm",
+        "agent_framework",
+        "safe_failure",
+        "privacy"
+      ],
+      "experiment": {
+        "id": "EXP-AGENT-01",
+        "summary": "Propose an unknown tool and inspect rejection before any provider effect.",
+        "safe_boundary": "Use an injected planner in a standalone experiment/test with a temporary store, never a shell or browser tool.",
+        "test_command": "uv run pytest tests/test_workflow.py::test_unknown_tool_blocks_before_any_effect -q"
+      },
+      "l1_prompt": "Trace a tool proposal through name, permission, schema, budget and execution checks.",
+      "l2_prompt": "Compare this plan-and-execute design with routing, ReAct and an ordinary script without claiming all patterns are implemented."
+    },
+    {
+      "id": "WORKFLOW-01",
+      "title": "Review, receipts and recovery",
+      "path": "docs/learning/04-workflow-recovery.md",
+      "prerequisites": [
+        "AGENT-01"
+      ],
+      "source_files": [
+        "src/l1_lab/workflow.py",
+        "src/l1_lab/provider.py",
+        "src/l1_lab/journal.py",
+        "src/l1_lab/agent.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/workflow.py",
+          "symbol": "Workflow.start"
+        },
+        {
+          "file": "src/l1_lab/workflow.py",
+          "symbol": "Workflow.resume"
+        },
+        {
+          "file": "src/l1_lab/provider.py",
+          "symbol": "FakeProvider.execute"
+        },
+        {
+          "file": "src/l1_lab/provider.py",
+          "symbol": "FakeProvider.reconcile"
+        },
+        {
+          "file": "src/l1_lab/agent.py",
+          "symbol": "completion_gates"
+        }
+      ],
+      "tests": [
+        "tests/test_workflow.py::test_unknown_outcome_reserves_capacity_until_reconciliation",
+        "tests/test_workflow.py::test_effect_success_then_journal_failure_recovers_without_duplicate",
+        "tests/test_workflow.py::test_changed_payload_cannot_receive_old_receipt_credit_on_resume",
+        "tests/test_workflow.py::test_pending_delivery_cannot_complete"
+      ],
+      "diagrams": [
+        "docs/architecture/state-recovery.svg",
+        "docs/architecture/request-sequence.svg"
+      ],
+      "jd_areas": [
+        "human_review",
+        "safe_failure",
+        "tracing",
+        "substantial_project"
+      ],
+      "experiment": {
+        "id": "EXP-WORKFLOW-01",
+        "summary": "Inject effect-success/response-timeout, restart the engine, and reconcile the same action.",
+        "safe_boundary": "Use FakeProvider and a fresh temporary directory; preserve the first receipt and exact payload.",
+        "test_command": "uv run pytest tests/test_workflow.py::test_unknown_outcome_reserves_capacity_until_reconciliation -q"
+      },
+      "l1_prompt": "Explain what survives a process failure and why an unknown outcome must be reconciled before retry.",
+      "l2_prompt": "Explain the limits of provider idempotency, approval binding and transaction boundaries across independent stores."
+    },
+    {
+      "id": "ATLAS-01",
+      "title": "Knowledge is versioned evidence",
+      "path": "docs/learning/05-atlas-lab.md",
+      "prerequisites": [
+        "CONTRACTS-01"
+      ],
+      "source_files": [
+        "src/l1_lab/atlas_lab.py",
+        "src/l1_lab/knowledge.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/atlas_lab.py",
+          "symbol": "AtlasLab.import_snapshot"
+        },
+        {
+          "file": "src/l1_lab/atlas_lab.py",
+          "symbol": "AtlasLab.review"
+        },
+        {
+          "file": "src/l1_lab/atlas_lab.py",
+          "symbol": "AtlasLab.store_artifact"
+        },
+        {
+          "file": "src/l1_lab/atlas_lab.py",
+          "symbol": "AtlasLab.record_event"
+        },
+        {
+          "file": "src/l1_lab/atlas_lab.py",
+          "symbol": "AtlasLab.project"
+        },
+        {
+          "file": "src/l1_lab/atlas_lab.py",
+          "symbol": "AtlasLab.projection"
+        },
+        {
+          "file": "src/l1_lab/knowledge.py",
+          "symbol": "AtlasSnapshotSource"
+        },
+        {
+          "file": "src/l1_lab/knowledge.py",
+          "symbol": "select_records"
+        }
+      ],
+      "tests": [
+        "tests/test_atlas_lab.py::AtlasLabTests::test_synthetic_create_edit_review_and_revoke_are_immutable_versions",
+        "tests/test_atlas_lab.py::AtlasLabTests::test_imported_source_is_read_only_and_native_hash_stays_distinct",
+        "tests/test_atlas_lab.py::AtlasLabTests::test_five_distinct_events_need_separate_projection_membership_readback",
+        "tests/test_atlas_lab.py::AtlasLabTests::test_projection_failure_or_same_revision_membership_corruption_repairs_without_effect_repeat",
+        "tests/test_knowledge.py::test_latest_revocation_does_not_resurrect_old_approval",
+        "tests/test_knowledge.py::test_selection_preserves_native_hash_and_keeps_text_hash_separate",
+        "tests/test_knowledge.py::test_mixed_revisions_fail_and_sensitive_metadata_is_rejected"
+      ],
+      "diagrams": [
+        "docs/architecture/system-anatomy.svg",
+        "docs/architecture/rag-index-query.svg"
+      ],
+      "jd_areas": [
+        "rag",
+        "privacy",
+        "human_review",
+        "safe_failure"
+      ],
+      "experiment": {
+        "id": "EXP-ATLAS-01",
+        "summary": "In a synthetic record copy, introduce a newer revoked version and inspect the selected corpus.",
+        "safe_boundary": "Only synthetic lab records are editable; imported real snapshots remain read-only and outside Git.",
+        "test_command": "uv run pytest tests/test_atlas_lab.py::AtlasLabTests::test_synthetic_create_edit_review_and_revoke_are_immutable_versions -q"
+      },
+      "l1_prompt": "Distinguish a source record version, snapshot revision, source hash, export hash and action approval.",
+      "l2_prompt": "Explain optimistic concurrency and why a reporting projection must be verified separately from event storage."
+    },
+    {
+      "id": "RAG-01",
+      "title": "Ingest and chunk without losing provenance",
+      "path": "docs/learning/06-ingestion.md",
+      "prerequisites": [
+        "ATLAS-01"
+      ],
+      "source_files": [
+        "src/l1_lab/knowledge.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/knowledge.py",
+          "symbol": "load_snapshot"
+        },
+        {
+          "file": "src/l1_lab/knowledge.py",
+          "symbol": "select_records"
+        },
+        {
+          "file": "src/l1_lab/knowledge.py",
+          "symbol": "chunk_records"
+        }
+      ],
+      "tests": [
+        "tests/test_knowledge.py::test_equal_duplicate_collapses_but_conflicting_same_version_fails",
+        "tests/test_knowledge.py::test_chunks_retain_provenance_and_change_identity_with_version",
+        "tests/test_knowledge.py::test_nonapproved_chunk_input_fails"
+      ],
+      "diagrams": [
+        "docs/architecture/rag-index-query.svg"
+      ],
+      "jd_areas": [
+        "rag",
+        "python",
+        "privacy"
+      ],
+      "experiment": {
+        "id": "EXP-RAG-01",
+        "summary": "Change a synthetic record version/text and compare its chunk IDs and source metadata.",
+        "safe_boundary": "Use a copied synthetic fixture or an in-memory dictionary; do not index generated drafts, practice answers or evaluation labels.",
+        "test_command": "uv run pytest tests/test_knowledge.py::test_chunks_retain_provenance_and_change_identity_with_version -q"
+      },
+      "l1_prompt": "Trace a native record through selection and chunking while naming each preserved field.",
+      "l2_prompt": "Compare chunk size, update semantics and provenance granularity for a small evidence store versus a large corpus."
+    },
+    {
+      "id": "RETRIEVAL-01",
+      "title": "Similarity is a candidate signal",
+      "path": "docs/learning/07-retrieval.md",
+      "prerequisites": [
+        "RAG-01"
+      ],
+      "source_files": [
+        "src/l1_lab/retrieval.py",
+        "src/l1_lab/deploy_retrieval.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/retrieval.py",
+          "symbol": "FastEmbedEmbedding"
+        },
+        {
+          "file": "src/l1_lab/retrieval.py",
+          "symbol": "VectorIndex.search"
+        },
+        {
+          "file": "src/l1_lab/retrieval.py",
+          "symbol": "rank_hits"
+        }
+      ],
+      "tests": [
+        "tests/test_retrieval.py::test_rank_filters_before_top_k_and_ties_are_stable",
+        "tests/test_retrieval.py::test_rebuild_removes_old_evidence_and_disk_local_reopens",
+        "tests/test_semantic.py::test_actual_fastembed_and_qdrant_semantic_path"
+      ],
+      "diagrams": [
+        "docs/architecture/rag-index-query.svg"
+      ],
+      "jd_areas": [
+        "rag",
+        "evaluation",
+        "python"
+      ],
+      "experiment": {
+        "id": "EXP-RETRIEVAL-01",
+        "summary": "Compare top-k, a metadata filter and a stricter relevance threshold on a development query.",
+        "safe_boundary": "Keep held-out labels unchanged and outside the index; never relabel hash vectors as semantic embeddings.",
+        "test_command": "uv run pytest tests/test_retrieval.py::test_rank_filters_before_top_k_and_ties_are_stable -q"
+      },
+      "l1_prompt": "Explain filtering versus ranking and why a nearest result can still be irrelevant.",
+      "l2_prompt": "Defend model, threshold, refresh and hosting choices using calibration evidence, memory and cold-start constraints."
+    },
+    {
+      "id": "GROUNDING-01",
+      "title": "Bound context, then validate the answer",
+      "path": "docs/learning/08-grounding.md",
+      "prerequisites": [
+        "RETRIEVAL-01"
+      ],
+      "source_files": [
+        "src/l1_lab/grounding.py",
+        "src/l1_lab/service.py",
+        "src/l1_lab/openai_adapter.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/grounding.py",
+          "symbol": "build_context"
+        },
+        {
+          "file": "src/l1_lab/grounding.py",
+          "symbol": "validate_answer"
+        },
+        {
+          "file": "src/l1_lab/service.py",
+          "symbol": "RAGService.answer"
+        },
+        {
+          "file": "src/l1_lab/openai_adapter.py",
+          "symbol": "OpenAIAnswerGenerator.generate"
+        }
+      ],
+      "tests": [
+        "tests/test_grounding.py::test_context_budget_counts_envelope_and_escapes_keeps_whole_chunks",
+        "tests/test_grounding.py::test_quote_must_be_exact_and_from_a_cited_hit",
+        "tests/test_grounding.py::test_structural_checks_are_not_semantic_truth_checks",
+        "tests/test_service.py::test_context_budget_only_retained_citations"
+      ],
+      "diagrams": [
+        "docs/architecture/rag-index-query.svg",
+        "docs/architecture/request-sequence.svg"
+      ],
+      "jd_areas": [
+        "rag",
+        "structured_llm",
+        "privacy",
+        "evaluation"
+      ],
+      "experiment": {
+        "id": "EXP-GROUNDING-01",
+        "summary": "Shrink the context budget until one whole source no longer fits and test that it cannot be cited.",
+        "safe_boundary": "Change only an experiment parameter; use retained context IDs, never all retrieved IDs, for generation and validation.",
+        "test_command": "uv run pytest tests/test_service.py::test_context_budget_only_retained_citations -q"
+      },
+      "l1_prompt": "Distinguish retrieved chunks, retained context, citation membership, accurate quotation and semantic support.",
+      "l2_prompt": "Design a conservative token budget and claim-support evaluation without treating temperature zero or valid JSON as truth."
+    },
+    {
+      "id": "EVALUATION-01",
+      "title": "Measure the system and the learner separately",
+      "path": "docs/learning/09-evaluation.md",
+      "prerequisites": [
+        "WORKFLOW-01",
+        "GROUNDING-01"
+      ],
+      "source_files": [
+        "src/l1_lab/evaluation.py",
+        "src/l1_lab/progress.py",
+        "src/l1_lab/observability.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/evaluation.py",
+          "symbol": "evaluate"
+        },
+        {
+          "file": "src/l1_lab/evaluation.py",
+          "symbol": "compare_runs"
+        },
+        {
+          "file": "src/l1_lab/progress.py",
+          "symbol": "compute_metrics"
+        },
+        {
+          "file": "src/l1_lab/observability.py",
+          "symbol": "LocalTelemetry.span"
+        },
+        {
+          "file": "src/l1_lab/observability.py",
+          "symbol": "JSONLSpanExporter.export"
+        },
+        {
+          "file": "src/l1_lab/observability.py",
+          "symbol": "safe_attributes"
+        }
+      ],
+      "tests": [
+        "tests/test_evaluation.py::test_regression_aligns_ids_and_reports_missing_new",
+        "tests/test_evaluation.py::test_valid_citation_with_fabricated_claim_fails_extractive_support_proxy",
+        "tests/test_progress.py::test_no_attempts_have_no_accuracy_or_mastery_evidence",
+        "tests/test_progress.py::test_missing_assistance_declaration_cannot_establish_independent_mastery",
+        "tests/test_observability.py::test_real_sdk_spans_have_parent_identity_and_measured_duration",
+        "tests/test_observability.py::test_exception_message_stack_and_request_content_are_not_recorded"
+      ],
+      "diagrams": [
+        "docs/architecture/learning-map.svg",
+        "docs/architecture/state-recovery.svg"
+      ],
+      "jd_areas": [
+        "evaluation",
+        "tracing",
+        "substantial_project"
+      ],
+      "experiment": {
+        "id": "EXP-EVALUATION-01",
+        "summary": "Shuffle evaluation rows and remove one case; compare by stable case ID and inspect missing-case reporting.",
+        "safe_boundary": "Use a copied score list. Do not change held-out labels, create personal scores from test passes, or invent timings.",
+        "test_command": "uv run pytest tests/test_evaluation.py::test_regression_aligns_ids_and_reports_missing_new -q"
+      },
+      "l1_prompt": "State the numerator and denominator for retrieval recall, citation validity, support and abstention.",
+      "l2_prompt": "Propose a release gate that accounts for sample coverage, semantic limitations, missing cases and rollback."
+    },
+    {
+      "id": "DELIVERY-01",
+      "title": "Interfaces, packaging and future hosting",
+      "path": "docs/learning/10-delivery.md",
+      "prerequisites": [
+        "ANATOMY-01",
+        "WORKFLOW-01"
+      ],
+      "source_files": [
+        "src/l1_lab/api.py",
+        "src/l1_lab/web_api.py",
+        "src/l1_lab/resources.py",
+        "src/l1_lab/cli.py",
+        "src/l1_lab/mcp_server.py"
+      ],
+      "symbols": [
+        {
+          "file": "src/l1_lab/api.py",
+          "symbol": "fit"
+        },
+        {
+          "file": "src/l1_lab/web_api.py",
+          "symbol": "create_run"
+        },
+        {
+          "file": "src/l1_lab/web_api.py",
+          "symbol": "ConsoleBoundary"
+        },
+        {
+          "file": "src/l1_lab/cli.py",
+          "symbol": "main"
+        },
+        {
+          "file": "src/l1_lab/mcp_server.py",
+          "symbol": "create_server"
+        }
+      ],
+      "tests": [
+        "tests/test_web_api.py::test_authentication_happens_before_storage_or_work",
+        "tests/test_web_api.py::test_body_limit_counts_actual_bytes_before_json_or_work",
+        "tests/test_web_api.py::test_asset_allowlist_and_console_redirect",
+        "tests/test_mcp_server.py::test_stdio_discovery_invocation_rejection_and_read_only_state"
+      ],
+      "diagrams": [
+        "docs/architecture/system-anatomy.svg",
+        "docs/architecture/request-sequence.svg"
+      ],
+      "jd_areas": [
+        "rest",
+        "delivery",
+        "mcp",
+        "privacy"
+      ],
+      "experiment": {
+        "id": "EXP-DELIVERY-01",
+        "summary": "Send a rejected request to an isolated API client and prove that storage/provider work did not occur.",
+        "safe_boundary": "Use the test app and temporary store. Do not deploy, expose a public port or provision a service.",
+        "test_command": "uv run pytest tests/test_web_api.py::test_authentication_happens_before_storage_or_work -q"
+      },
+      "l1_prompt": "Trace validation and authentication before mutation and explain how resources load from an installed wheel.",
+      "l2_prompt": "Compare a private Codespace preview with a durable hosted service and explain MCP discovery versus a Python function registry."
+    }
+  ]
+}

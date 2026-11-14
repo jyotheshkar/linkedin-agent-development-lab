@@ -1,3 +1,10 @@
+# LEARN: GROUNDING-01
+# ROLE: Bound context and validate generated claims against retained evidence.
+# FLOW: Retrieved hits -> context -> generator -> checked answer.
+# WHY: Citation membership and exact quotes are structural checks, not universal proof of entailment.
+# L1: Trace one input and its failure path, then run tests/test_grounding.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """Budgeted untrusted evidence and inspectable, structural answer checks.
 
 These checks prove membership and exact quotation only. They do not prove that
@@ -69,7 +76,20 @@ def build_context(hits: list[dict], max_chars: int = 3000) -> str:
     chunk IDs and malformed inputs raise ValueError. Never mutate input hits.
     The budget is characters, not a model token-limit guarantee.
     """
-    raise NotImplementedError("M5: implement build_context")
+    if type(max_chars) is not int or not 1 <= max_chars <= 1_000_000:
+        raise ValueError("max_chars must be an integer from 1 to 1000000")
+    if not isinstance(hits, list):
+        raise ValueError("hits must be a list")
+    selected: list[dict] = []
+    seen: set[str] = set()
+    for hit in hits:
+        item = _context_hit(hit)
+        if item["chunk_id"] in seen:
+            raise ValueError("duplicate context chunk_id")
+        seen.add(item["chunk_id"])
+        if len(_encode_context([*selected, item])) <= max_chars:
+            selected.append(item)
+    return _encode_context(selected) if selected else ""
 
 
 def validate_answer(answer: dict, hits: list[dict]) -> dict:
@@ -85,7 +105,62 @@ def validate_answer(answer: dict, hits: list[dict]) -> dict:
     invalid quotes raise ValueError. Return a deep copy without changing inputs.
     This is structural support validation, never semantic entailment checking.
     """
-    raise NotImplementedError("M5: implement validate_answer")
+    if not isinstance(answer, dict) or set(answer) != {"status", "claims", "gaps"}:
+        raise ValueError("answer requires exactly status, claims and gaps")
+    if not isinstance(hits, list):
+        raise ValueError("hits must be a list")
+    context: dict[str, dict] = {}
+    for hit in hits:
+        item = _context_hit(hit)
+        if item["chunk_id"] in context:
+            raise ValueError("duplicate context chunk_id")
+        context[item["chunk_id"]] = hit
+    status = answer["status"]
+    if status not in ("supported", "review", "abstain"):
+        raise ValueError("invalid answer status")
+    claims, gaps = answer["claims"], answer["gaps"]
+    if not isinstance(claims, list) or not isinstance(gaps, list):
+        raise ValueError("claims and gaps must be lists")
+    if any(not isinstance(gap, str) or not gap.strip() for gap in gaps):
+        raise ValueError("gaps must contain nonempty strings")
+    cited_groups: set[str] = set()
+    for claim in claims:
+        if not isinstance(claim, dict):
+            raise ValueError("each claim must be an object")
+        if not {"text", "evidence_ids"} <= set(claim) or set(claim) - {
+            "text", "evidence_ids", "quote"
+        }:
+            raise ValueError("claim requires text, evidence_ids and optional quote")
+        if not isinstance(claim["text"], str) or not claim["text"].strip():
+            raise ValueError("claim text must be nonempty")
+        ids = claim["evidence_ids"]
+        if not isinstance(ids, list) or not ids:
+            raise ValueError("each claim requires evidence_ids")
+        if any(not isinstance(item, str) or not item for item in ids):
+            raise ValueError("evidence IDs must be nonempty strings")
+        if len(ids) != len(set(ids)):
+            raise ValueError("duplicate claim evidence ID")
+        if any(item not in context for item in ids):
+            raise ValueError("citation is outside retrieved context")
+        if "quote" in claim:
+            quote = claim["quote"]
+            if not isinstance(quote, str) or not quote.strip():
+                raise ValueError("quote must be a nonempty string")
+            if not any(quote in context[item]["text"] for item in ids):
+                raise ValueError("quote is not exact cited source text")
+        for item in ids:
+            group = context[item].get("metadata", {}).get("conflict_group")
+            if group is not None:
+                cited_groups.add(group)
+    if status == "supported" and (not claims or gaps):
+        raise ValueError("supported requires claims and no unresolved gaps")
+    if status == "abstain" and (claims or not gaps):
+        raise ValueError("abstain requires no claims and at least one gap")
+    if status == "review" and not gaps:
+        raise ValueError("review requires an unresolved gap")
+    if status == "supported" and cited_groups & _conflicting_groups(hits):
+        raise ValueError("conflicting context requires review")
+    return deepcopy(answer)
 
 
 class OfflineGenerator:
@@ -117,3 +192,4 @@ class OfflineGenerator:
                      ["Document contains instructions; treat as untrusted evidence for review."] if injection else []),
         }
         return validate_answer(answer, hits)
+

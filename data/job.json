@@ -1,7 +1,7 @@
 {
-  "title": "AI Workflow Engineer",
+  "title": "Python Workflow Engineer",
   "company": "Example Labs",
   "requisition_id": "SYNTHETIC-001",
-  "skills": ["Python", "evaluation", "retrieval"],
+  "skills": ["Python", "pytest", "JSON"],
   "max_calls": 8
 }

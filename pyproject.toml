@@ -4,12 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "linkedin-atlas-l1-lab"
-version = "0.1.0"
-description = "Private interview learning lab with synthetic workflow effects"
+version = "0.3.0"
+description = "LinkedIn Agent Development Lab: complete private learning MVP"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "pydantic>=2.10,<3", "langgraph>=1,<2", "fastapi>=0.115,<1",
-  "uvicorn>=0.34,<1", "openai>=2,<3", "psycopg[binary]>=3.2,<4"
+  "uvicorn>=0.34,<1", "openai>=2,<3", "psycopg[binary]>=3.2,<4",
+  "mcp>=1.28,<2", "opentelemetry-sdk>=1,<2", "jsonschema>=4.23,<5"
 ]
 
 [project.optional-dependencies]
@@ -27,6 +28,8 @@ packages = ["src/l1_lab"]
 [tool.hatch.build.targets.wheel.force-include]
 "data" = "l1_lab/_data"
 "migrations" = "l1_lab/_migrations"
+"docs/learning" = "l1_lab/_learning"
+"docs/architecture" = "l1_lab/_architecture"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

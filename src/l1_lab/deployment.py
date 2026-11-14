@@ -59,6 +59,7 @@ class Settings:
         if self.backend == "postgres" and not self.database_url:
             problems.append("Configure DATABASE_URL securely.")
         if self.cloud:
+            problems.append("Complete MVP hosting is not enabled: durable Atlas knowledge/artifact/event storage and semantic adapter parity must be verified first.")
             if self.backend != "postgres":
                 problems.append("Vercel requires durable Postgres storage.")
             if len(self.token) < 32:

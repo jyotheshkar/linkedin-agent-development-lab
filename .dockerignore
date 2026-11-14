@@ -1,0 +1,10 @@
+.git
+.venv
+.env*
+.lab
+private
+verification
+artifacts
+dist
+*.log
+*.sqlite3*

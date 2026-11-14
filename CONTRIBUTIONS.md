@@ -1,30 +1,18 @@
-# Contribution and learning evidence
+# Contributions and learning evidence
 
-The builder provided package wiring, adapters, synthetic fixtures, tests,
-container/CI configuration, lesson contracts and the complete `coach-reference`
-implementation. `main` intentionally leaves twelve small assessed functions
-unfinished. A runnable installation and the builder's test results are not
-evidence of Jyothesh's independent coding or interview competence.
+The builder supplied the working baseline, adapters, fixtures, tests, packaging, annotations, diagrams and teaching material. On 14 November 2026 the owner changed the default from an unfinished scaffold to complete code for investigation. Earlier scaffold/reference commits remain historical evidence.
 
-Record changes using the following evidence categories:
+Reading the completed implementation is explicitly authorized. Exposure is useful context, not proof that the learner independently designed or implemented the behavior.
 
 | Category | Meaning |
-| --- | --- |
-| Builder-provided | Initial infrastructure, fixtures, tests or reference behavior |
-| Reference-exposed | Learner viewed a solved function or copied a solution |
-| Coached | Learner received a hint, pseudocode, edited solution or detailed guidance |
-| Independent student | Learner implemented/explained a fresh scenario without assistance |
+|---|---|
+| Builder-provided | Baseline code, tests, data, documentation or integration work |
+| Reference-exposed | A displayed implementation/answer informed the attempt |
+| Coached | Hints, explanations, pseudocode or assisted changes informed the work |
+| Independent observed attempt | A fresh scenario was explained/changed without assistance, with evidence |
 
-Commit code normally and retain question/variant IDs, files changed, test commands
-and results in a local progress checkpoint. Mark `reference_exposed`, `hints`,
-`copied_reference` honestly and explicitly declare `assisted` on every graded
-attempt. Missing assistance declarations cannot establish independence. The owner can access the reference
-branch; it is a learning resource, not a secured answer bank. Do not call work
-independent solely because the learner typed or committed it.
+Record source commit, question/variant IDs, reviewer, explicit assistance/reference exposure, changed files, actual test command/result and next action in a private versioned checkpoint. Do not commit private transcripts or personal diagnoses. Typing code, authoring a commit or passing a test alone does not establish independence.
 
-Real Amazon evaluation experience, AI-assisted portfolio work, this synthetic
-learning extension and independently demonstrated software skills are separate
-claims. The lab neither asserts production deployment nor sends applications.
+Grade only observed attempts with correctness 4, reasoning 2, boundaries/verification 2, explanation 2. Missing evidence cannot fill explanation or independence. With no graded attempts, accuracy is `N/A`; mastery requires two independent fully correct distinct scenarios including transfer. A later critical misconception resets relevant evidence.
 
-Later coaching should ask for an explanation and a changed scenario, one question
-at a time. The final mock is a blueprint only; fresh questions remain unexposed.
+Real Amazon evaluation experience, assisted historical practice, this synthetic engineering lab and independently demonstrated skills are separate claims. Do not invent production users, scale, deployment, savings, adoption, authorship or interview outcomes. The application has no real employer-send or operational Atlas-write authority.

@@ -58,7 +58,7 @@ def test_config_reports_branch_tasks_and_keeps_readiness_honest(client):
     assert response.status_code == 200
     config = response.json()
     student = "raise NotImplementedError" in inspect.getsource(parse_job)
-    assert config["mode"] == ("student" if student else "reference")
+    assert config["mode"] == ("student" if student else "complete")
     assert len(config["unfinished_tasks"]) == (12 if student else 0)
     assert config["effects"] == "simulated"
     assert config["source"] == "synthetic"
@@ -278,6 +278,8 @@ def test_reference_run_exposes_grounded_evidence_and_pauses_before_effects(clien
     assert FakeProvider(isolated_local_configuration / "provider.sqlite3").effect_count() == 0
     assert evidence["source_kind"] == "synthetic"
     assert evidence["retrieval"]["semantic_embeddings"] is False
+    # The default controlled Python fixture has matching approved evidence.
+    # Separate application tests retain gaps/abstention for unsupported jobs.
     assert evidence["answer"]["status"] == "supported"
     cited = {cid for claim in evidence["answer"]["claims"] for cid in claim["evidence_ids"]}
     assert cited and cited <= set(evidence["context_chunk_ids"])
@@ -328,12 +330,12 @@ def test_plan_bound_approval_then_fresh_handler_resume_is_durable_and_idempotent
 
 @pytest.mark.web
 @pytest.mark.m6
-def test_new_same_target_run_reuses_five_provider_effects(client, isolated_local_configuration):
+def test_new_same_target_run_is_reserved_without_repeating_effects(client, isolated_local_configuration):
     from l1_lab.provider import FakeProvider
 
     receipt_sets = []
     run_ids = []
-    for _ in range(2):
+    for _ in range(1):
         payload = create_reference_run(client)
         run = payload["run"]
         run_ids.append(run["run_id"])
@@ -342,6 +344,6 @@ def test_new_same_target_run_reuses_five_provider_effects(client, isolated_local
         assert response.status_code == 200, response.text
         assert response.json()["run"]["completion"]["full_unit"] is True
         receipt_sets.append(response.json()["run"]["receipts"])
-    assert run_ids[0] != run_ids[1]
-    assert receipt_sets[0] == receipt_sets[1]
+    duplicate = client.post("/api/runs", json={"goal": "Python evaluation"})
+    assert duplicate.status_code == 409
     assert FakeProvider(isolated_local_configuration / "provider.sqlite3").effect_count() == 5

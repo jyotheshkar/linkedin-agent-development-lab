@@ -1,121 +1,108 @@
-# LinkedIn + Atlas L1 learning lab
+# LinkedIn Agent Development Lab
 
-Your student workspace is **main**. Twelve focused functions are deliberately
-unfinished. The complete builder implementation is on **coach-reference**;
-opening it counts as reference exposure, not independent work.
+A complete Python learning MVP for evidence-backed application workflows,
+isolated Atlas knowledge, exact material review and recoverable simulated
+actions. Created in **2026**. Repository ID **1456774523**, private.
 
-This is an interview simulation: every submit, outreach, document-save,
-Atlas-commit and dashboard-delivery action uses a local fake provider and `sim:`
-receipts. No Gmail, LinkedIn or operational Atlas writer is included.
+Canonical repository: [jyotheshkar/linkedin-agent-development-lab](https://github.com/jyotheshkar/linkedin-agent-development-lab).
 
-## Start in Codespaces
+The default application is implemented. Investigate its code, run an experiment
+and explain the result. The former twelve-function scaffold is preserved on
+`archive/student-scaffold-20261114`; `coach-reference` remains historical.
+Builder-generated implementation and software tests do not establish independent
+learner skill. Employer actions are always **SIMULATION**.
 
-Open this repository's **Code → Codespaces → Create codespace on main**. The
-development container installs the locked Python 3.12 environment. Then:
+## Start
 
-```bash
-uv run l1-lab doctor
-uv run pytest -m infrastructure
-uv run pytest -m m1
-```
-
-The last command initially fails on the M1 TODOs. That is the assignment
-baseline; see [ASSIGNMENT.md](ASSIGNMENT.md) for exact edit boundaries. The
-infrastructure suite does not blanket-skip unfinished work. Follow
-[LEARNING_PATH.md](LEARNING_PATH.md) with your coaching chat, one concept at a
-time. Initial interview competence is unmeasured.
-
-## Interview console and deployment path
-
-Start the browser interface in your Codespace:
+Use the existing [Codespace](https://laughing-space-pancake-gv4qwv5p667c9rv6.github.dev/)
+or create one from this repository. The development container uses Python 3.12.
 
 ```bash
 uv sync --locked --extra lab
+uv run l1-lab doctor
+uv run l1-lab seed --root .lab
 uv run uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-Open the private forwarded port and `/console`. The white/teal console exposes
-goals, proposed tools, exact-plan approval, evidence citations, simulated receipts,
-saved-run recovery and execution traces. Student tasks remain unfinished on main:
-the API reports the actual missing function instead of substituting a result.
-Sixteen original AIE/JD practice prompts support ungraded explanations, hints,
-assistance declarations and a portable download. They are preparation material;
-Capgemini's exact L1 agenda remains unconfirmed.
+Open the **private** forwarded port at `/console`. Supply a synthetic job, inspect
+its retrieved evidence and two actual Markdown drafts, then approve/reject/revise
+the exact plan. Approval stores the reviewed bytes before application/outreach
+simulation. Inspect separate receipts, committed Atlas Lab events and projection
+membership. Recover the same saved run after restarting.
 
-The Vercel entrypoint, slim production package, durable Postgres adapters,
-authentication, request budgets and release verification are implemented.
-Production release follows the completed simulation; no Vercel deployment or
-managed database is created by this setup. The web console uses synthetic data,
-an offline planner, extractive answers and explicitly nonsemantic hash retrieval.
-The genuine FastEmbed/Qdrant exercise remains available in the local lab.
-See [JD coverage](docs/JD_COVERAGE.md), [delivery instructions](docs/VERCEL_DELIVERY.md)
-and [deployment verification](docs/DEPLOYMENT_VERIFICATION.md).
+## Modes are independent
 
-## Modes and commands
+| Setting | Choices | Boundary |
+| --- | --- | --- |
+| Data | Synthetic default; selected private Atlas snapshot via CLI | Operational Atlas is untouched; no live synchronization |
+| Retrieval | Offline hash test double; FastEmbed semantic + Qdrant local | Hash similarity is explicitly nonsemantic |
+| Planner | Offline fixture; optional live structured model | Executor enforces permissions and approval |
+| Generation | Offline extractive; optional live structured model | Citations and exact quotes are structural checks |
+| Effects | Simulation | No employer, LinkedIn or Gmail writer |
 
-| Mode | Retrieval | Generation | Network |
-|---|---|---|---|
-| offline | Deterministic hash test vectors in Qdrant local | Extractive fixture adapter | None after dependencies installed |
-| semantic | FastEmbed BAAI/bge-small-en-v1.5, 384 dimensions, Qdrant local | Extractive fixture adapter | First model download; cached afterward |
-| live | Semantic retrieval | Optional real OpenAI structured outputs | Model API, requires your configured secrets |
+The console supports semantic retrieval and independent model settings. The
+optional real-model adapters use securely configured `OPENAI_API_KEY` and
+`OPENAI_MODEL`; they accept only synthetic evidence. No fallback silently turns
+a failed live/semantic request into an offline success. Verification status is
+reported separately in [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
-Reference-side demonstrations (work after the relevant student functions):
+## CLI journey
 
 ```bash
-uv run l1-lab demo --mode offline --query 'Python evaluation'
-uv run l1-lab demo --mode semantic --query 'human evaluation of language models'
+uv run l1-lab run --job data/job.json --goal 'prepare application' --root .lab
+# Inspect the returned artifacts and exact approval hash first:
+uv run l1-lab resume RUN_ID --approve --plan-hash PLAN_HASH --root .lab
+uv run l1-lab trace RUN_ID --root .lab
+uv run l1-lab knowledge --root .lab
+uv run l1-lab dashboard --root .lab
+uv run l1-lab demo --mode semantic --query 'How are duplicate actions prevented after a timeout?'
 uv run l1-lab evaluate --mode offline
-uv run l1-lab run --goal 'prepare application'
-uv run l1-lab resume RUN_ID --approve
-uv run l1-lab trace RUN_ID
-uv run l1-lab export-progress --output .lab/checkpoint.json
-uv run uvicorn l1_lab.api:app --host 127.0.0.1 --port 8000
+uv run l1-lab validate-lessons
+uv run l1-lab context-export --lesson CONTRACTS-01 --output .lab/context.json
 ```
 
-`run` pauses for review before any simulated effect. `resume --approve` approves
-the exact saved plan. A completed inspect/draft plan still has
-`completion.full_unit=false`; only all five verified simulation gates form a
-full unit. Restart recovery uses a provider database separate from the journal.
-Custom framework users must re-inject their own adapters when constructing a
-Workflow for resume; the CLI supports its three documented read-before-effect
-plan templates.
+The CLI and browser use `ApplicationService`. Its SQLite Atlas Lab stores
+immutable knowledge versions, approvals, artifact bytes/hashes and an event
+ledger. Provider receipts commit independently from the workflow journal.
+Reporting is a derived projection with separate revision and membership checks.
+Logging repair reconciles existing receipts instead of repeating an action.
 
-Optional live adapters require `OPENAI_API_KEY` and `OPENAI_MODEL` in Codespaces
-secrets. The lab never creates, copies or logs credentials. Use `--planner live`
-on `run` to exercise real planning independently of generation; use
-`--generation live` for real answer generation. Both remain subject to the same
-executor and review checks. External-model demos accept only synthetic fixture
-evidence. Missing secrets leave these optional paths unverified.
+## Learn from the implementation
 
-## Atlas snapshot
+- [START_HERE.md](START_HERE.md): system map and launch commands.
+- [CHAT_BOOTSTRAP.md](CHAT_BOOTSTRAP.md): pasteable new-chat handover.
+- [COACH_HANDOVER.md](COACH_HANDOVER.md): source-first coaching and contribution boundaries.
+- [Lesson index](docs/learning/lesson-index.json): ten lessons linked to actual symbols, tests and diagrams.
+- [System anatomy](docs/architecture/system-anatomy.svg) and [request sequence](docs/architecture/request-sequence.svg).
+- [JD coverage](docs/JD_COVERAGE.md), [architecture decisions](docs/DECISIONS.md) and [starred source library](docs/skills-library/README.md).
 
-The committed corpus is synthetic. An approved, selected real Atlas snapshot
-is a separate private file, not Git content or a continuously synced source.
-Download your provided snapshot into the Codespace, then:
+A future chat needs actual source access or the bounded JSON export; the private
+Codespace URL alone does not provide it. Start with repository anatomy, then
+`contracts.py`, unless you choose another component. Practice exports remain
+ungraded until observed work is reviewed. No readiness or hiring probability
+is inferred from completed code.
+
+## Verification and extensions
 
 ```bash
-uv run l1-lab import-snapshot /path/to/Atlas_L1_Knowledge_Snapshot_20261113.json
-uv run l1-lab demo --mode offline --snapshot private/atlas_snapshot.json --query 'evaluation'
+uv run pytest -m 'not semantic and not live and not postgres'
+LAB_SEMANTIC=1 uv run pytest -m semantic
+# With a disposable isolated PostgreSQL service:
+uv run pytest -m postgres
+uv run python -m l1_lab.mcp_server --root .lab
 ```
 
-Private snapshots, vectors, journals and raw traces belong in ignored `private/`
-or `.lab/`. See [docs/ATLAS_SNAPSHOT.md](docs/ATLAS_SNAPSHOT.md) for mappings,
-source hashes and refresh/revocation. The application has no operational Atlas
-write path. Citation membership/quote checks are structural; they do not prove
-semantic entailment.
+The read-only [MCP example](docs/MCP.md) uses genuine protocol discovery and
+invocation. OpenTelemetry SDK spans export measured timing and safe identifiers
+locally; unavailable usage/cost remain unknown. CI tests the package, local
+workflow, Postgres adapters and container build without publishing.
 
-## Verification and troubleshooting
+Private snapshots, state, vectors, context bundles, traces and environment files
+stay outside Git. See [privacy](docs/PRIVACY.md) and [Atlas import](docs/ATLAS_SNAPSHOT.md).
+The archived reports retain the original scaffold's observed failures.
 
-See [BUILD_REPORT.md](BUILD_REPORT.md) for executed results and exact revisions,
-and [COACH_HANDOVER.md](COACH_HANDOVER.md) for the pasteable project map.
-
-- `unfinished_student_task`: complete the named milestone; setup is working.
-- Package errors: rerun `uv sync --locked --extra lab`; do not edit the lock during lessons.
-- Model download error: offline learning remains available; semantic verification
-  requires actual weights, never substitute fixed vectors and call it semantic.
-- Pending simulation receipt: reconcile on resume; do not create another run to
-  disguise the pending effect or edit the journal to fabricate completion.
-- `/fit` returns 422 for malformed JSON/schema; 401 when a configured bearer token
-  is missing; 409 while an assessed student function is unfinished.
-
-**Year provenance:** The `2026` suffix records this repository's creation year (created 2026-11-13). Later maintenance retains its own dates.
+Vercel/FastAPI delivery is **prepared, not executed**. The full MVP needs durable
+hosted Atlas knowledge/artifact/event storage and verified semantic adapter
+parity before release. The narrow Postgres workflow adapter is tested separately.
+The current cloud runtime fails closed; no project, public preview, database,
+domain or package was published. See [delivery guide](docs/VERCEL_DELIVERY.md).

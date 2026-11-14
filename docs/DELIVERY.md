@@ -1,39 +1,39 @@
-# Small delivery review
+# Delivery investigation
 
-This review connects the lab to role-derived delivery topics. It does not claim that these are confirmed interview rounds or that the lab is a deployed employer-facing system.
+The complete local product is a role-aligned learning application, not a deployed employer-facing service. Read [DELIVERY-01](learning/10-delivery.md), [future hosting](VERCEL_DELIVERY.md) and fresh [verification](VERIFICATION.md).
 
-## Git and CI
+## Git, CI and the complete default branch
 
-`main` is a deliberate student scaffold; its milestone tests initially fail. Infrastructure verification and the complete `coach-reference` suite must therefore have distinct CI labels and expectations. Do not mask unfinished tasks with blanket skips or expected-failure markers. Commit your code changes with a short description of the contract changed and the tests actually run.
+`main` contains the working implementation. Earlier scaffold/reference branches and reports preserve history; they no longer define startup gates. Tests remain meaningful contract/integration checks, not blanket skips or expected failures for mandatory lessons. Existing milestone marker names are convenient test groupings, not unfinished product stages.
 
-Read the workflow files to see which branch and test selection a CI result covers. A green infrastructure job says that wiring works; it does not say the 12 task functions are complete. Use stable case IDs for evaluation comparisons so fixture reordering cannot change the meaning of a regression.
+Read the actual workflow and exact code/lock revision behind a CI result. A CI definition is not an observed run. Preserve learner edits, commit explained changes, and record commands/results without rewriting historical evidence. Optional experiments should have a reset limited to their own copied files.
 
-## Development container and Codespaces
+## Codespaces and packaging
 
-The development container describes a reproducible Python environment, startup command, and editor setup. Its setup command should be safe to run again. The lockfile pins the tested dependency resolution; use `uv sync --frozen` to install it without silently changing versions.
+The development container supplies a reproducible Python 3.12 environment with an idempotent setup. `uv sync --locked --extra lab` follows the committed dependency resolution. Editable checkouts and installed wheels must both resolve packaged data/learning resources; test both rather than assuming repository-relative paths exist after installation.
 
-Repository preparation, a local installation, a container build, and a running Codespace are separate observations. See `BUILD_REPORT.md` for which were actually verified. Create a Codespace from `main` for learning. Keep the optional model key in a Codespaces secret, then restart the terminal/container if needed; never place it in a committed file or a trace.
+A private forwarded Codespace port is development preview, not production hosting. Keep it private. For console work use the documented `uv run uvicorn app:app --host 0.0.0.0 --port 8000` in the Codespace; local-machine-only inspection can bind `127.0.0.1` instead. Store optional credentials through supported secrets mechanisms, never Git or traces.
 
-## REST, JSON, authentication, and errors
+## REST, authentication and errors
 
-The thin FastAPI endpoint is `POST /fit`, with a JSON body shaped as `{"job":{"title":"AI Engineer","company":"Example Labs","requisition_id":"AI-17","skills":["Python"]},"query":"Python evaluation"}`. `query` is optional; the strict `job` contract is the same one taught in M1. The endpoint uses offline fixture retrieval. Read the CLI/API examples in `README.md` before sending a request. Reuse the same validation and retrieval contracts as the command line rather than creating another version of the logic.
+CLI and browser/API call shared application services. A valid job is still not an approved action. Authentication, request-size bounds and JSON/schema validation precede mutation; the executor separately enforces permissions/budgets and exact review.
 
-Bind the teaching server to `127.0.0.1`. If `LAB_API_TOKEN` is configured, send it as a bearer token; the unset local configuration is not evidence of internet-facing authentication. Keep forwarded Codespaces ports private. Authentication answers who may call the endpoint; tool permissions and human review still decide what the workflow may do.
+The legacy `POST /fit` response provides grounded retrieval inspection. The application journey uses `/api/runs` and its explicit review/resume route. Read the current request models/examples rather than inventing fields. A 2xx response or a completed inspect plan does not establish a full unit; inspect artifacts, receipts, gates and reporting membership.
 
-Distinguish malformed JSON, request validation errors, missing evidence, blocked workflow actions, and transient provider errors. An HTTP success code alone is not a completed application unit. Inspect the structured status and gate evidence. Error bodies and traces must not expose credentials or raw private snapshot text.
+If configured, the bearer token is single-owner access protection, not multi-user identity. Browser tokens remain in page memory. Errors and telemetry must omit credentials/private content. Distinguish invalid input, missing evidence, blocked review, pending receipts, transient service failure and request budgets.
 
-## Context and model limits
+## Storage and future hosting
 
-The lab has an explicit context character budget. Character counts are easy to inspect but are not token counts; tokenization depends on the configured model. A real integration needs a token-aware budget that reserves room for instructions, tool definitions, history, and the answer. Do not report unobserved token usage, latency, or cost as measured facts.
+The complete local journey uses Atlas Lab knowledge versions, material/artifact bytes, approvals, event ledger and a derived projection. Existing Postgres run/provider/budget adapters are a separate older contract, not automatic full Atlas/artifact parity. Future full-MVP hosting must fail closed until durable material/state contracts and migrations are implemented and exercised.
 
-Structured outputs reduce shape ambiguity. Deterministic validation must still check names, schemas, permissions, budgets, citations, and ranges. A generated plan and retrieved document cannot enlarge their own authority. Model judges can be useful signals, but their agreement with labelled examples must be evaluated rather than assumed.
+No project import/link, automatic deployment, deployment command, public preview, database/domain provisioning or package publication is authorized by this upgrade. Prepared Vercel/FastAPI files are inert delivery preparation. Preserve actual semantic retrieval; a lightweight hosted hash cache cannot silently substitute for it.
 
-## MCP awareness
+## Context, tracing and MCP
 
-Model Context Protocol provides a standard interface for exposing tools/resources to an AI application. It is separate from a retrieval algorithm, vector database, and workflow state machine. The current lab imports an Atlas snapshot from a file; it does not implement an Atlas MCP client/server or reuse ChatGPT connector credentials inside Codespaces.
+Character budgets are not exact token counts. Read the current real-model adapter's declared input estimate/limit and output headroom. Report measured usage only when returned; unknown cost stays unknown. Structured outputs do not replace deterministic schema, permission, citation and semantic-support checks.
 
-Before adding a genuine service later, establish its documented endpoint, authentication, read/write scope, input/output contracts, error semantics, and human-review boundary. No endpoint or token should be inferred from the existence of a connected ChatGPT app.
+The real local OpenTelemetry exporter records observable spans/durations and allowlisted attributes, not hidden reasoning or raw personal payloads. See `observability.py` and its tests. The small read-only stdio MCP exercise performs genuine discovery/schema/invocation and rejection checks; see [MCP.md](MCP.md). It is not operational Atlas's endpoint and exposes no arbitrary SQL/shell/write tool.
 
 ## Optional Java refresher
 
-Explain a small factory/registry dispatch: interface, implementation, lookup, unsupported-key exception, and why returning a new instance avoids shared mutable order state. Distinguish singleton initialization from thread safety of later mutable state. Keep this short; the main lab targets Python, agent execution, and RAG.
+Use a short factory/registry example to discuss interfaces, lookup, unsupported keys and per-order object isolation. Singleton initialization does not make later mutable state thread-safe. This remains optional; the central application is Python, agents, evidence and recovery.

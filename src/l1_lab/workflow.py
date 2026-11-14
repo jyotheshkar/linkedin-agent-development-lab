@@ -1,13 +1,24 @@
+# LEARN: WORKFLOW-01
+# ROLE: Execute a bounded LangGraph loop with persisted intents and human review.
+# FLOW: Validated plan -> journal -> independent provider -> completion.
+# WHY: Unknown outcomes require reconciliation; retry only declared pre-effect transients.
+# L1: Trace one input and its failure path, then run tests/test_workflow.py.
+# L2: Defend this boundary and one alternative; inspect docs/learning/lesson-index.json.
+# PYTHON: Type hints describe contracts; exceptions propagate unless explicitly handled.
 """A thin LangGraph plan/execute loop with explicit persisted Python state."""
 from __future__ import annotations
 
+from asyncio import CancelledError
 import hashlib
 import json
+from datetime import datetime, timezone
+from time import perf_counter, sleep
 from copy import deepcopy
 from pathlib import Path
 from typing import TypedDict
 from uuid import uuid4
 
+from langgraph.errors import NodeCancelledError
 from langgraph.graph import END, START, StateGraph
 
 from .agent import (DraftArgs, EffectArgs, GuardrailError, QueryArgs, ToolSpec,
@@ -110,13 +121,37 @@ class Workflow:
 
     def _invoke(self, run: dict) -> dict:
         # One graph node is ordinary Python; transitions repeat only while running.
-        return self.graph.invoke({"run": run}, {"recursion_limit": 80})["run"]
+        try:
+            return self.graph.invoke({"run": run}, {"recursion_limit": 80})["run"]
+        except (KeyboardInterrupt, CancelledError, NodeCancelledError):
+            # Cancellation cannot prove that a synchronous provider did nothing.
+            # Reload its durable intent rather than clearing it or retrying.
+            # If the provider committed, resume reconciles that same key first.
+            # The locked LangGraph wraps CancelledError from a synchronous node
+            # in NodeCancelledError; preserve that actual runtime exception.
+            try:
+                interrupted = self.journal.load(run["run_id"])
+                pending = interrupted.get("in_flight")
+                interrupted["status"] = "pending" if pending else "cancelled"
+                interrupted["error"] = ("execution interrupted; reconcile the reserved outcome before continuing"
+                                        if pending else "execution interrupted at a safe pre-effect boundary")
+                self._trace(interrupted, pending["tool"] if pending else "workflow",
+                            "INTERRUPTED_PENDING_RECONCILIATION" if pending else "CANCELLED",
+                            pending["step_id"] if pending else f"step_{interrupted['index']}",
+                            pending["attempt"] if pending else 0)
+                self.journal.save(interrupted)
+            except Exception:
+                # A second storage failure must not disguise the cancellation.
+                # The pre-call intent was already persisted before execution.
+                pass
+            raise
 
     @staticmethod
     def _trace(run: dict, tool: str, status: str, step_id: str | None, attempt: int, source_ids=None) -> None:
         run["trace"].append({"run_id": run["run_id"], "step_id": step_id,
                              "tool": tool, "status": status, "attempt": attempt,
-                             "source_ids": list(source_ids or [])})
+                             "source_ids": list(source_ids or []),
+                             "timestamp": datetime.now(timezone.utc).isoformat()})
 
     @staticmethod
     def _validate_output(result: dict, spec: ToolSpec, key: str, args: dict) -> None:
@@ -177,6 +212,7 @@ class Workflow:
             self._trace(run, name, "ATTEMPT", step_id, attempt)
             self.journal.save(run)  # durable intent before provider action
             try:
+                started = perf_counter()
                 result = spec.fn(deepcopy(args), key)
                 self._validate_output(result, spec, key, args)
             except UnknownOutcome:
@@ -191,7 +227,14 @@ class Workflow:
                 if not isinstance(exc, GuardrailError):
                     run["in_flight"] = None
                 if retry_allowed(exc, attempt, run["max_retries"]) and run["calls"] < run["max_calls"]:
+                    # Fixed, capped exponential backoff keeps this local lab
+                    # deterministic: at most 50+100+200ms for three retries.
+                    # It never applies to validation or uncertain outcomes.
+                    delay = min(.05 * (2 ** (attempt - 1)), .2)
+                    self._trace(run, name, "RETRY_BACKOFF", step_id, attempt)
+                    run["trace"][-1]["backoff_seconds"] = delay
                     self.journal.save(run)
+                    sleep(delay)
                     continue
                 run["status"], run["error"] = "blocked", type(exc).__name__
                 self.journal.save(run)
@@ -202,4 +245,6 @@ class Workflow:
                 self.journal.save(run)
                 return {"run": run}
             self._accept(run, name, spec, result, attempt)
+            run["trace"][-1]["duration_seconds"] = perf_counter() - started
+            self.journal.save(run)
             return {"run": run}

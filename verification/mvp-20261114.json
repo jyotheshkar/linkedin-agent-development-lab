@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-14",
+  "repository": {
+    "id": 1456774523,
+    "url": "https://github.com/jyotheshkar/linkedin-agent-development-lab",
+    "visibility": "private"
+  },
+  "baseline_main": "59d61725b1a7d05e7d11aac69eabda9f112c7cbb",
+  "code_head": "01100cc77447bd23d600ecd416f7600eaef69c6f",
+  "ci_merge_tree": "d39ad9c081232aa493640007043f27e5f4c8b57b",
+  "lock_sha256": "2a967354c161b7ab6331d1b632fc714c095981a28661d2fd6c03d96c6fbf6d60",
+  "implementation_branch": "complete-mvp-20261114",
+  "pull_request": 1,
+  "ci": {
+    "run_id": 43630905036,
+    "url": "https://github.com/jyotheshkar/linkedin-agent-development-lab/actions/runs/43630905036",
+    "status": "success",
+    "full": {
+      "passed": 343,
+      "failed": 0,
+      "deselected": 2,
+      "seconds": 21.11,
+      "job_id": 132557042524
+    },
+    "infrastructure_subset": {
+      "passed": 68,
+      "deselected": 277,
+      "seconds": 2.87,
+      "job_id": 132557042790
+    },
+    "wheel_noneditable": "passed",
+    "docker_build": "passed_not_published"
+  },
+  "codespace": {
+    "url": "https://laughing-space-pancake-gv4qwv5p667c9rv6.github.dev/",
+    "python": "3.12.11",
+    "preview_url": "https://laughing-space-pancake-gv4qwv5p667c9rv6-8001.app.github.dev/console",
+    "port_visibility": "Private",
+    "existing_container_reused": true,
+    "recovery_cli_tests": {
+      "passed": 29,
+      "seconds": 7.88
+    },
+    "semantic_tests": {
+      "passed": 2,
+      "deselected": 343,
+      "seconds": 3.2
+    }
+  },
+  "browser": {
+    "run_id": "33444d7880ff40c2be95cebf3f90b7a3",
+    "retrieval": "semantic",
+    "planning": "offline",
+    "generation": "offline-extractive",
+    "effects": "SIMULATION",
+    "calls": 7,
+    "budget": 8,
+    "five_gates": true,
+    "projection_revision": 5,
+    "ledger_revision": 5,
+    "exact_members": 5,
+    "reload_recovery": "passed",
+    "download_sha256": "d30d23a58efce427ffe05a6cd2419dadf594a20cfe037c2889237f4e128aeb2c",
+    "download_bytes": 953
+  },
+  "learning": {
+    "lesson_count": 10,
+    "svg_png_diagram_pairs": 5,
+    "bundle_only_handoff": "verified",
+    "learner_skill": "unmeasured"
+  },
+  "stars": {
+    "observed_public": 32,
+    "selected_pinned_cards": 6,
+    "private_coverage": "unknown",
+    "copied_upstream_code": false
+  },
+  "labels": {
+    "LOCAL_MVP_VERIFIED": "functional scope; known relevance limitation reported",
+    "LIVE_MODEL_VERIFIED": "pending_no_live_request_or_model_configured",
+    "ATLAS_SNAPSHOT_VERIFIED": "host_local_selected_snapshot_readonly_hash_retrieval",
+    "LEARNING_HANDOFF_VERIFIED": true,
+    "DEPLOYMENT_PREPARED_NOT_EXECUTED": true
+  },
+  "operational_writes": 0,
+  "public_deployments": 0,
+  "live_model_calls": 0,
+  "model_usage": null,
+  "model_cost": null,
+  "limitations": [
+    "Fresh semantic evaluation negative abstention failed0/1; see separate result.",
+    "Full hosted durable Atlas+semantic parity remains unimplemented and fails closed.",
+    "Codespace preview lifetime depends on workspace running.",
+    "No independent learner grade."
+  ]
+}
